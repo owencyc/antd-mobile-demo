@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux'
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Router, Route, Switch, Redirect } from 'react-router'
-import Home from '../components/home/Home'
+import Main from '../layouts/Main'
 
 import App from '../App'
 
@@ -16,17 +16,13 @@ export default class AppRouter extends Component {
     }
     render() {
         return (
-            <BrowserRouter>
-                <div>
-                    <Switch>
-                        <Redirect exact from='/' to='/home' />
-                        <Route path="/" component={App} exact />
-                        <Route path="/home" component={Home} />
+            <Switch>
+                <Redirect exact from='/' to='/home' />
+                <Route path="/" component={App} exact />
+                <Route path="/home" component={Main} />
 
-                        <Route component={NotFound} />
-                    </Switch>
-                </div>
-            </BrowserRouter>
+                <Route component={NotFound} />
+            </Switch>
         );
     }
 }

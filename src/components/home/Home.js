@@ -1,120 +1,60 @@
-import React, { Component } from 'react';
-import { TabBar,Icon } from 'antd-mobile';
-import {Content} from '../../layouts/Content'
-
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: 'redTab'
-    };
-  }
+import React from 'react';
+import { Grid,Carousel } from 'antd-mobile';
+import PropTypes from 'prop-types'
+import './home.css';
 
 
-  render() {
-    return (
-      <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
-        <TabBar
-          unselectedTintColor="#949494"
-          tintColor="#33A3F4"
-          barTintColor="white"
+
+const Home=(home,changeRoute)=>{
+  console.log('home');
+  console.log(home);
+  return (
+  <div className='home'>
+    <div className='func_panel'> 
+    <Carousel
+          autoplay={false}
+          infinite
+          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+          afterChange={index => console.log('slide to', index)}
         >
-          <TabBar.Item
-            title="Life"
-            key="Life"
-            icon={<div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
+          {home.imgs.map(item => (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a
+              key={item}
+              style={{ display: 'inline-block', width: '100%', height: 176}}
+            >
+              <img
+                src={item}
+                alt=""
+                style={{ width: '100%', verticalAlign: 'top' }}
+                onLoad={() => {
+                  // fire window resize event to change height
+                  window.dispatchEvent(new Event('resize'));
+                  //this.setState({ imgHeight: 'auto' });
+                }}
               />
-              }
-              selectedIcon={<div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
-              />
-              }
-            selected={this.state.selectedTab === 'blueTab'}
-            onPress={() => {
-              this.setState({
-                selectedTab: 'blueTab',
-              });
-            }}
-            data-seed="logId"
-          >
-            <Content/>
-          </TabBar.Item>
-          <TabBar.Item
-            icon={
-              <div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  21px 21px no-repeat' }}
-              />
-            }
-            selectedIcon={
-              <div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat' }}
-              />
-            }
-            title="Koubei"
-            key="Koubei"
-            selected={this.state.selectedTab === 'redTab'}
-            onPress={() => {
-              this.setState({
-                selectedTab: 'redTab',
-              });
-            }}
-            data-seed="logId1"
-          >
-            <Content/>
-          </TabBar.Item>
-          <TabBar.Item
-            icon={
-              <div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  21px 21px no-repeat' }}
-              />
-            }
-            selectedIcon={
-              <div style={{
-                width: '22px',
-                height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat' }}
-              />
-            }
-            title="Friend"
-            key="Friend"
-            selected={this.state.selectedTab === 'greenTab'}
-            onPress={() => {
-              this.setState({
-                selectedTab: 'greenTab',
-              });
-            }}
-          >
-            <Content/>
-          </TabBar.Item>
-          <TabBar.Item
-            icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
-            selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
-            title="My"
-            key="my"
-            selected={this.state.selectedTab === 'yellowTab'}
-            onPress={() => {
-              this.setState({
-                selectedTab: 'yellowTab',
-              });
-            }}
-          >
-            <Content/>
-          </TabBar.Item>
-        </TabBar>
-      </div>
-    );
-  }
+            </a>
+          ))}
+        </Carousel>
+        <Grid data={home.funcs} activeStyle={false} hasLine={false} onClick={changeRoute} />
+
+    </div>
+
+    <div className='func_panel'> 
+
+    </div>
+    
+  </div>
+)}
+
+Home.propTypes = {
+  imgs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  funcs:PropTypes.arrayOf(PropTypes.shape({
+      icon: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      router: PropTypes.string
+      
+  }).isRequired).isRequired
 }
 
 export default Home

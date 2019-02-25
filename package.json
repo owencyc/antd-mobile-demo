@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd-mobile": "^2.2.9",
+    "connected-react-router": "^6.3.1",
     "customize-cra": "^0.2.11",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
@@ -15,7 +16,8 @@
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
     "react-scripts": "2.1.5",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.11.0",
