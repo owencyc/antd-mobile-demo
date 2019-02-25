@@ -9,6 +9,11 @@ import App from '../App'
 const NotFound = () => (
     <div>404</div>
 )
+const dan=()=>(
+    <div>
+        问题填单
+    </div>
+)
 
 export default class AppRouter extends Component {
     updateHandle() {
@@ -16,13 +21,17 @@ export default class AppRouter extends Component {
     }
     render() {
         return (
-            <Switch>
-                <Redirect exact from='/' to='/home' />
-                <Route path="/" component={App} exact />
-                <Route path="/home" component={Main} />
+            <div>
+                <Switch>
+                    <Redirect exact from='/' to='/home' />
+                    <Route path="/" component={App} exact />
+                    <Route path="/home" component={Main} />
+                    <Route path="/dan" component={dan} />
 
-                <Route component={NotFound} />
-            </Switch>
+                    <Route component={NotFound} />
+                </Switch>
+            </div>
+
         );
     }
 }

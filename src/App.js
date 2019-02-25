@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { ConnectedRouter } from 'connected-react-router'
+import AppRouter from './routers'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
+const App = ({ history }) => {
+  return (
+    <div className="App">
+        <AppRouter></AppRouter>
       </div>
-    );
-  }
+  )
 }
 
-export default App;
+export default App

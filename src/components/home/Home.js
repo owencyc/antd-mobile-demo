@@ -5,9 +5,9 @@ import './home.css';
 
 
 
-const Home=(home,changeRoute)=>{
+const Home=(props)=>{
   console.log('home');
-  console.log(home);
+  console.log(props);
   return (
   <div className='home'>
     <div className='func_panel'> 
@@ -17,7 +17,7 @@ const Home=(home,changeRoute)=>{
           beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
           afterChange={index => console.log('slide to', index)}
         >
-          {home.imgs.map(item => (
+          {props.imgs.map(item => (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a
               key={item}
@@ -36,7 +36,7 @@ const Home=(home,changeRoute)=>{
             </a>
           ))}
         </Carousel>
-        <Grid data={home.funcs} activeStyle={false} hasLine={false} onClick={changeRoute} />
+        <Grid data={props.funcs} activeStyle={false} hasLine={false} onClick={(dataItem)=>props.changeRoute(dataItem.router)} />
 
     </div>
 
@@ -54,7 +54,8 @@ Home.propTypes = {
       text: PropTypes.string.isRequired,
       router: PropTypes.string
       
-  }).isRequired).isRequired
+  }).isRequired).isRequired,
+  changeRoute:PropTypes.func.isRequired
 }
 
 export default Home
