@@ -27,7 +27,7 @@ const home = (state = {}, action) => {
     switch (action.type) {
         case 'NAVICATE':
             console.log('触发路由：'+action.router);
-            push(action.router);
+            //push(action.router);
             return initData;
         default:
             console.log(initData)

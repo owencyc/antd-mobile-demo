@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 }
   
   const mapDispatchToProps = dispatch => ({
-    changeRoute: router => dispatch(push(router)),
+    changeRoute: router =>{ dispatch(navEvent(router));dispatch(push(router))},
     push
   })
 

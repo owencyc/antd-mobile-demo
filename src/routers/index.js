@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Router, Route, Switch, Redirect } from 'react-router'
 import Main from '../layouts/Main'
-
+import Home from '../containers/HomeContainer'
 import App from '../App'
 
 const NotFound = () => (
@@ -21,15 +21,20 @@ export default class AppRouter extends Component {
     }
     render() {
         return (
-            <div>
-                <Switch>
+            <div className='App'>
+                <div className='App_content'>
+ <Switch>
                     <Redirect exact from='/' to='/home' />
                     <Route path="/" component={App} exact />
-                    <Route path="/home" component={Main} />
+                    <Route path="/home" component={Home} />
                     <Route path="/dan" component={dan} />
 
                     <Route component={NotFound} />
                 </Switch>
+                </div>
+               
+                <Main></Main>
+
             </div>
 
         );
