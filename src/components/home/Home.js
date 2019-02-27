@@ -6,16 +6,17 @@ import './home.css';
 
 
 const Home=(props)=>{
-  console.log('home');
-  console.log(props);
+  //console.log('home');
+  //console.log(props);
+  //beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+  //afterChange={index => console.log('slide to', index)}
   return (
   <div className='home'>
     <div className='func_panel'> 
     <Carousel
           autoplay={false}
           infinite
-          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          afterChange={index => console.log('slide to', index)}
+          
         >
           {props.imgs.map(item => (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid

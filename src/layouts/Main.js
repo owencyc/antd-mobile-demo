@@ -5,9 +5,11 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
+import {menuEvent} from '../actions'
+
 
 const Main=(props)=>{
-  let selectedTab='Home';
+  //console.log(props);
 
   return (
     <div style={{ position: 'fixed', width: '100%', bottom: 0 }}>
@@ -18,91 +20,35 @@ const Main=(props)=>{
       barTintColor="white"
       noRenderContent={true}
     >
-      <TabBar.Item
-        title="首页"
-        key="Home"
-        icon={<div style={{
+      {props.menus.map(item => (
+          <TabBar.Item
+          title={item.title}
+          key={item.key}
+          icon={<div style={{
             width: '22px',
             height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/home_0.svg) center center /  21px 21px no-repeat' }}
-          />
-          }
-          selectedIcon={<div style={{
-            width: '22px',
-            height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/home_1.svg) center center /  21px 21px no-repeat' }}
-          />
-          }
-        selected={selectedTab === 'Home'}
-        onPress={() => {
-          selectedTab='Home';
-          props.push('/home');
-          //切换路由
-        }}
-        data-seed="logId"
-      >
-        <Home/>
-      </TabBar.Item>
-      <TabBar.Item
-        icon={
-          <div style={{
-            width: '22px',
-            height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/task_0.svg) center center /  21px 21px no-repeat' }}
-          />
-        }
-        selectedIcon={
-          <div style={{
-            width: '22px',
-            height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/task_1.svg) center center /  21px 21px no-repeat' }}
-          />
-        }
-        title="工作"
-        key="Task"
-        selected={selectedTab === 'Task'}
-        onPress={() => {
-          selectedTab='Task';
-          props.push('/dan');
-        }}
-        data-seed="logId1"
-      >
-      </TabBar.Item>
-      <TabBar.Item
-        icon={
-          <div style={{
-            width: '22px',
-            height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/msg_0.svg) center center /  21px 21px no-repeat' }}
-          />
-        }
-        selectedIcon={
-          <div style={{
-            width: '22px',
-            height: '22px',
-            background: 'url(http://116.62.136.201/wechat/icon/msg_1.svg) center center /  21px 21px no-repeat' }}
-          />
-        }
-        title="消息"
-        key="Msg"
-        selected={selectedTab === 'Msg'}
-        onPress={() => {
-          selectedTab='Msg'
-        }}
-      >
-        <div>3</div>
-      </TabBar.Item>
-      <TabBar.Item
-        icon={{ uri: 'http://116.62.136.201/wechat/icon/user_0.svg' }}
-        selectedIcon={{ uri: 'http://116.62.136.201/wechat/icon/user_1.svg' }}
-        title="我的"
-        key="User"
-        selected={selectedTab === 'User'}
-        onPress={() => {
-          selectedTab='User'
-        }}
-      >
-      </TabBar.Item>
+            background: item.icon0}}
+          />}
+            selectedIcon={ <div style={{
+              width: '22px',
+              height: '22px',
+              background: item.icon1}}
+            />}
+          selected={props.selectedTab === item.key}
+          onPress={(item ,index)=> {
+            console.log('选择tab：'+item.title);
+            //console.log(index);
+            // selectedTab='Home';
+            // props.push('/home');
+            let obj=props.menus[index];
+            props.changeRoute(obj.router,index);
+            //切换路由
+          }}
+          data-seed="logId"
+        >
+        </TabBar.Item>
+      ))}
+      
     </TabBar>
   </div>
   )
@@ -131,4 +77,18 @@ const Main=(props)=>{
 //   }
 // }
 
-export default connect(null, { push })(Main);
+const mapStateToProps = state => {
+  //console.log('main inject:');
+  //console.log(state);
+  return {
+    selectedTab:state.main.selectedTab,
+    menus:state.main.menus
+  }
+}
+  
+  const mapDispatchToProps = dispatch => ({
+    changeRoute: (router ,index)=>{ dispatch(menuEvent(router,index));dispatch(push(router))},
+    push
+  })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -14,7 +14,7 @@ const initData={
         {
             icon: func_report,
             text: '问题反馈',
-            router:'/sss'
+            router:'/dan'
         },
         {
             icon: func_time,
