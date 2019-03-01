@@ -14,14 +14,15 @@ const initData={
         {
             icon: func_report,
             text: '问题反馈',
-            router:'/dan'
+            router:'/feedback'
         },
         {
             icon: func_time,
             text: '时数预估',
             router:'/time'
         }
-    ]
+    ],
+    notice:'通知：本功能为模拟上线，遇到问题，切勿惊慌，联系应用开发部~'
 }
 const home = (state = {}, action) => {
     switch (action.type) {

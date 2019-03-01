@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid,Carousel } from 'antd-mobile';
+import { Grid,Carousel,NoticeBar } from 'antd-mobile';
 import PropTypes from 'prop-types'
 import './home.css';
 
@@ -38,7 +38,11 @@ const Home=(props)=>{
           ))}
         </Carousel>
         <Grid data={props.funcs} activeStyle={false} hasLine={false} onClick={(dataItem)=>props.changeRoute(dataItem.router)} />
-
+        
+            {props.notice?(
+              <NoticeBar marqueeProps={{ loop: true, style: { padding: '0 7.5px' } }}>{props.notice}</NoticeBar>
+            ):(<div></div>)}
+        
     </div>
 
     <div className='func_panel'> 
@@ -56,6 +60,7 @@ Home.propTypes = {
       router: PropTypes.string
       
   }).isRequired).isRequired,
+  notice:PropTypes.string,
   changeRoute:PropTypes.func.isRequired
 }
 

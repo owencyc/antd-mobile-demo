@@ -9,3 +9,14 @@ export const menuEvent = (router,index) => ({
     type: 'MENU',
     router,index
 })
+
+//问题反馈图片事件
+export const fbImgEvent = (files, type, index)=>({
+    type:'FB_IMG',
+    files, index
+})
+//问题反馈提交
+export const fbSubmit = (data)=>({
+    type:'FB_SUBMIT',
+    data
+})

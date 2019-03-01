@@ -10,7 +10,8 @@ const mapStateToProps = state => {
   console.log(state);
   return {
     imgs: state.home.imgs,
-    funcs:state.home.funcs
+    funcs:state.home.funcs,
+    notice:state.home.notice
   }
 }
   
