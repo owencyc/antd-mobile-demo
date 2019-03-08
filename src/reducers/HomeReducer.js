@@ -1,9 +1,9 @@
-import img0 from '../assets/carousel_0.jpg';
-import img1 from '../assets/carousel_1.jpg';
-import img2 from '../assets/carousel_2.jpg';
-import img3 from '../assets/carousel_3.jpg';
-import func_report from '../assets/func_report.svg'
-import func_time from '../assets/func_time.svg'
+import img0 from './../assets/carousel_0.jpg';
+import img1 from './../assets/carousel_1.jpg';
+import img2 from './../assets/carousel_2.jpg';
+import img3 from './../assets/carousel_3.jpg';
+import func_report from './../assets/func_report.svg'
+import func_time from './../assets/func_time.svg'
 
 import { push } from 'connected-react-router'
 

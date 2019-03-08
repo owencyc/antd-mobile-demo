@@ -1,4 +1,6 @@
 import {Toast} from 'antd-mobile'
+import { push } from 'connected-react-router';
+import { history } from '../configureStore'
 
 const initData={
     subData:{
@@ -46,7 +48,8 @@ const feedback = (state = {}, action) => {
             }
             console.log(req);
             //模拟发送
-            Toast.loading('Loading...', 2, () => {
+            Toast.loading('提交中...', 2, () => {
+                history.push({ pathname:'/result',state:{value:'success'}});
                 console.log('Load complete !!!');
               });
             return obj;

@@ -16,29 +16,29 @@ const initData={
         {
             key:'home',
             title:'主页',
-            icon0:'url(http://116.62.136.201/wechat/icon/home_0.svg) center center /  21px 21px no-repeat',
-            icon1:'url(http://116.62.136.201/wechat/icon/home_1.svg) center center /  21px 21px no-repeat',
+            icon0:'url(http://221.226.187.245:8888/icon/home_0.svg) center center /  21px 21px no-repeat',
+            icon1:'url(http://221.226.187.245:8888/icon/home_1.svg) center center /  21px 21px no-repeat',
             router:'/home'
         },
         {
             key:'task',
             title:'工作',
-            icon0:'url(http://116.62.136.201/wechat/icon/task_0.svg) center center /  21px 21px no-repeat',
-            icon1:'url(http://116.62.136.201/wechat/icon/task_1.svg) center center /  21px 21px no-repeat',
+            icon0:'url(http://221.226.187.245:8888/icon/task_0.svg) center center /  21px 21px no-repeat',
+            icon1:'url(http://221.226.187.245:8888/icon/task_1.svg) center center /  21px 21px no-repeat',
             router:'/task'
         },
         {
             key:'msg',
             title:'消息',
-            icon0:'url(http://116.62.136.201/wechat/icon/msg_0.svg) center center /  21px 21px no-repeat',
-            icon1:'url(http://116.62.136.201/wechat/icon/msg_1.svg) center center /  21px 21px no-repeat',
+            icon0:'url(http://221.226.187.245:8888/icon/msg_0.svg) center center /  21px 21px no-repeat',
+            icon1:'url(http://221.226.187.245:8888/icon/msg_1.svg) center center /  21px 21px no-repeat',
             router:'/msg'
         },
         {
             key:'user',
             title:'我的',
-            icon0:'url(http://116.62.136.201/wechat/icon/user_0.svg) center center /  21px 21px no-repeat',
-            icon1:'url(http://116.62.136.201/wechat/icon/user_1.svg) center center /  21px 21px no-repeat',
+            icon0:'url(http://221.226.187.245:8888/icon/user_0.svg) center center /  21px 21px no-repeat',
+            icon1:'url(http://221.226.187.245:8888/icon/user_1.svg) center center /  21px 21px no-repeat',
             router:'/user'
         }
     ]

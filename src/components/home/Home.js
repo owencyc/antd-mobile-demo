@@ -14,7 +14,7 @@ const Home=(props)=>{
   <div className='home'>
     <div className='func_panel'> 
     <Carousel
-          autoplay={false}
+          autoplay={true}
           infinite
           
         >

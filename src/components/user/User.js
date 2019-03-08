@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Carousel, NoticeBar } from 'antd-mobile';
 import PropTypes from 'prop-types'
 import './user.css'
-import img from '../../assets/5.jpg'
+import img from './../../assets/5.jpg'
 import { hidden } from 'ansi-colors';
 const User = (props) => {
 

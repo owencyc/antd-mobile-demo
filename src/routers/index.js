@@ -7,10 +7,12 @@ import Home from '../containers/HomeContainer'
 import User from '../components/user/User'
 import Task from '../components/task/Task'
 import Feedback from '../components/task/Feedback'
+import NotFound from '../components/error/404'
+import Status from '../components/common/Status'
 import App from '../App'
 
-const NotFound = () => (
-    <div>404</div>
+const NotFound1 = () => (
+    <div style={{ position: "fixed", width: '100%', height: '100%', zIndex: "100" ,backgroundColor:'#f5f5f9'}}>404</div>
 )
 const dan = () => (
     <div>
@@ -33,15 +35,13 @@ export default class AppRouter extends Component {
                         <Route path="/feedback" component={Feedback} />
                         <Route path="/user" component={User} />
                         <Route path="/task" component={Task} />
-
+                        <Route path='/result'   component={Status} />
                         <Route component={NotFound} />
+
                     </Switch>
                 </div>
-
                 <Main></Main>
-
             </div>
-
         );
     }
 }
