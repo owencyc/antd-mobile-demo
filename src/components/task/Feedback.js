@@ -19,13 +19,13 @@ const Feedback = (props) => {
                 <InputItem
                     {...getFieldProps('autofocus')}
                     clear
-                    placeholder="Your Name"
+                    placeholder=""
                     ref={el => txtCreator = el}
                 >反映人</InputItem>
 
                 <InputItem
                     clear
-                    placeholder="如福州明芳"
+                    placeholder=""
                     ref={el => txtCustomer = el}
                 >客户简称</InputItem>
 
@@ -42,7 +42,7 @@ const Feedback = (props) => {
 
                 <TextareaItem
                     title="问题描述"
-                    placeholder="请描述问题产生情景~"
+                    placeholder="请描述问题产生情景"
                     clear
                     data-seed="logId"
                     autoHeight
