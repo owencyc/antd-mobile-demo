@@ -26,9 +26,8 @@ export function ajaxApi(url, option = {}) {
 
         method = option.method || 'post',
 
-        data = option.data || {};
+        data = option.data ;
 
-    data['token'] = "ejilajfkfjaifwwjckdedklswe";
 
     switch (method) {
 
@@ -40,11 +39,15 @@ export function ajaxApi(url, option = {}) {
 
         case 'post':
 
-            params.headers = {};
+            params.headers = {
+                Accept: 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
+                
+            };
+            params.method=method;
 
-            params.body = formDataCode(data);
+            params.body = JSON.stringify(data);
 
-            params.header['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
 
             break;
 

@@ -43,7 +43,7 @@ const initData={
         }
     ]
 }
-const main = (state = {}, action) => {
+const main = (state = initData, action) => {
     switch (action.type) {
         case 'MENU':
             console.log('切换菜单：'+action.router);
@@ -57,10 +57,10 @@ const main = (state = {}, action) => {
              console.log(obj);
             return obj;
         default:
-            console.log(action.type)
-            let new_state=state.selectedTab ? state : initData;
-            console.log(new_state);
-            return new_state;
+            // console.log(action.type)
+            // let new_state=state.selectedTab ? state : initData;
+            // console.log(new_state);
+            return state;
 
     }
 }

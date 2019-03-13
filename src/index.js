@@ -8,7 +8,7 @@ import rootReducer from './reducers'
 import { Route, Switch,BrowserRouter } from 'react-router-dom' // react-router v4
 import {  createStore } from 'redux'
 import IndexRouter from './routers'
-import configureStore, { history } from './configureStore'
+import { history,configureStore } from './configureStore'
 import { ConnectedRouter } from 'connected-react-router'
 import App from './App'
 import AppRouter from './routers'

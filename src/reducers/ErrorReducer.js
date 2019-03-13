@@ -1,10 +1,10 @@
 const initData={
     timer:3
 }
-const error = (state = {}, action) => {
+const error = (state = initData, action) => {
     switch (action.type) {
         default:
-            return initData;
+            return state;
 
     }
 }

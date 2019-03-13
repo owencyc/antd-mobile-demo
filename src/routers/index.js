@@ -29,7 +29,6 @@ export default class AppRouter extends Component {
             <div className='App'>
                 <div className='App_content'>
                     <Switch>
-                        <Redirect exact from='/' to='/home' />
                         <Route path="/" component={App} exact />
                         <Route path="/home" component={Home} />
                         <Route path="/feedback" component={Feedback} />

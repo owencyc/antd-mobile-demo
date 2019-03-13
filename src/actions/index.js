@@ -9,6 +9,11 @@ export const menuEvent = (router,index) => ({
     type: 'MENU',
     router,index
 })
+//问题反馈 获取客户
+export const fbInit=(data)=>({
+    type:'FB_INIT',
+    customers:data
+})
 
 //问题反馈图片事件
 export const fbImgEvent = (files, type, index)=>({
@@ -19,4 +24,9 @@ export const fbImgEvent = (files, type, index)=>({
 export const fbSubmit = (data)=>({
     type:'FB_SUBMIT',
     data
+})
+
+//我的页面，数据加载
+export const myInit = ()=>({
+    type:'MY_INIT'
 })
