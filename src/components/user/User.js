@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Carousel, NoticeBar } from 'antd-mobile';
 import PropTypes from 'prop-types'
 import './user.css'
-import img from './../../assets/5.jpg'
+import img from './../../assets/avatar1.svg'
 import { hidden } from 'ansi-colors';
 import { connect } from 'react-redux'
 
@@ -12,7 +12,7 @@ const User = (props) => {
     <div className='user'>
       <div className='user-title-panel'>
         <div className="user-avatar" >
-          <img src={props.info.avatar} alt="avatar" style={{width:'100%',height:'100%',borderRadius:'50%'}} />
+          <img src={props.info.avatar?props.info.avatar:img} alt="avatar" style={{width:'100%',height:'100%',borderRadius:'50%'}} />
         </div>
         <div className="user-info">
           <div className="name">{props.info.user_name}</div>

@@ -19,6 +19,7 @@ class App extends Component {
       console.log(searchParams.get('code'));
       if(searchParams.get('code')){
         localStorage.setItem("wc_user",searchParams.get('code')); 
+        //在此component中完成所有数据的初始化，并重新dispatch各个store，本页面loading，加载完毕跳转到home
         //获取token
         // getToken().then(
         //   (res)=>{
