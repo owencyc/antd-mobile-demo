@@ -90,7 +90,7 @@ class Feedback extends Component  {
                         console.log(this.txtCreator.state.value)
                         console.log(this.txtCustomer.state.value)
                         console.log(this.txtProgram.state.value)
-                        console.log(this.txtType.props.value)
+                        console.log(this.txtType.props)
                         console.log(this.txtDescription.state.value)
                         if (this.txtCreator.state.value && this.txtCustomer.state.value && this.txtProgram.state.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value) {
                             this.props.subFeedback({

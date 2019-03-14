@@ -1,3 +1,6 @@
+import {generateDZ} from '../services'
+import { push } from 'connected-react-router'
+import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
 export const navEvent = router => ({
     type: 'NAVICATE',
@@ -21,7 +24,20 @@ export const fbImgEvent = (files, type, index)=>({
     files, index
 })
 //问题反馈提交
-export const fbSubmit = (data)=>({
+export const fbSubmit = (data)=>{
+    return (dispatch)=>{
+        generateDZ(data).then((res)=>{
+            if(res.status===0){
+                dispatch(push({ pathname: '/result', state: { value: 'success' } }));
+                const action=fbSubmited({});
+                dispatch(action);
+            }else{
+                Toast.offline(res.exception, 2);
+            }
+        })
+    }
+}
+export const fbSubmited = (data)=>({
     type:'FB_SUBMIT',
     data
 })

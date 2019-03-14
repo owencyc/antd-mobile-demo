@@ -50,17 +50,18 @@ const feedback = (state = initData, action) => {
         case 'FB_SUBMIT':
             let obj = { ...state };
             console.log('fb submit');;
-            let req = { ...action.data };
-            if (state.imgs.length > 0) {
-                //有图片附件
-                req.imgs = state.imgs;
-            }
-            console.log(req);
-            //模拟发送
-            Toast.loading('提交中...', 2, () => {
-                history.push({ pathname: '/result', state: { value: 'success' } });
-                console.log('Load complete !!!');
-            });
+            // let req = { ...action.data };
+            // if (state.imgs.length > 0) {
+            //     //有图片附件
+            //     req.imgs = state.imgs;
+            // }
+            // console.log(req);
+            // //模拟发送
+            // Toast.loading('提交中...', 2, () => {
+            //     history.push({ pathname: '/result', state: { value: 'success' } });
+            //     console.log('Load complete !!!');
+            // });
+            
             return obj;
         default:
             console.log('feedback->' + action.type)
