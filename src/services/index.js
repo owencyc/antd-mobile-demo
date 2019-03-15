@@ -7,8 +7,8 @@ export const getToken=()=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/ada
 
 export const getUserinfo=(code)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
 {method:'post',data:{uri:'Wechat',method:'GetUserInfo',data:code}})
-
-export const getCustomers = (code)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
+//获取客户信息
+export const getCustomers = ()=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
 {method:'post',data:{uri:'Feedback',method:'GetCustomers',data:{}}})
 //问题单提交
 export const generateDZ = (data)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',

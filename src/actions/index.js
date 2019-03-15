@@ -1,4 +1,4 @@
-import {generateDZ} from '../services'
+import {generateDZ,getCustomers} from '../services'
 import { push } from 'connected-react-router'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
@@ -12,8 +12,21 @@ export const menuEvent = (router,index) => ({
     type: 'MENU',
     router,index
 })
+//获取客户
+export const fbInit = ()=>{
+    return (dispatch)=>{
+        getCustomers().then((res)=>{
+            if(res.status===0){
+                const action=fbInited(res.result);
+                dispatch(action);
+            }else{
+                Toast.offline(res.exception, 2);
+            }
+        })
+    }
+}
 //问题反馈 获取客户
-export const fbInit=(data)=>({
+export const fbInited=(data)=>({
     type:'FB_INIT',
     customers:data
 })

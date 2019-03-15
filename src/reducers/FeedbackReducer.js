@@ -35,12 +35,13 @@ const initData = {
 const feedback = (state = initData, action) => {
     switch (action.type) {
         case 'FB_INIT':
-        // getCustomers().then((res)=>{
-        //     if(res.status===0)
-        //         return {...initData,customers:res.result};
-        // })
             console.log('FB_INIT')
-            return {...initData,customers:action.customers};
+            let customers=[];
+            action.customers.map((item)=>{
+                customers.push({value:item.key,label:item.value});
+            })
+            console.log(customers)
+            return {...state,customers:customers};
         case 'FB_IMG':
 
             return {

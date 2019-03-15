@@ -6,6 +6,7 @@ import { fbImgEvent,fbSubmit,fbInit } from '../../actions'
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
+import { compress } from '../../utils/imageHandler'
 import './feedback.css'
 
 
@@ -18,7 +19,8 @@ class Feedback extends Component  {
 
         let tmp = localStorage.getItem("user_info");
         this.state = { // define this.state in constructor
-            creator: tmp?JSON.parse(tmp).user_name:''
+            creator: tmp?JSON.parse(tmp).user_name:'',
+            creator_code:tmp?JSON.parse(tmp).user_code:'',
         } 
     }
     componentDidMount(){
@@ -49,11 +51,11 @@ class Feedback extends Component  {
                     onClick={()=>{console.log('click');console.log(this.props)}}
                 >反映人</InputItem>
 
-                <InputItem
-                    clear
-                    placeholder=""
-                    ref={el =>  this.txtCustomer=el}
-                >客户简称</InputItem>
+                
+                <Picker data={this.props.customers} cols={1} {...getFieldProps('district2')} className="forss"
+                    ref={el =>   this.txtCustomer=el}>
+                    <List.Item arrow="horizontal">客户简称</List.Item>
+                </Picker>
 
                 <InputItem
                     clear
@@ -88,21 +90,47 @@ class Feedback extends Component  {
                     <Button type="primary" onClick={()=>{
                         //mobile做了封装，和web不同
                         console.log(this.txtCreator.state.value)
-                        console.log(this.txtCustomer.state.value)
+                        console.log(this.txtCustomer.props)
                         console.log(this.txtProgram.state.value)
                         console.log(this.txtType.props)
                         console.log(this.txtDescription.state.value)
-                        if (this.txtCreator.state.value && this.txtCustomer.state.value && this.txtProgram.state.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value) {
-                            this.props.subFeedback({
-                                creator: this.txtCreator.state.value,
-                                customer: this.txtCustomer.state.value,
-                                program: this.txtProgram.state.value,
+                        console.log(this.props.imgs)
+                        let imgs = [];
+                        if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
+                            let req={
+                                creator: this.state.creator_code,
+                                customer_id: this.txtCustomer.props.value[0],
+                                program_no: this.txtProgram.state.value,
+                                program_name: this.txtProgram.state.value,
                                 type: this.txtType.props.value[0],
-                                description: this.txtDescription.state.value
-                            })
-                        } else {
+                                remark: this.txtDescription.state.value,
+                                urgent:'001',
+                                imgs:[]
+                            }
+                            if(this.props.imgs.length>0){
+                                this.props.imgs.map((item) => {
+                                    compress(item.url, (result) => {
+                                        console.log(result);
+                                        imgs.push({
+                                            name: item.file.name,
+                                            type: item.file.type,
+                                            source: result
+                                        })
+                                        //当所有图片都压缩完成后，执行提交动作
+                                        if(imgs.length===this.props.imgs.length){
+                                            this.props.subFeedback({...req,imgs:imgs})
+                                        }
+                                    });
+                                })
+                            }else{
+                                this.props.subFeedback(req);
+                            }
+                        }else {
                             Toast.info('请完善表单数据！', 2, null, false);
                         }
+                        
+                        
+                        
                     }}>提交</Button>
                 </WingBlank>
 
