@@ -25,7 +25,9 @@ class Feedback extends Component  {
     }
     componentDidMount(){
         console.log('fb=>componentDidMount');
-        this.props.dispatch(fbInit(["1","2"]))
+        if(this.props.customers.length===0){
+            this.props.dispatch(fbInit())
+        }
     }
     
     
