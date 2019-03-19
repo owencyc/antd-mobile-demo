@@ -27,6 +27,10 @@ export function ajaxApi(url, option = {}) {
         method = option.method || 'post',
 
         data = option.data ;
+        //用户工号
+        let tmp = localStorage.getItem("user_info");
+        data.user_code=tmp?JSON.parse(tmp).user_code:'';
+        
 
 
     switch (method) {

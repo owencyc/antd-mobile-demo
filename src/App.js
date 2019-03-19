@@ -4,8 +4,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import AppRouter from './routers'
 import Main from './layouts/Main'
 import './App.css'
-import { Router, Route, Switch, Redirect } from 'react-router'
 import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 import { Modal ,Toast} from 'antd-mobile';
 import { history } from './configureStore'
 import {getToken,getUserinfo} from './services'
@@ -29,10 +29,14 @@ class App extends Component {
         //获取用户信息
         getUserinfo(searchParams.get('code')).then((user)=>{
           //需判断是否有错
-          localStorage.setItem("user_info",JSON.stringify(user.result)); 
+          if(user.status===0){
+            localStorage.setItem("user_info",JSON.stringify(user.result)); 
+          }else{
+            Toast.offline(user.exception, 2);
+          }
         })
-
-        history.push('/home');
+        this.props.dispatch(push('/home'))
+        //history.push('/home');
       }else{
         Toast.offline('获取微信认证失败！', 2);
       }

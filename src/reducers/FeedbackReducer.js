@@ -13,20 +13,20 @@ const initData = {
     },
     bugTypes: [
         {
-            value: 'type01',
-            label: '需求设计缺陷'
+            value: '8202',
+            label: '新个案需求'
         },
         {
-            value: 'type02',
-            label: '程序bug'
+            value: '8102',
+            label: '个案程序bug'
         },
         {
-            value: 'type03',
-            label: '环境问题'
+            value: '8105',
+            label: '安装或环境配置'
         },
         {
-            value: 'type04',
-            label: '客户需求调整（不计价）'
+            value: '8109',
+            label: '功能建议'
         }
     ],
     imgs: [],

@@ -41,9 +41,9 @@ export const fbSubmit = (data)=>{
     return (dispatch)=>{
         generateDZ(data).then((res)=>{
             if(res.status===0){
-                dispatch(push({ pathname: '/result', state: { value: 'success' } }));
-                const action=fbSubmited({});
-                dispatch(action);
+                dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no} }));
+                //const action=fbSubmited({});
+                //dispatch(action);
             }else{
                 Toast.offline(res.exception, 2);
             }

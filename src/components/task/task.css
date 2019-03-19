@@ -1,0 +1,23 @@
+.task-status-panel{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.task-status-panel .dot-0{
+    width: 10px;
+    height: 10px;
+    background-color: greenyellow;
+    border-radius: 50%;
+}
+.task-status-panel .dot-1{
+    width: 10px;
+    height: 10px;
+    background-color: rgb(47, 161, 255);
+    border-radius: 50%;
+}
+.task-status-panel .dot-2{
+    width: 10px;
+    height: 10px;
+    background-color: rgb(58, 57, 58);
+    border-radius: 50%;
+}

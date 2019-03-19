@@ -13,7 +13,7 @@ class Status extends Component {
                 <Result
                     img={myImg(imageMap[this.props.location.state.value])}
                     title="提交成功"
-                    message={<div>请耐心等待处理</div>}
+                    message={<div><p>{this.props.location.state.data}</p>请耐心等待处理</div>}
                 />
             </div>
         )
