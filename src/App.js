@@ -35,7 +35,7 @@ class App extends Component {
             Toast.offline(user.exception, 2);
           }
         })
-        this.props.dispatch(push('/home'))
+        this.props.dispatch(push('/main'))
         //history.push('/home');
       }else{
         Toast.offline('获取微信认证失败！', 2);

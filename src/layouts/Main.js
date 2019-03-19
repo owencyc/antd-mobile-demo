@@ -3,22 +3,42 @@ import { TabBar,Icon } from 'antd-mobile';
 import {allComments} from '../services'
 import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
+import User from '../components/user/User'
+import Task from '../components/task/Task'
+import NotFound from '../components/error/404'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import {menuEvent} from '../actions'
 
 
+const Content = (props) => {
+
+  switch (props.route) {
+    case 'home':
+      return (<Home></Home>);
+    case 'task':
+      return (<Task></Task>);
+    case 'msg':
+      return (<NotFound></NotFound>);
+    case 'user':
+      return (<User></User>);
+    default:
+      return (<NotFound></NotFound>);
+  }
+}
+
 const Main=(props)=>{
+  
   //console.log(props);
 
   return (
-    <div style={{ position: 'fixed', width: '100%', bottom: 0 }}>
+    <div style={{ position: 'fixed', width: '100%',height:'100%', bottom: 0 }}>
 
     <TabBar
       unselectedTintColor="#949494"
       tintColor="#33A3F4"
       barTintColor="white"
-      noRenderContent={true}
+      noRenderContent={false}
     >
       {props.menus.map(item => (
           <TabBar.Item
@@ -46,6 +66,7 @@ const Main=(props)=>{
           }}
           data-seed="logId"
         >
+          <Content route={item.key}></Content>
         </TabBar.Item>
       ))}
       
@@ -87,7 +108,7 @@ const mapStateToProps = state => {
 }
   
   const mapDispatchToProps = dispatch => ({
-    changeRoute: (router ,index)=>{ dispatch(menuEvent(router,index));dispatch(push(router))},
+    changeRoute: (router ,index)=>{ dispatch(menuEvent(router,index));},
     push
   })
 

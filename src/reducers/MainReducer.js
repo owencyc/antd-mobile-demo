@@ -8,7 +8,8 @@ import user0 from '../assets/user_0.svg';
 import user1 from '../assets/user_1.svg';
 
 import { push } from 'connected-react-router'
-
+import Home from '../containers/HomeContainer'
+import User from '../components/user/User'
 
 const initData={
     selectedTab:'home',
@@ -18,7 +19,8 @@ const initData={
             title:'主页',
             icon0:'url(http://221.226.187.245:8888/icon/home_0.svg) center center /  21px 21px no-repeat',
             icon1:'url(http://221.226.187.245:8888/icon/home_1.svg) center center /  21px 21px no-repeat',
-            router:'/home'
+            router:'/home',
+            component:Home
         },
         {
             key:'task',
