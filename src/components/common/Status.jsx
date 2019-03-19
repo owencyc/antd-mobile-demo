@@ -3,6 +3,7 @@ import { Result, Icon, WhiteSpace,Button } from 'antd-mobile';
 import {imageMap} from './syspara'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
+import { menuEvent} from '../../actions'
 
 const myImg = src => <img style={{width:'60px',height:'60px'}} src={src} className="spe am-icon am-icon-md" alt="" />;
 
@@ -31,7 +32,7 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    goTask: ()=>{ dispatch(push('/main'));},
+    goTask: ()=>{ dispatch(push('/main'));dispatch(menuEvent('/task',1));},
     goHome: ()=>{ dispatch(push('/main'));}
   })
 
