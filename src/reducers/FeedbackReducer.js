@@ -1,11 +1,12 @@
 import { Toast } from 'antd-mobile'
 import { push } from 'connected-react-router';
 import { history } from '../configureStore'
-import {getCustomers} from '../services'
+import { getCustomers } from '../services'
 
 const initData = {
     subData: {
         creator: '',
+        creator_code:'',
         customer: '',
         program: '',
         type: [],
@@ -30,23 +31,30 @@ const initData = {
         }
     ],
     imgs: [],
-    customers:[]
+    customers: []
 }
 const feedback = (state = initData, action) => {
     switch (action.type) {
         case 'FB_INIT':
             console.log('FB_INIT')
-            let customers=[];
-            action.customers.map((item)=>{
-                customers.push({value:item.key,label:item.value});
+            let customers = [];
+            action.customers.map((item) => {
+                customers.push({ value: item.key, label: item.value });
             })
             console.log(customers)
-            return {...state,customers:customers};
+            return { ...state, customers: customers };
         case 'FB_IMG':
 
             return {
                 ...state,
                 imgs: action.files
+            };
+        case 'FB_UPDATE':
+            let data={...state.subData};
+            data[action.name]=action.value;
+            return {
+                ...state,
+                subData: data
             };
         case 'FB_SUBMIT':
             let obj = { ...state };
@@ -62,7 +70,7 @@ const feedback = (state = initData, action) => {
             //     history.push({ pathname: '/result', state: { value: 'success' } });
             //     console.log('Load complete !!!');
             // });
-            
+
             return obj;
         default:
             console.log('feedback->' + action.type)

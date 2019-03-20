@@ -36,6 +36,12 @@ export const fbImgEvent = (files, type, index)=>({
     type:'FB_IMG',
     files, index
 })
+//问题反馈更新表单
+export const fbUpdate = (name,value)=>({
+    type:'FB_UPDATE',
+    name:name,
+    value:value
+})
 //问题反馈提交
 export const fbSubmit = (data)=>{
     return (dispatch)=>{

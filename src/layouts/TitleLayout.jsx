@@ -4,8 +4,8 @@ import Title from '../components/common/Title'
 class TitleLayout extends Component {
 
     render() {
-        console.log('title layout')
-        console.log(this.props)
+        //console.log('title layout')
+        //console.log(this.props)
         return (
             <div className='title-layout'>
                 <Title content={this.props.content}></Title>

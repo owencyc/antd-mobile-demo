@@ -6,6 +6,7 @@ import Main from '../layouts/Main'
 import Feedback from '../components/task/Feedback'
 import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
+import Search from '../components/common/Search'
 import App from '../App'
 
 const NotFound1 = () => (
@@ -29,6 +30,7 @@ export default class AppRouter extends Component {
                     <Route path="/main" component={Main} />
                     <Route path="/feedback" component={Feedback} />
                     <Route path='/result' component={Status} />
+                    <Route path='/search' component={Search} />
                     <Route component={NotFound} />
 
                 </Switch>
