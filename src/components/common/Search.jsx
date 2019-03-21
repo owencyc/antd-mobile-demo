@@ -1,28 +1,52 @@
 import React, { Component } from 'react'
+import { province } from 'antd-mobile-demo-data';
+
 import { StickyContainer, Sticky } from 'react-sticky';
-import { SearchBar, List, ListView, Button } from 'antd-mobile';
+import { SearchBar, List, ListView, ActivityIndicator } from 'antd-mobile';
 import { imageMap } from './syspara'
 import { push, goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
-import { menuEvent } from '../../actions'
+import { getSearch } from '../../services'
+import { fbUpdate} from '../../actions'
 
 const { Item } = List;
 
-function genData(ds, provinceData) {
+function genData(ds, data) {
   const dataBlob = {};
   const sectionIDs = [];
   const rowIDs = [];
-  Object.keys(provinceData).forEach((item, index) => {
+  Object.keys(data).forEach((item, index) => {
+    
     sectionIDs.push(item);
     dataBlob[item] = item;
     rowIDs[index] = [];
 
-    provinceData[item].forEach((jj) => {
+    data[item].forEach((jj) => {
       rowIDs[index].push(jj.value);
       dataBlob[jj.value] = jj.label;
     });
   });
+  console.log(dataBlob)
+  console.log(sectionIDs)
+  console.log(rowIDs)
   return ds.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs);
+}
+
+
+function filterData(ds,data,val) {
+  let tmp={};
+  Object.keys(data).forEach((item, index) => {
+    let detail=[];
+    data[item].forEach((jj) => {
+      if(jj.label.indexOf(val)!==-1 || jj.value.indexOf(val)!==-1){
+        detail.push(jj);
+      }
+    });
+    if(detail.length>0){
+      tmp[item]=detail;
+    }
+  });
+  return genData(ds,tmp);
 }
 
 
@@ -40,6 +64,7 @@ class Search extends Component {
     });
 
     this.state = {
+      bakData:[],
       inputValue: '',
       dataSource,
       isLoading: true,
@@ -49,27 +74,40 @@ class Search extends Component {
 
   componentDidMount() {
     console.log('本次触发搜索：' + this.props.location.state.type);
-    this.autoFocusInst.focus();
-
-    setTimeout(() => {
+    //this.autoFocusInst.focus();
+    console.log(province)
+    getSearch(this.props.location.state.type).then(res=>{
       this.setState({
-        dataSource: genData(this.state.dataSource, []),
+        bakData:res.result,
+        dataSource: genData(this.state.dataSource, res.result),
         isLoading: false,
       });
-    }, 600);
+    });
+    // setTimeout(() => {
+    //   this.setState({
+    //     dataSource: genData(this.state.dataSource, province),
+    //     isLoading: false,
+    //   });
+    // }, 600);
   }
 
   render() {
     return (
-      <div>
+      <div style={{width:'100%',height:'100%'}}>
         <SearchBar placeholder="查询"
           ref={ref => this.autoFocusInst = ref}
-          onSubmit={(val) => { }}
+          onSubmit={(val) => { 
+            console.log(this.state.bakData)
+            
+            this.setState({
+              dataSource: filterData(this.state.dataSource, this.state.bakData,val),
+            })  
+          }}
           onCancel={() => { this.props.goBack() }} />
         <ListView.IndexedList
+          useBodyScroll
           dataSource={this.state.dataSource}
           className="am-list sticky-list"
-          useBodyScroll
           renderSectionWrapper={sectionID => (
             <StickyContainer
               key={`s_${sectionID}_c`}
@@ -77,33 +115,39 @@ class Search extends Component {
               style={{ zIndex: 4 }}
             />
           )}
-          
+
           renderSectionHeader={sectionData => (
             <Sticky>
               {({
-                style,
+                style
               }) => (
                   <div
                     className="sticky"
                     style={{
                       ...style,
                       zIndex: 3,
-                      backgroundColor: sectionData.charCodeAt(0) % 2 ? '#5890ff' : '#F8591A',
-                      color: 'white',
+                      backgroundColor: '#efeff4',
+                      color: 'black'
                     }}
                   >{sectionData}</div>
                 )}
             </Sticky>
           )}
-          renderHeader={() => <span>custom header</span>}
-          renderFooter={() => <span>custom footer</span>}
-          renderRow={rowData => (<Item>{rowData}</Item>)}
+          renderHeader={() => <span>客户列表</span>}
+          renderFooter={() => <span>我们是有底线的</span>}
+          renderRow={(rowData ,sectionID, rowID) => (<Item onClick={()=>{this.props.chooseItem(rowData,rowID)}}>{rowData}</Item>)}
           quickSearchBarStyle={{
-            top: 85,
+            height:'80%',
+            top: '10%',
+            display:'flex',
+            flexDirection:'column'
           }}
           delayTime={10}
-          delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
+          delayActivityIndicator={<ActivityIndicator toast text="正在加载" />}
         />
+
+        
+        
       </div>
     )
   }
@@ -116,6 +160,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  chooseItem:(name,value)=>{ dispatch(fbUpdate('customer_no',value));dispatch(fbUpdate('customer',name));dispatch(goBack())},
   goBack: () => { dispatch(goBack()); },
   search: () => { dispatch(push('/main')); }
 })

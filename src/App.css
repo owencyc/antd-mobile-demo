@@ -168,3 +168,26 @@ body{
 .notfound .back:hover {
   background-color: #2c2c2c;
 }
+
+.am-indexed-list-container{
+  height: 100%;
+}
+.am-indexed-list-quick-search-bar li {
+  flex: 1;
+}
+.am-indexed-list-section-header .am-list-item{
+  padding: 0;
+}
+.am-indexed-list-section-header .am-list-line{
+  padding: 0;
+}
+.am-indexed-list-section-header .am-list-content{
+  padding: 0!important;
+}
+.am-indexed-list-section-header .sticky{
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  font-size: 20px;
+}

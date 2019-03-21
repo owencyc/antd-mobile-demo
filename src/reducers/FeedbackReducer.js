@@ -7,6 +7,7 @@ const initData = {
     subData: {
         creator: '',
         creator_code:'',
+        customer_no:'',
         customer: '',
         program: '',
         type: [],

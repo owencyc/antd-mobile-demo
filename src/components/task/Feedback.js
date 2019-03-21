@@ -21,9 +21,9 @@ class Feedback extends Component  {
     }
     componentDidMount(){
         console.log('fb=>componentDidMount');
-        if(this.props.customers.length===0){
-            this.props.dispatch(fbInit())
-        }
+        // if(this.props.customers.length===0){
+        //     this.props.dispatch(fbInit())
+        // }
         let tmp = localStorage.getItem("user_info");
         this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
         this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_code:'');
@@ -117,6 +117,7 @@ class Feedback extends Component  {
                 <WingBlank>
                     <Button type="primary" onClick={()=>{
                         let data=this.props.form.getFieldsValue();
+                        console.log(data);
                         //mobile做了封装，和web不同
                         //console.log(this.txtCreator.state.value)
                         // console.log(this.txtCustomer.props)
@@ -125,14 +126,15 @@ class Feedback extends Component  {
                         // console.log(this.txtDescription.state.value)
                         // console.log(this.props.imgs)
                         let imgs = [];
-                        if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
+                        //if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
+                        if (data.creator && data.customer && data.program && data.description && data.type.length>0){
                             let req={
-                                creator: this.state.creator_code,
-                                customer_id: this.txtCustomer.props.value[0],
-                                program_no: this.txtProgram.state.value,
-                                program_name: this.txtProgram.state.value,
-                                type: this.txtType.props.value[0],
-                                remark: this.txtDescription.state.value,
+                                creator: this.props.subData.creator_code,
+                                customer_id: this.props.subData.customer_no,
+                                program_no: data.program,
+                                program_name: data.program,
+                                type: data.type[0],
+                                remark: data.description,
                                 urgent:'001',
                                 imgs:[]
                             }
