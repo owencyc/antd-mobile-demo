@@ -17,7 +17,6 @@ class App extends Component {
   componentDidMount(){
     
     console.log('初始化数据');
-    this.props.dispatch(fbInit());
 
     if(this.props.location.search){
       const searchParams = new URLSearchParams(this.props.location.search)

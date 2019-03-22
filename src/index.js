@@ -1,17 +1,10 @@
 import 'babel-polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import rootReducer from './reducers'
-import { Route, Switch,BrowserRouter } from 'react-router-dom' // react-router v4
-import {  createStore } from 'redux'
-import IndexRouter from './routers'
 import { history,configureStore } from './configureStore'
 import { ConnectedRouter } from 'connected-react-router'
-import App from './App'
 import AppRouter from './routers'
 
 
@@ -21,7 +14,6 @@ const store = configureStore()
 
 render(
   <Provider store={store}>
-   { /* place ConnectedRouter under Provider */}
     <ConnectedRouter history={history}>
         <AppRouter></AppRouter>
     </ConnectedRouter>

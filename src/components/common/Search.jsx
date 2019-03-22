@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { province } from 'antd-mobile-demo-data';
 
 import { StickyContainer, Sticky } from 'react-sticky';
 import { SearchBar, List, ListView, ActivityIndicator } from 'antd-mobile';
@@ -7,7 +6,7 @@ import { imageMap } from './syspara'
 import { push, goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { getSearch } from '../../services'
-import { fbUpdate} from '../../actions'
+import { fbUpdate,rsUpdate } from '../../actions'
 
 const { Item } = List;
 
@@ -15,17 +14,31 @@ function genData(ds, data) {
   const dataBlob = {};
   const sectionIDs = [];
   const rowIDs = [];
-  Object.keys(data).forEach((item, index) => {
+  // Object.keys(data).forEach((item, index) => {
+    
+  //   sectionIDs.push(item);
+  //   dataBlob[item] = item;
+  //   rowIDs[index] = [];
+
+  //   data[item].forEach((jj) => {
+  //     rowIDs[index].push(jj.value);
+  //     dataBlob[jj.value] = jj.label;
+  //   });
+  // });
+  let index=0;
+  for(let item in data){
     
     sectionIDs.push(item);
     dataBlob[item] = item;
     rowIDs[index] = [];
 
+    // eslint-disable-next-line no-loop-func
     data[item].forEach((jj) => {
       rowIDs[index].push(jj.value);
       dataBlob[jj.value] = jj.label;
     });
-  });
+    index++;
+  }
   console.log(dataBlob)
   console.log(sectionIDs)
   console.log(rowIDs)
@@ -35,7 +48,18 @@ function genData(ds, data) {
 
 function filterData(ds,data,val) {
   let tmp={};
-  Object.keys(data).forEach((item, index) => {
+  // Object.keys(data).forEach((item, index) => {
+  //   let detail=[];
+  //   data[item].forEach((jj) => {
+  //     if(jj.label.indexOf(val)!==-1 || jj.value.indexOf(val)!==-1){
+  //       detail.push(jj);
+  //     }
+  //   });
+  //   if(detail.length>0){
+  //     tmp[item]=detail;
+  //   }
+  // });
+  for(let item in data){
     let detail=[];
     data[item].forEach((jj) => {
       if(jj.label.indexOf(val)!==-1 || jj.value.indexOf(val)!==-1){
@@ -45,7 +69,7 @@ function filterData(ds,data,val) {
     if(detail.length>0){
       tmp[item]=detail;
     }
-  });
+  }
   return genData(ds,tmp);
 }
 
@@ -74,8 +98,6 @@ class Search extends Component {
 
   componentDidMount() {
     console.log('本次触发搜索：' + this.props.location.state.type);
-    //this.autoFocusInst.focus();
-    console.log(province)
     getSearch(this.props.location.state.type).then(res=>{
       this.setState({
         bakData:res.result,
@@ -103,6 +125,7 @@ class Search extends Component {
               dataSource: filterData(this.state.dataSource, this.state.bakData,val),
             })  
           }}
+          showCancelButton
           onCancel={() => { this.props.goBack() }} />
         <ListView.IndexedList
           useBodyScroll
@@ -135,7 +158,7 @@ class Search extends Component {
           )}
           renderHeader={() => <span>客户列表</span>}
           renderFooter={() => <span>我们是有底线的</span>}
-          renderRow={(rowData ,sectionID, rowID) => (<Item onClick={()=>{this.props.chooseItem(rowData,rowID)}}>{rowData}</Item>)}
+          renderRow={(rowData ,sectionID, rowID) => (<Item onClick={()=>{this.props.chooseItem(this.props.location.state.from,rowData,rowID)}}>{rowData}</Item>)}
           quickSearchBarStyle={{
             height:'80%',
             top: '10%',
@@ -160,7 +183,21 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  chooseItem:(name,value)=>{ dispatch(fbUpdate('customer_no',value));dispatch(fbUpdate('customer',name));dispatch(goBack())},
+  chooseItem:(from,name,value)=>{ 
+    switch(from){
+      case 'fb':
+        dispatch(fbUpdate('customer_no',value));
+        dispatch(fbUpdate('customer',name));
+        break;
+      case 'rs':
+        dispatch(rsUpdate('customer_no',value));
+        dispatch(rsUpdate('customer',name));
+        break;
+      default:
+        break;
+    }
+    dispatch(goBack())
+  },
   goBack: () => { dispatch(goBack()); },
   search: () => { dispatch(push('/main')); }
 })

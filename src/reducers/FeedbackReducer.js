@@ -32,18 +32,18 @@ const initData = {
         }
     ],
     imgs: [],
-    customers: []
+    programs: []
 }
 const feedback = (state = initData, action) => {
     switch (action.type) {
         case 'FB_INIT':
             console.log('FB_INIT')
-            let customers = [];
-            action.customers.map((item) => {
-                customers.push({ value: item.key, label: item.value });
-            })
-            console.log(customers)
-            return { ...state, customers: customers };
+            // let programs = [];
+            // action.programs.map((item) => {
+            //     programs.push({ value: item.key, label: item.value });
+            // })
+            // console.log(programs)
+            return { ...state, programs: action.programs };
         case 'FB_IMG':
 
             return {
@@ -58,21 +58,8 @@ const feedback = (state = initData, action) => {
                 subData: data
             };
         case 'FB_SUBMIT':
-            let obj = { ...state };
-            console.log('fb submit');;
-            // let req = { ...action.data };
-            // if (state.imgs.length > 0) {
-            //     //有图片附件
-            //     req.imgs = state.imgs;
-            // }
-            // console.log(req);
-            // //模拟发送
-            // Toast.loading('提交中...', 2, () => {
-            //     history.push({ pathname: '/result', state: { value: 'success' } });
-            //     console.log('Load complete !!!');
-            // });
-
-            return obj;
+            //清空表单
+            return initData;
         default:
             console.log('feedback->' + action.type)
             //console.log(initData)

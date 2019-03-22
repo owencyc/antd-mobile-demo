@@ -4,6 +4,7 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Router, Route, Switch, Redirect } from 'react-router'
 import Main from '../layouts/Main'
 import Feedback from '../components/task/Feedback'
+import Reserve from '../components/task/Reserve'
 import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
 import Search from '../components/common/Search'
@@ -29,6 +30,7 @@ export default class AppRouter extends Component {
                     <Route path="/" component={App} exact />
                     <Route path="/main" component={Main} />
                     <Route path="/feedback" component={Feedback} />
+                    <Route path="/reserve" component={Reserve} />
                     <Route path='/result' component={Status} />
                     <Route path='/search' component={Search} />
                     <Route component={NotFound} />

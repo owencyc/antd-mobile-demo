@@ -20,7 +20,7 @@ const initData = {
         {
             icon: func_time,
             text: '时数预估',
-            router: '/time'
+            router: '/reserve'
         }
     ],
     notice: '通知：本功能为模拟上线，遇到问题，切勿惊慌，联系应用开发部~'

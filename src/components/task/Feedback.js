@@ -21,12 +21,14 @@ class Feedback extends Component  {
     }
     componentDidMount(){
         console.log('fb=>componentDidMount');
-        // if(this.props.customers.length===0){
-        //     this.props.dispatch(fbInit())
-        // }
-        let tmp = localStorage.getItem("user_info");
-        this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
-        this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_code:'');
+        if(this.props.programs.length===0 && this.props.subData.customer){
+            this.props.dispatch(fbInit(this.props.subData.customer_no))
+        }
+        if(!this.props.subData.creator){
+            let tmp = localStorage.getItem("user_info");
+            this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
+            this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_code:'');
+        }
     }
     
     
@@ -67,12 +69,12 @@ class Feedback extends Component  {
                         initialValue: this.props.subData.customer
                       })}
                       editable={false}
-                    placeholder=""
+                    placeholder="请点击选择客户"
                     onClick={()=>{this.props.getCustomer()}}
                     ref={el => this.txtCustomer=el}
                 >客户简称</InputItem>
 
-                <InputItem
+                {/* <InputItem
                     clear
                     placeholder="异常程序代号，如出站作业(B0206)"
                     ref={el =>  this.txtProgram=el}
@@ -80,13 +82,24 @@ class Feedback extends Component  {
                         initialValue: this.props.subData.program,
                         onChange:(e)=>{this.props.updateData('program',e)}
                       })}
-                >程序名称</InputItem>
+                >程序名称</InputItem> */}
+                <Picker data={this.props.programs} cols={1} 
+                    {...getFieldProps('program',{
+                        initialValue: this.props.subData.program,
+                        onChange:(e)=>{this.props.updateData('program',e)}
+                      })} 
+                    title='请选择程序名称'
+                    className="forss"
+                    ref={el =>   this.txtProgram=el}>
+                    <List.Item arrow="horizontal">程序名称</List.Item>
+                </Picker>
 
                 <Picker data={this.props.bugTypes} cols={1} 
                     {...getFieldProps('type',{
                         initialValue: this.props.subData.type,
                         onChange:(e)=>{this.props.updateData('type',e)}
                       })} 
+                    title='请选择问题类型'
                     className="forss"
                     ref={el =>   this.txtType=el}>
                     <List.Item arrow="horizontal">问题类型</List.Item>
@@ -127,12 +140,11 @@ class Feedback extends Component  {
                         // console.log(this.props.imgs)
                         let imgs = [];
                         //if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
-                        if (data.creator && data.customer && data.program && data.description && data.type.length>0){
+                        if (data.creator && data.customer && data.program && data.program.length>0 && data.description && data.type &&data.type.length>0){
                             let req={
                                 creator: this.props.subData.creator_code,
                                 customer_id: this.props.subData.customer_no,
-                                program_no: data.program,
-                                program_name: data.program,
+                                program_no: data.program[0],
                                 type: data.type[0],
                                 remark: data.description,
                                 urgent:'001',
@@ -157,7 +169,7 @@ class Feedback extends Component  {
                                 this.props.subFeedback(req);
                             }
                         }else {
-                            Toast.info('请完善表单数据！', 2, null, false);
+                            Toast.info('请完善表单数据！', 3, null, false);
                         }
                         
                         
@@ -191,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
     updateData:(name,value)=>{dispatch(fbUpdate(name,value))},
     imgChange: (files, type, index) => { dispatch(fbImgEvent(files, type, index)); },
     subFeedback:(obj)=>{ dispatch(fbSubmit(obj))},
-    getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer' } }))},
+    getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer',from:'fb'} }))},
     push,dispatch
 })
 

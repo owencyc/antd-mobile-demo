@@ -1,4 +1,4 @@
-import {generateDZ,getCustomers} from '../services'
+import {generateDZ,getPrograms} from '../services'
 import { push } from 'connected-react-router'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
@@ -13,9 +13,9 @@ export const menuEvent = (router,index) => ({
     router,index
 })
 //获取客户
-export const fbInit = ()=>{
+export const fbInit = (customer_no)=>{
     return (dispatch)=>{
-        getCustomers().then((res)=>{
+        getPrograms(customer_no).then((res)=>{
             if(res.status===0){
                 const action=fbInited(res.result);
                 dispatch(action);
@@ -25,10 +25,10 @@ export const fbInit = ()=>{
         })
     }
 }
-//问题反馈 获取客户
+//问题反馈 获取程序
 export const fbInited=(data)=>({
     type:'FB_INIT',
-    customers:data
+    programs:data
 })
 
 //问题反馈图片事件
@@ -64,4 +64,11 @@ export const fbSubmited = (data)=>({
 //我的页面，数据加载
 export const myInit = ()=>({
     type:'MY_INIT'
+})
+
+//时数预约更新表单
+export const rsUpdate = (name,value)=>({
+    type:'RS_UPDATE',
+    name:name,
+    value:value
 })
