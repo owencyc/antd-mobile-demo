@@ -72,3 +72,8 @@ export const rsUpdate = (name,value)=>({
     name:name,
     value:value
 })
+
+//APP初始化标识
+export const appLoad = ()=>({
+    type:'APP_LOAD'
+})

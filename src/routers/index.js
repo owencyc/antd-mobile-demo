@@ -8,6 +8,8 @@ import Reserve from '../components/task/Reserve'
 import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
 import Search from '../components/common/Search'
+import FbStation from '../components/task/FbStation'
+
 import App from '../App'
 
 const NotFound1 = () => (
@@ -33,6 +35,8 @@ export default class AppRouter extends Component {
                     <Route path="/reserve" component={Reserve} />
                     <Route path='/result' component={Status} />
                     <Route path='/search' component={Search} />
+                    <Route path="/fbstation" component={FbStation} />
+
                     <Route component={NotFound} />
 
                 </Switch>

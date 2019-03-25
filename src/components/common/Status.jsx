@@ -18,7 +18,8 @@ class Status extends Component {
                     title="提交成功"
                     message={<div><p>{this.props.location.state.data}</p>请耐心等待处理</div>}
                 />
-                <Button type="ghost" onClick={()=>this.props.goTask()}>查看进度</Button><WhiteSpace />
+                <Button type="ghost" onClick={()=>this.props.goFb()}>继续提单</Button><WhiteSpace />
+                <Button type="ghost" onClick={()=>this.props.goTask()}>查看历史</Button><WhiteSpace />
                 <Button type="primary" onClick={()=>this.props.goHome()}>返回</Button><WhiteSpace />
             </div>
         )
@@ -32,7 +33,8 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    goTask: ()=>{ dispatch(push('/main'));dispatch(menuEvent('/task',1));},
+    goFb: ()=>{ dispatch(push('/feedback'));},
+    goTask: ()=>{ dispatch(push('/main'));dispatch(menuEvent('/fbstation',1));},
     goHome: ()=>{ dispatch(push('/main'));}
   })
 

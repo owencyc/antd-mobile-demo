@@ -8,7 +8,7 @@ class TitleLayout extends Component {
         //console.log(this.props)
         return (
             <div className='title-layout'>
-                <Title content={this.props.content}></Title>
+                <Title content={this.props.content} hideBack={this.props.hideBack}></Title>
                 <div className='title-layout-content'>
                     {this.props.children}
                 </div>

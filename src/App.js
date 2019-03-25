@@ -9,7 +9,7 @@ import { push } from 'connected-react-router'
 import { Modal ,Toast} from 'antd-mobile';
 import { history } from './configureStore'
 import {getToken,getUserinfo} from './services'
-import {fbInit} from './actions'
+import { appLoad} from './actions'
 const alert = Modal.alert;
 
 class App extends Component {
@@ -18,7 +18,7 @@ class App extends Component {
     
     console.log('初始化数据');
 
-    if(this.props.location.search){
+    if(this.props.location.search && !this.props.loaded){
       const searchParams = new URLSearchParams(this.props.location.search)
       console.log(searchParams.get('code'));
       if(searchParams.get('code')){
@@ -33,6 +33,7 @@ class App extends Component {
           }else{
             Toast.offline(user.exception, 2);
           }
+          this.props.load();
         })
         this.props.dispatch(push('/main'))
         //history.push('/home');
@@ -48,7 +49,7 @@ class App extends Component {
       <div >
         <div className="App">
           <div className='App_content'>
-
+            微信登陆认证...
           </div>
         </div>
       </div>
@@ -56,9 +57,15 @@ class App extends Component {
   }
 }
 
+
+const mapStateToProps = state => {
+  return state.app
+}
+
 const mapDispatchToProps = dispatch => ({
+  load:()=>{dispatch(appLoad())},
   dispatch
 })
 
-export default connect(mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
 //export default App

@@ -30,7 +30,7 @@ const home = (state = initData, action) => {
         case 'NAVICATE':
             console.log('触发路由：' + action.router);
             //push(action.router);
-            return initData;
+            return state;
         default:
             return state;
 

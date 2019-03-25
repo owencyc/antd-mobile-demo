@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
+import app from './AppReducer'
 import home from './HomeReducer'
+import task from './TaskReducer'
 import main from './MainReducer'
 import feedback from './FeedbackReducer'
 import reserve from './ReserveReducer'
@@ -13,5 +15,5 @@ import user from './UserReducer'
 
 export default (history) => combineReducers({
   router: connectRouter(history),
-  main , home , feedback ,error,user,status,search,reserve
+  app,main , home ,task, feedback ,error,user,status,search,reserve
 })
