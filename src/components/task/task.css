@@ -21,3 +21,9 @@
     background-color: rgb(58, 57, 58);
     border-radius: 50%;
 }
+.fb-station{
+    height: 100%;
+}
+.fb-station .am-tabs{
+    height: auto!important;
+}

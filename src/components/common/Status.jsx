@@ -34,7 +34,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     goFb: ()=>{ dispatch(push('/feedback'));},
-    goTask: ()=>{ dispatch(push('/main'));dispatch(menuEvent('/fbstation',1));},
+    goTask: ()=>{ dispatch(push('/fbstation'));},
     goHome: ()=>{ dispatch(push('/main'));}
   })
 

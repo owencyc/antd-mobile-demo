@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ListView, PullToRefresh, WingBlank, Toast, Card } from 'antd-mobile';
+import { ListView, PullToRefresh, Tabs, Toast, Card } from 'antd-mobile';
 import PropTypes from 'prop-types'
 import TitleLayout from '../../layouts/TitleLayout'
 import { connect } from 'react-redux'
@@ -16,6 +16,12 @@ const data = [{
   create_time:'2019/03/17',
   status:2
 }];
+const tabs = [
+    { title: '处理中', sub: '1' },
+    { title: '待验证', sub: '2' },
+    { title: '已结案', sub: '3' },
+  ];
+  
 
 class FbStation extends Component {
   constructor(props) {
@@ -74,11 +80,11 @@ class FbStation extends Component {
         txtClass="dot-0";
         break;
       case 1:
-        txtStatus="已经完成";
+        txtStatus="待验证";
         txtClass="dot-1";
         break;
       case 2:
-        txtStatus="已经结案";
+        txtStatus="已结案";
         txtClass="dot-2";
         break;
       default:
@@ -122,24 +128,31 @@ class FbStation extends Component {
     };
     return (
       <TitleLayout content='问题清单'>
-        <ListView
-          style={{ width: '100%', height: '100%' }}
-          key='0'
-          ref={el => this.lv = el}
-          dataSource={this.state.dataSource}
-          renderHeader={() => <span>问题单（下拉刷新）</span>}
-          renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-            我们是有底线的
-          </div>)}
-          renderRow={row}
-          renderSeparator={separator}
-          useBodyScroll={false}
-          pullToRefresh={<PullToRefresh
-            refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh}
-          />}
-          pageSize={5}
-        />
+        <div className='fb-station'>
+            <Tabs style={{height:'auto'}} tabs={tabs} initialPage={0} animated={false} useOnPan={false}
+                onTabClick={(tab,index)=>{console.log('tab change:'+index)}}>
+            </Tabs>
+            <ListView
+                style={{ width: '100%', height: 'calc(100% - 43.5px)' }}
+                key='0'
+                ref={el => this.lv = el}
+                dataSource={this.state.dataSource}
+                renderHeader={() => <span>（下拉刷新）</span>}
+                renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                    我们是有底线的
+                </div>)}
+                renderRow={row}
+                renderSeparator={separator}
+                useBodyScroll={false}
+                pullToRefresh={<PullToRefresh
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
+                />}
+                pageSize={5}
+            />
+        </div>
+        
+        
 
       </TitleLayout>
     )

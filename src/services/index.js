@@ -25,3 +25,7 @@ export const getSearch = (type)=>ajaxApi('http://221.226.187.245:8888/wechatapi/
 //获取程序
 export const getPrograms = (customer)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
 {method:'post',data:{uri:'Feedback',method:'GetPrograms',data:customer}})
+
+//时数预估提交
+export const subReserve = (data)=>ajaxApi('http://localhost:51281/api/adapter',
+{method:'post',data:{uri:'Reserve',method:'Add',data:data}})

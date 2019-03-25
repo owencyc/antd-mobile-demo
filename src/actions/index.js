@@ -1,4 +1,4 @@
-import {generateDZ,getPrograms} from '../services'
+import {generateDZ,getPrograms,subReserve} from '../services'
 import { push } from 'connected-react-router'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
@@ -48,17 +48,16 @@ export const fbSubmit = (data)=>{
         generateDZ(data).then((res)=>{
             if(res.status===0){
                 dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no} }));
-                //const action=fbSubmited({});
-                //dispatch(action);
+                const action=fbSubmited();
+                dispatch(action);
             }else{
                 Toast.offline(res.exception, 2);
             }
         })
     }
 }
-export const fbSubmited = (data)=>({
-    type:'FB_SUBMIT',
-    data
+export const fbSubmited = ()=>({
+    type:'FB_SUBMITED'
 })
 
 //我的页面，数据加载
@@ -76,4 +75,23 @@ export const rsUpdate = (name,value)=>({
 //APP初始化标识
 export const appLoad = ()=>({
     type:'APP_LOAD'
+})
+
+//时数预估提交
+export const rsSubmit = (data)=>{
+    return (dispatch)=>{
+        subReserve(data).then((res)=>{
+            if(res.status===0){
+                console.log(res);
+                dispatch(push({ pathname: '/result', state: { value: 'success' } }));
+                const action=rsSubmited();
+                dispatch(action);
+            }else{
+                Toast.offline(res.exception, 2);
+            }
+        })
+    }
+}
+export const rsSubmited = ()=>({
+    type:'RS_SUBMITED'
 })

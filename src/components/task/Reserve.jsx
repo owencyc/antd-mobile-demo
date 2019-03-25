@@ -3,7 +3,7 @@ import moment from 'moment'
 import { List, InputItem, TextareaItem, DatePicker, Button, WingBlank, WhiteSpace, Calendar, Toast } from 'antd-mobile';
 import { createForm, formShape } from 'rc-form';
 import PropTypes from 'prop-types'
-import {  rsUpdate } from '../../actions'
+import {  rsUpdate,rsSubmit } from '../../actions'
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
@@ -79,7 +79,8 @@ class Reserve extends Component {
 
                     <InputItem
                         {...getFieldProps('plan_hours', {
-                            initialValue: this.props.subData.plan_hours
+                            initialValue: this.props.subData.plan_hours,
+                            onChange: (e) => { this.props.updateData('plan_hours', e)}
                         })}
                         type='number'
                         placeholder=""
@@ -180,8 +181,9 @@ class Reserve extends Component {
                         <Button type="primary" onClick={() => {
                             let data=this.props.form.getFieldsValue();
                             console.log(data);
+                            console.log(this.props.subData)
                             if (data.creator && data.customer && data.plan_hours && data.plan_start_date && data.plan_complete_date && data.description){
-                            
+                                this.props.submit(this.props.subData)
                             }else{
                                 Toast.info('请完善表单数据！', 3, null, false);
                             }
@@ -205,6 +207,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     updateData:(name,value)=>{dispatch(rsUpdate(name,value))},
     getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer',from:'rs' } }))},
+    submit:(obj)=>{ dispatch(rsSubmit(obj))},
     push, dispatch
 })
 

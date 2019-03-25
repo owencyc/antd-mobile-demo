@@ -57,7 +57,7 @@ const feedback = (state = initData, action) => {
                 ...state,
                 subData: data
             };
-        case 'FB_SUBMIT':
+        case 'FB_SUBMITED':
             //清空表单
             return initData;
         default:

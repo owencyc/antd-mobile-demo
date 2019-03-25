@@ -24,11 +24,8 @@ const reserve = (state = initData, action) => {
                 ...state,
                 subData: data
             };
-        case 'RS_SUBMIT':
-            let obj = { ...state };
-            console.log('RS submit');
-
-            return obj;
+        case 'RS_SUBMITED':
+            return initData;
         default:
             console.log('reserve->' + action.type)
             return state;
