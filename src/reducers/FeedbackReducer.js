@@ -11,8 +11,31 @@ const initData = {
         customer: '',
         program: '',
         type: [],
+        urgent:[],
         description: ''
     },
+    urgentTypes:[
+        {
+            value: '001',
+            label: '一般'
+        },
+        {
+            value: '002',
+            label: '急'
+        },
+        {
+            value: '003',
+            label: '特急'
+        },
+        {
+            value: '004',
+            label: '专案控制'
+        },
+        {
+            value: '005',
+            label: '客户投诉'
+        }
+    ],
     bugTypes: [
         {
             value: '8202',

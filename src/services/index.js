@@ -27,5 +27,9 @@ export const getPrograms = (customer)=>ajaxApi('http://221.226.187.245:8888/wech
 {method:'post',data:{uri:'Feedback',method:'GetPrograms',data:customer}})
 
 //时数预估提交
-export const subReserve = (data)=>ajaxApi('http://localhost:51281/api/adapter',
+export const subReserve = (data)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
 {method:'post',data:{uri:'Reserve',method:'Add',data:data}})
+
+//参数获取
+export const getPara = ()=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
+{method:'post',data:{uri:'User',method:'GetPara',data:{}}})

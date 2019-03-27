@@ -45,7 +45,9 @@ export const fbUpdate = (name,value)=>({
 //问题反馈提交
 export const fbSubmit = (data)=>{
     return (dispatch)=>{
+        Toast.loading('正在加载',0);
         generateDZ(data).then((res)=>{
+            Toast.hide();
             if(res.status===0){
                 dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no} }));
                 const action=fbSubmited();
@@ -75,6 +77,12 @@ export const rsUpdate = (name,value)=>({
 //APP初始化标识
 export const appLoad = ()=>({
     type:'APP_LOAD'
+})
+
+//通知更新
+export const homeNotice = (data)=>({
+    type:'HOME_NOTICE',
+    notice:data
 })
 
 //时数预估提交

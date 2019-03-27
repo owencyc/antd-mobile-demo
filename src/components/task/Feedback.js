@@ -105,6 +105,16 @@ class Feedback extends Component  {
                     <List.Item arrow="horizontal">问题类型</List.Item>
                 </Picker>
 
+                <Picker data={this.props.urgentTypes} cols={1} 
+                    {...getFieldProps('urgent',{
+                        initialValue: this.props.subData.urgent,
+                        onChange:(e)=>{this.props.updateData('urgent',e)}
+                      })} 
+                    title='请选择紧急程度'
+                    className="forss">
+                    <List.Item arrow="horizontal">紧急度</List.Item>
+                </Picker>
+
                 <TextareaItem
                     title="问题描述"
                     placeholder="请描述问题产生情景"
@@ -140,14 +150,14 @@ class Feedback extends Component  {
                         // console.log(this.props.imgs)
                         let imgs = [];
                         //if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
-                        if (data.creator && data.customer && data.program && data.program.length>0 && data.description && data.type &&data.type.length>0){
+                        if (data.creator && data.customer && data.program && data.program.length>0 && data.description && data.type &&data.type.length>0 && data.urgent &&data.urgent.length>0){
                             let req={
                                 creator: this.props.subData.creator_code,
                                 customer_id: this.props.subData.customer_no,
                                 program_no: data.program[0],
                                 type: data.type[0],
                                 remark: data.description,
-                                urgent:'001',
+                                urgent:data.urgent[0],
                                 imgs:[]
                             }
                             if(this.props.imgs.length>0){

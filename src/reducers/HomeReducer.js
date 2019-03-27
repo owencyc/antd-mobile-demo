@@ -23,7 +23,7 @@ const initData = {
             router: '/reserve'
         }
     ],
-    notice: '通知：本功能为模拟上线，遇到问题，切勿惊慌，联系应用开发部~'
+    notice: ''
 }
 const home = (state = initData, action) => {
     switch (action.type) {
@@ -31,6 +31,8 @@ const home = (state = initData, action) => {
             console.log('触发路由：' + action.router);
             //push(action.router);
             return state;
+        case 'HOME_NOTICE':
+            return {...state,notice:action.notice};
         default:
             return state;
 
