@@ -37,3 +37,7 @@ export const getPara = ()=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/ad
 //js ticket获取
 export const getJsConfig = (url)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
 {method:'post',data:{uri:'Wechat',method:'GetJsConfig',data:url}})
+
+//删除问题单
+export const delFeedback = (no)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
+{method:'post',data:{uri:'Feedback',method:'DelFeedback',data:no}})
