@@ -78,6 +78,15 @@ export const rsUpdate = (name,value)=>({
 export const appLoad = ()=>({
     type:'APP_LOAD'
 })
+//APP js
+export const appJs = (signature)=>({
+    type:'APP_JS',
+    signature:signature
+})
+export const appUrl = (data)=>({
+    type:'APP_URL',
+    url:data
+})
 
 //通知更新
 export const homeNotice = (data)=>({

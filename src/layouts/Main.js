@@ -5,6 +5,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
 import User from '../components/user/User'
 import Task from '../components/task/Task'
+import Msg from '../components/msg/Msg'
 import NotFound from '../components/error/404'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
@@ -19,7 +20,7 @@ const Content = (props) => {
     case 'task':
       return (<Task></Task>);
     case 'msg':
-      return (<NotFound></NotFound>);
+      return (<Msg></Msg>);
     case 'user':
       return (<User></User>);
     default:
