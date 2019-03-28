@@ -15,8 +15,8 @@ export const generateDZ = (data)=>ajaxApi('http://221.226.187.245:8888/wechatapi
 {method:'post',data:{uri:'Feedback',method:'Excute',data:data}})
 
 //获取问题单清单
-export const getFeedbacks = ()=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
-{method:'post',data:{uri:'Feedback',method:'GetFeedbacks',data:{}}})
+export const getFeedbacks = (status)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',
+{method:'post',data:{uri:'Feedback',method:'GetFeedbacks',data:status}})
 
 //获取客户信息 开窗
 export const getSearch = (type)=>ajaxApi('http://221.226.187.245:8888/wechatapi/api/adapter',

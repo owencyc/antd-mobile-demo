@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import {getFeedbacks,delFeedback } from '../../services'
 
 import './task.css'
+import { timeout } from 'q';
 const alert = Modal.alert;
 const data = [{
   confirm_no:'IP0470000001',
@@ -32,7 +33,7 @@ class FbStation extends Component {
       isLoading: true,
       height: document.documentElement.clientHeight,
       useBodyScroll: false,
-      selectdTab:0,
+      selectedTab:0,
       tab0_count:0,
       tab1_count:0,
       tab2_count:0
@@ -50,7 +51,7 @@ class FbStation extends Component {
     Toast.loading('Loading...', 0);
     const hei = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
 
-    getFeedbacks().then((res)=>{
+    getFeedbacks(this.state.selectedTab).then((res)=>{
       Toast.hide();
       if(res.status===0){
         this.setState({
@@ -59,7 +60,7 @@ class FbStation extends Component {
           refreshing: false,
           isLoading: false,
         });
-        switch(this.state.selectdTab){
+        switch(this.state.selectedTab){
           case 0:
             this.setState({
               tab0_count:res.result.length
@@ -82,17 +83,18 @@ class FbStation extends Component {
     })
   }
 
-  onRefresh = () => {
+  onRefresh = (tab) => {
     this.setState({ refreshing: true, isLoading: true });
     // simulate initial Ajax
-    getFeedbacks().then((res)=>{
+    
+    getFeedbacks(tab?tab:this.state.selectedTab).then((res)=>{
       if(res.status===0){
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(res.result),
           refreshing: false,
           isLoading: false,
         });
-        switch(this.state.selectdTab){
+        switch(this.state.selectedTab){
           case 0:
             this.setState({
               tab0_count:res.result.length
@@ -159,6 +161,14 @@ class FbStation extends Component {
     ])
   }
 
+  changeTab=(tab,index)=>{
+    this.setState({selectedTab:index});
+    setTimeout(()=>{
+      this.onRefresh(index);
+    })
+    
+  }
+
 
   render() {
     const separator = (sectionID, rowID) => (
@@ -173,6 +183,7 @@ class FbStation extends Component {
       />
     );
     const row = (rowData, sectionID, rowID) => {
+      if(this.state.selectedTab===0){
       return (
         <SwipeAction
           style={{ backgroundColor: 'gray' }}
@@ -205,13 +216,29 @@ class FbStation extends Component {
           </SwipeAction>
         
       );
+        }else{
+          return(
+            <Card full>
+              <Card.Header
+                title={rowData.confirm_no}
+                thumb="http://221.226.187.245:8888/icon/form.svg"
+                thumbStyle={{ width: '32px', height: '32px' }}
+                extra={this.getStatus(rowData.status)}
+              />
+              <Card.Body>
+                <div>{rowData.type+"【"+rowData.remark+"】"}</div>
+              </Card.Body>
+              <Card.Footer content={rowData.customer} extra={<div>{rowData.create_time}</div>} />
+            </Card>
+          )
+        }
     };
     return (
       <TitleLayout content='问题清单'>
         <div className='fb-station'>
             <Tabs style={{height:'auto'}} tabs={this.state.tabs} initialPage={0} animated={false} useOnPan={false}
-                onTabClick={(tab,index)=>{this.setState({selectdTab:index});console.log('tab change:'+index)}}
-                renderTab={tab=><Badge text={this.state["tab"+tab.sub+"_count"]}>{tab.title}</Badge>}>
+                onTabClick={this.changeTab}
+                renderTab={tab=><span>{tab.title}{this.state["tab"+tab.sub+"_count"]>0?('('+this.state["tab"+tab.sub+"_count"]+')'):''}</span>}>
             </Tabs>
             <ListView
                 style={{ width: '100%', height: 'calc(100% - 43.5px)' }}

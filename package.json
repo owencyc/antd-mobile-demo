@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@antv/f2": "^3.3.7",
     "antd-mobile": "^2.2.9",
     "babel-polyfill": "^6.26.0",
     "connected-react-router": "^6.0.0",
