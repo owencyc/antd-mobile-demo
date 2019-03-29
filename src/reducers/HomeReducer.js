@@ -4,6 +4,7 @@ import img2 from './../assets/carousel_2.jpg';
 import img3 from './../assets/carousel_3.jpg';
 import func_report from './../assets/func_report.svg'
 import func_time from './../assets/func_time.svg'
+import func_work from './../assets/func_work.svg'
 import { allComments } from './../services/index'
 import { push } from 'connected-react-router'
 
@@ -13,8 +14,13 @@ const initData = {
     imgs: [img0, img1, img2, img3],
     funcs: [
         {
+            icon: func_work,
+            text: '项目报工',
+            router: '/sss'
+        },
+        {
             icon: func_report,
-            text: '问题反馈',
+            text: '问题单',
             router: '/feedback'
         },
         {

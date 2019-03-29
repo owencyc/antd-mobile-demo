@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Carousel, NoticeBar } from 'antd-mobile';
 import PropTypes from 'prop-types'
+import { push } from 'connected-react-router'
 import './user.css'
 import img from './../../assets/avatar1.svg'
 import { hidden } from 'ansi-colors';
@@ -18,6 +19,9 @@ const User = (props) => {
           <div className="name">{props.info.user_name}</div>
           <div className="other">{props.info.dept_no}</div>
         </div>
+      </div>
+      <div>
+      <Grid data={props.funcs} activeStyle={false} hasLine={false} onClick={(dataItem)=>props.changeRoute(dataItem.router)} />
       </div>
 
     </div>
@@ -37,7 +41,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  imgChange: (files, type, index) => { }
+  imgChange: (files, type, index) => { },
+  changeRoute: router=>{ dispatch(push(router));}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

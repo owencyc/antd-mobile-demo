@@ -9,6 +9,7 @@ import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
 import Search from '../components/common/Search'
 import FbStation from '../components/task/FbStation'
+import FbDetail from '../components/task/FbDetail'
 
 import App from '../App'
 
@@ -36,6 +37,7 @@ export default class AppRouter extends Component {
                     <Route path='/result' component={Status} />
                     <Route path='/search' component={Search} />
                     <Route path="/fbstation" component={FbStation} />
+                    <Route path="/fbdetail" component={FbDetail} />
 
                     <Route component={NotFound} />
 

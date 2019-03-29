@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 
 class Msg extends Component {
     constructor(props) {
-        console.log('rs render')
+        //console.log('rs render')
         console.log(props)
         super(props);
 
@@ -26,9 +26,7 @@ class Msg extends Component {
     render() {
         return (
             <div>
-                signature:{this.props.signature}
-                <br></br>
-                url:{this.props.url}
+                
             </div>
         )
     }

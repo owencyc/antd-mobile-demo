@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import { Grid, Carousel, NoticeBar } from 'antd-mobile';
+import { Grid, Carousel, List } from 'antd-mobile';
 import PropTypes from 'prop-types'
 import TitleLayout from '../../layouts/TitleLayout'
+import SubTitle from '../common/SubTitle'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { menuEvent} from '../../actions'
@@ -14,13 +15,14 @@ class Task extends Component {
     this.state = {
       
     };
+    
   }
     
   render() {
       return (
           <div style={{height:'100%'}}>
-            <TitleLayout content='工作组件' hideBack={true}>
-              <Grid data={this.props.funcs} columnNum={3} activeStyle={false} hasLine={false} onClick={(dataItem)=>this.props.changeRoute(dataItem.router)} />
+            <TitleLayout content='报表' hideBack={true}>
+              
 
             </TitleLayout>
               

@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import { ListView, PullToRefresh, Tabs, Toast, Card,SwipeAction,Modal ,Badge} from 'antd-mobile';
 import PropTypes from 'prop-types'
 import TitleLayout from '../../layouts/TitleLayout'
+import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import {getFeedbacks,delFeedback } from '../../services'
 
 import './task.css'
 import { timeout } from 'q';
+import { fbDetail } from '../../actions';
+
 const alert = Modal.alert;
 const data = [{
   confirm_no:'IP0470000001',
@@ -55,30 +58,15 @@ class FbStation extends Component {
       Toast.hide();
       if(res.status===0){
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(res.result),
+          dataSource: this.state.dataSource.cloneWithRows(res.result.fbs),
           height: hei,
           refreshing: false,
           isLoading: false,
+          tab0_count:res.result.counts.tab0_count,
+          tab1_count:res.result.counts.tab1_count,
+          tab2_count:res.result.counts.tab2_count
         });
-        switch(this.state.selectedTab){
-          case 0:
-            this.setState({
-              tab0_count:res.result.length
-            })
-            break;
-          case 1:
-            this.setState({
-              tab1_count:res.result.length
-            })
-            break;
-          case 2:
-            this.setState({
-              tab2_count:res.result.length
-            })
-            break;
-          default:
-            break;
-        }
+        
       }
     })
   }
@@ -90,29 +78,14 @@ class FbStation extends Component {
     getFeedbacks(tab?tab:this.state.selectedTab).then((res)=>{
       if(res.status===0){
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(res.result),
+          dataSource: this.state.dataSource.cloneWithRows(res.result.fbs),
           refreshing: false,
           isLoading: false,
+          tab0_count:res.result.counts.tab0_count,
+          tab1_count:res.result.counts.tab1_count,
+          tab2_count:res.result.counts.tab2_count
         });
-        switch(this.state.selectedTab){
-          case 0:
-            this.setState({
-              tab0_count:res.result.length
-            })
-            break;
-          case 1:
-            this.setState({
-              tab1_count:res.result.length
-            })
-            break;
-          case 2:
-            this.setState({
-              tab2_count:res.result.length
-            })
-            break;
-          default:
-            break;
-        }
+        
       }
     })
   };
@@ -190,45 +163,40 @@ class FbStation extends Component {
           autoClose
           right={[
             {
-              text: 'Cancel',
-              onPress: () => console.log('cancel'),
-              style: { backgroundColor: '#ddd', color: 'white' },
-            },
-            {
-              text: 'Delete',
+              text: '删除',
               onPress: () => {this.delData(rowData.confirm_no)},
               style: { backgroundColor: '#F4333C', color: 'white' },
             },
           ]}
         >
-            <Card full>
+            <Card full onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
                 title={rowData.confirm_no}
                 thumb="http://221.226.187.245:8888/icon/form.svg"
                 thumbStyle={{ width: '32px', height: '32px' }}
-                extra={this.getStatus(rowData.status)}
+                extra={rowData.customer}
               />
               <Card.Body>
-                <div>{rowData.type+"【"+rowData.remark+"】"}</div>
+                <div>{rowData.type+"【"+rowData.program_name+"】"}</div>
               </Card.Body>
-              <Card.Footer content={rowData.customer} extra={<div>{rowData.create_time}</div>} />
+              <Card.Footer content={'处理人：'+rowData.pr_name} extra={<div>{rowData.create_time}</div>} />
             </Card>
           </SwipeAction>
         
       );
         }else{
           return(
-            <Card full>
+            <Card full onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
                 title={rowData.confirm_no}
                 thumb="http://221.226.187.245:8888/icon/form.svg"
                 thumbStyle={{ width: '32px', height: '32px' }}
-                extra={this.getStatus(rowData.status)}
+                extra={rowData.customer}
               />
               <Card.Body>
                 <div>{rowData.type+"【"+rowData.remark+"】"}</div>
               </Card.Body>
-              <Card.Footer content={rowData.customer} extra={<div>{rowData.create_time}</div>} />
+              <Card.Footer content={'处理人：'+rowData.pr_name} extra={<div>{rowData.create_time}</div>} />
             </Card>
           )
         }
@@ -245,7 +213,7 @@ class FbStation extends Component {
                 key='0'
                 ref={el => this.lv = el}
                 dataSource={this.state.dataSource}
-                renderHeader={() => <span>（下拉刷新）</span>}
+                renderHeader={() => <span>{this.state.selectedTab===0?'（下拉刷新，左滑删除）':'（下拉刷新）'}</span>}
                 renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     我们是有底线的
                 </div>)}
@@ -266,5 +234,10 @@ class FbStation extends Component {
     )
   }
 }
-
-export default FbStation
+const mapStateToProps = state => {
+  return state.feedback
+}
+const mapDispatchToProps = dispatch => ({
+  showDetail: (data)=>{ console.log(data);dispatch(fbDetail(data));dispatch(push('/fbdetail'));}
+})
+export default connect(mapStateToProps, mapDispatchToProps)(FbStation)

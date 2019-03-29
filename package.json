@@ -4,11 +4,11 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@antv/f2": "^3.3.7",
     "antd-mobile": "^2.2.9",
     "babel-polyfill": "^6.26.0",
     "connected-react-router": "^6.0.0",
     "customize-cra": "^0.2.11",
+    "echarts": "^4.2.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "lrz": "^4.9.40",

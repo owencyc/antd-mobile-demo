@@ -24,7 +24,7 @@ const initData={
         },
         {
             key:'task',
-            title:'工作',
+            title:'报表',
             icon0:'url(http://221.226.187.245:8888/icon/task_0.svg) center center /  21px 21px no-repeat',
             icon1:'url(http://221.226.187.245:8888/icon/task_1.svg) center center /  21px 21px no-repeat',
             router:'/task'

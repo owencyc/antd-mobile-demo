@@ -55,7 +55,8 @@ const initData = {
         }
     ],
     imgs: [],
-    programs: []
+    programs: [],
+    detail:{}
 }
 const feedback = (state = initData, action) => {
     switch (action.type) {
@@ -83,6 +84,11 @@ const feedback = (state = initData, action) => {
         case 'FB_SUBMITED':
             //清空表单
             return initData;
+        case 'FB_DETAIL':
+            return {
+                ...state,
+                detail: action.detail
+            };
         default:
             console.log('feedback->' + action.type)
             //console.log(initData)

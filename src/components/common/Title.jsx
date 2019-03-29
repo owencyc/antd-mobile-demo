@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd-mobile';
+import { history } from '../../configureStore'
+
 
 class Title extends Component {
 
@@ -8,7 +10,8 @@ class Title extends Component {
         return (
             <div className='title-panel'>
                 {this.props.hideBack?'':(<div className='back'>
-                    <Link to='/main'><Icon type='left' size='lg' style={{color:'white'}}/></Link>
+                    {/* <Link to={this.props.backTo?this.props.backTo:'/main'}></Link> */}
+                    <Icon type='left' size='lg' style={{color:'white'}} onClick={()=>{history.goBack()}}/>
                 </div>)
                 
                 }

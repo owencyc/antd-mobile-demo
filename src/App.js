@@ -80,7 +80,7 @@ class App extends Component {
       <div >
         <div className="App">
           <div className='App_content'>
-            微信登陆认证...
+            初始化数据...
           </div>
         </div>
       </div>

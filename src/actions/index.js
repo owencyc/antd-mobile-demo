@@ -45,7 +45,7 @@ export const fbUpdate = (name,value)=>({
 //问题反馈提交
 export const fbSubmit = (data)=>{
     return (dispatch)=>{
-        Toast.loading('正在加载',0);
+        Toast.loading('正在提交',0);
         generateDZ(data).then((res)=>{
             Toast.hide();
             if(res.status===0){
@@ -111,4 +111,10 @@ export const rsSubmit = (data)=>{
 }
 export const rsSubmited = ()=>({
     type:'RS_SUBMITED'
+})
+
+//问题反馈更新表单
+export const fbDetail = (data)=>({
+    type:'FB_DETAIL',
+    detail:data
 })
