@@ -179,7 +179,7 @@ class FbStation extends Component {
               <Card.Body>
                 <div>{rowData.type+"【"+rowData.program_name+"】"}</div>
               </Card.Body>
-              <Card.Footer content={'处理人：'+rowData.pr_name} extra={<div>{rowData.create_time}</div>} />
+              <Card.Footer content={<div style={{textAlign:'left'}}>处理人:{rowData.pr_name}<br/>已耗时:{rowData.days_used}(天)</div>} extra={<div>{rowData.create_time}</div>} />
             </Card>
           </SwipeAction>
         

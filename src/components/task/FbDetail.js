@@ -26,6 +26,7 @@ const FbDetail = (props) => (
             <Item extra={props.detail.program_name}>程序名称</Item>
             <Item extra={props.detail.type}>问题类型</Item>
             <Item extra={getUrgent(props.urgentTypes,props.detail.urgent)}>紧急度</Item>
+            <Item extra={props.detail.create_time}>提交日期</Item>
             <Item multipleLine={true} wrap={true}>
                 问题描述
                 <Brief style={{whiteSpace:'initial'}}>{props.detail.remark}</Brief>
