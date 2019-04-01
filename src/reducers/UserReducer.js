@@ -26,7 +26,7 @@ const initData = {
         {
             icon: func_time,
             text: '时数预约记录',
-            router: '/rslog'
+            router: '/rsstation'
         }
       ]
 }

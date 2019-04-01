@@ -11,7 +11,10 @@ class Title extends Component {
             <div className='title-panel'>
                 {this.props.hideBack?'':(<div className='back'>
                     {/* <Link to={this.props.backTo?this.props.backTo:'/main'}></Link> */}
-                    <Icon type='left' size='lg' style={{color:'white'}} onClick={()=>{history.goBack()}}/>
+                    <Icon type='left' size='lg' style={{color:'white'}} 
+                        onClick={()=>{
+                            this.props.backTo?history.push(this.props.backTo):history.goBack()
+                        }}/>
                 </div>)
                 
                 }

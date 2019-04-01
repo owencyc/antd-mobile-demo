@@ -80,7 +80,6 @@ class App extends Component {
       <div >
         <div className="App">
           <div className='App_content'>
-            初始化数据...
           </div>
         </div>
       </div>

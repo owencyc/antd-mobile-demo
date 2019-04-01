@@ -49,7 +49,7 @@ export const fbSubmit = (data)=>{
         generateDZ(data).then((res)=>{
             Toast.hide();
             if(res.status===0){
-                dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no} }));
+                dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no,to:'/fbstation'} }));
                 const action=fbSubmited();
                 dispatch(action);
             }else{
@@ -100,7 +100,7 @@ export const rsSubmit = (data)=>{
         subReserve(data).then((res)=>{
             if(res.status===0){
                 console.log(res);
-                dispatch(push({ pathname: '/result', state: { value: 'success' } }));
+                dispatch(push({ pathname: '/result', state: { value: 'success',to:'/rsstation' } }));
                 const action=rsSubmited();
                 dispatch(action);
             }else{

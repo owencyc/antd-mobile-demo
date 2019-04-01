@@ -13,7 +13,8 @@ const initData = {
         plan_start_date:'',
         plan_complete_date:'',
         description: ''
-    }
+    },
+    list:[]
 }
 const reserve = (state = initData, action) => {
     switch (action.type) {

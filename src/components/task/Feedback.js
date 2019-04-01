@@ -74,16 +74,15 @@ class Feedback extends Component  {
                     ref={el => this.txtCustomer=el}
                 >客户简称</InputItem>
 
-                {/* <InputItem
-                    clear
-                    placeholder="异常程序代号，如出站作业(B0206)"
-                    ref={el =>  this.txtProgram=el}
+                <InputItem
                     {...getFieldProps('program',{
-                        initialValue: this.props.subData.program,
-                        onChange:(e)=>{this.props.updateData('program',e)}
+                        initialValue: this.props.subData.program
                       })}
-                >程序名称</InputItem> */}
-                <Picker data={this.props.programs} cols={1} 
+                      editable={false}
+                    placeholder="请点击选择程序"
+                    onClick={()=>{this.props.getProgram(this.props.subData.customer_no)}}
+                >程序名称</InputItem>
+                {/* <Picker data={this.props.programs} cols={1} 
                     {...getFieldProps('program',{
                         initialValue: this.props.subData.program,
                         onChange:(e)=>{this.props.updateData('program',e)}
@@ -92,7 +91,7 @@ class Feedback extends Component  {
                     className="forss"
                     ref={el =>   this.txtProgram=el}>
                     <List.Item arrow="horizontal">程序名称</List.Item>
-                </Picker>
+                </Picker> */}
 
                 <Picker data={this.props.bugTypes} cols={1} 
                     {...getFieldProps('type',{
@@ -150,11 +149,12 @@ class Feedback extends Component  {
                         // console.log(this.props.imgs)
                         let imgs = [];
                         //if (this.txtCreator.state.value && this.txtCustomer.props.value && this.txtCustomer.props.value.length>0 && this.txtProgram.state.value && this.txtType.props.value && this.txtType.props.value.length > 0 && this.txtDescription.state.value){
-                        if (data.creator && data.customer && data.program && data.program.length>0 && data.description && data.type &&data.type.length>0 && data.urgent &&data.urgent.length>0){
+                        if (data.creator && data.customer && data.program && data.description && data.type &&data.type.length>0 && data.urgent &&data.urgent.length>0){
                             let req={
                                 creator: this.props.subData.creator_code,
                                 customer_id: this.props.subData.customer_no,
-                                program_no: data.program[0],
+                                program_no: this.props.subData.program_no,
+                                program_name: data.program,
                                 type: data.type[0],
                                 remark: data.description,
                                 urgent:data.urgent[0],
@@ -213,7 +213,14 @@ const mapDispatchToProps = dispatch => ({
     updateData:(name,value)=>{dispatch(fbUpdate(name,value))},
     imgChange: (files, type, index) => { dispatch(fbImgEvent(files, type, index)); },
     subFeedback:(obj)=>{ dispatch(fbSubmit(obj))},
-    getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer',from:'fb'} }))},
+    getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer',from:'fb_c',title:'选择客户'} }))},
+    getProgram:(customer_no)=>{
+        if(customer_no){
+            dispatch(push({ pathname: '/search', state: { type: 'program',from:'fb_p',title:'选择程序',para:customer_no} }))
+        }else{
+            Toast.info('请先选择客户！', 3, null, false);
+        }
+    },
     push,dispatch
 })
 

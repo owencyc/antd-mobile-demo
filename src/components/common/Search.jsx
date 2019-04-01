@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { StickyContainer, Sticky } from 'react-sticky';
-import { SearchBar, List, ListView, ActivityIndicator } from 'antd-mobile';
+import { SearchBar, List, ListView, ActivityIndicator,Toast } from 'antd-mobile';
 import { imageMap } from './syspara'
 import { push, goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
@@ -98,7 +98,9 @@ class Search extends Component {
 
   componentDidMount() {
     console.log('本次触发搜索：' + this.props.location.state.type);
-    getSearch(this.props.location.state.type).then(res=>{
+    Toast.loading('正在加载',0);
+    getSearch(this.props.location.state.type,this.props.location.state.para).then(res=>{
+      Toast.hide();
       this.setState({
         bakData:res.result,
         dataSource: genData(this.state.dataSource, res.result),
@@ -156,7 +158,7 @@ class Search extends Component {
                 )}
             </Sticky>
           )}
-          renderHeader={() => <span>客户列表</span>}
+          renderHeader={() => <span>{this.props.location.state.title?this.props.location.state.title:'列表'}</span>}
           renderFooter={() => <span>我们是有底线的</span>}
           renderRow={(rowData ,sectionID, rowID) => (<Item onClick={()=>{this.props.chooseItem(this.props.location.state.from,rowData,rowID)}}>{rowData}</Item>)}
           quickSearchBarStyle={{
@@ -185,13 +187,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   chooseItem:(from,name,value)=>{ 
     switch(from){
-      case 'fb':
+      case 'fb_c':
         dispatch(fbUpdate('customer_no',value));
         dispatch(fbUpdate('customer',name));
         break;
       case 'rs':
         dispatch(rsUpdate('customer_no',value));
         dispatch(rsUpdate('customer',name));
+        break;
+      case 'fb_p':
+        dispatch(fbUpdate('program_no',value));
+        dispatch(fbUpdate('program',name));
         break;
       default:
         break;

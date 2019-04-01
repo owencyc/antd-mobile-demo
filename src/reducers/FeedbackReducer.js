@@ -9,6 +9,7 @@ const initData = {
         creator_code:'',
         customer_no:'',
         customer: '',
+        program_no: '',
         program: '',
         type: [],
         urgent:[],
