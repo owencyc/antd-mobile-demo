@@ -101,9 +101,21 @@ class Search extends Component {
     Toast.loading('正在加载',0);
     getSearch(this.props.location.state.type,this.props.location.state.para).then(res=>{
       Toast.hide();
+      //常用记录
+      let usedCustmer=null;
+      if(this.props.location.state.type==='customer'){
+        let used=localStorage.getItem('used_customer');
+        if(used){
+          usedCustmer=JSON.parse(used);
+        }
+      }
+      let tmp={...res.result}
+      if(usedCustmer){
+        tmp={'历史':usedCustmer,...res.result}
+      }
       this.setState({
-        bakData:res.result,
-        dataSource: genData(this.state.dataSource, res.result),
+        bakData:tmp,
+        dataSource: genData(this.state.dataSource, tmp),
         isLoading: false,
       });
     });
@@ -160,7 +172,12 @@ class Search extends Component {
           )}
           renderHeader={() => <span>{this.props.location.state.title?this.props.location.state.title:'列表'}</span>}
           renderFooter={() => <span>我们是有底线的</span>}
-          renderRow={(rowData ,sectionID, rowID) => (<Item onClick={()=>{this.props.chooseItem(this.props.location.state.from,rowData,rowID)}}>{rowData}</Item>)}
+          renderRow={(rowData ,sectionID, rowID) => 
+            (<Item onClick={()=>{
+              console.log(sectionID)
+              this.props.chooseItem(this.props.location.state.type,this.props.location.state.from,rowData,rowID)
+            }}>{rowData}
+            </Item>)}
           quickSearchBarStyle={{
             height:'80%',
             top: '10%',
@@ -185,7 +202,22 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  chooseItem:(from,name,value)=>{ 
+  chooseItem:(type,from,name,value)=>{ 
+    if(type==='customer'){
+      //保留3个历史记录
+      let used=localStorage.getItem('used_customer');
+      let usedCustmer=[];
+      if(used){
+        usedCustmer=JSON.parse(used);
+        if(usedCustmer.length>2){
+          usedCustmer.pop();
+        }
+        usedCustmer=[{value: value, label: name},...usedCustmer]
+      }else{
+        usedCustmer.push({value: value, label: name});
+      }
+      localStorage.setItem('used_customer',JSON.stringify(usedCustmer))
+    }
     switch(from){
       case 'fb_c':
         dispatch(fbUpdate('customer_no',value));

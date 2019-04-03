@@ -4,8 +4,11 @@ import moment from 'moment'
 import { push,goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
 import TitleLayout from '../../layouts/TitleLayout'
-import { ListView,SwipeAction,Card,PullToRefresh,Toast } from 'antd-mobile'
-import { getReserves} from '../../services'
+import { ListView,SwipeAction,Card,PullToRefresh,Toast,Modal } from 'antd-mobile'
+import { getReserves,delReserve } from '../../services'
+import { rsDetail } from '../../actions'
+
+const alert = Modal.alert;
 
 let pageIndex = 1;
 
@@ -27,8 +30,8 @@ class RsStation extends Component {
   }
 
   componentDidMount() {
-    
-    Toast.loading('Loading...', 0);
+    pageIndex = 1;
+    Toast.loading('加载中', 0);
     const hei = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
 
     getReserves(pageIndex++).then((res)=>{
@@ -55,8 +58,8 @@ class RsStation extends Component {
     getReserves(pageIndex++).then((res)=>{
       if(res.status===0){
         this.setState({
-          list:this.state.list,
-          dataSource: this.state.dataSource.cloneWithRows(this.state.list),
+          list:res.result.list,
+          dataSource: this.state.dataSource.cloneWithRows(res.result.list),
           refreshing: false,
           isLoading: false
         });
@@ -89,6 +92,24 @@ class RsStation extends Component {
     })
   }
 
+  delData=(guid)=>{
+    alert('警告', '确认删除该预估记录？', [
+      { text: '否' },
+      { text: '是', onPress: () => {
+        delReserve(guid).then((res)=>{
+          if(res.status===0){
+            if(res.result.status){
+              Toast.info('记录删除成功', 3, null, false);
+              this.onRefresh();
+              
+            }
+          }
+          
+        })
+      }},
+    ])
+  }
+
   
 
   render() {
@@ -110,12 +131,12 @@ class RsStation extends Component {
           right={[
             {
               text: '删除',
-              onPress: () => {this.delData(rowData.confirm_no)},
+              onPress: () => {this.delData(rowData.guid)},
               style: { backgroundColor: '#F4333C', color: 'white' },
             },
           ]}
         >
-            <Card full >
+            <Card full  onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
                 title={rowData.customer}
                 thumb="http://221.226.187.245:8888/icon/form.svg"
@@ -148,7 +169,7 @@ class RsStation extends Component {
                       refreshing={this.state.refreshing}
                       onRefresh={this.onRefresh}
                   />}
-                  pageSize={this.state.pages}
+                  pageSize={10}
                   onEndReached={this.onEndReached}
                   onEndReachedThreshold={10}
               />
@@ -164,7 +185,7 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  
+  showDetail: (data)=>{ console.log(data);dispatch(rsDetail(data));dispatch(push('/rsdetail'));}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RsStation);

@@ -14,7 +14,8 @@ const initData = {
         plan_complete_date:'',
         description: ''
     },
-    list:[]
+    list:[],
+    detail:{}
 }
 const reserve = (state = initData, action) => {
     switch (action.type) {
@@ -27,6 +28,11 @@ const reserve = (state = initData, action) => {
             };
         case 'RS_SUBMITED':
             return initData;
+        case 'RS_DETAIL':
+            return {
+                ...state,
+                detail: action.detail
+            };
         default:
             console.log('reserve->' + action.type)
             return state;

@@ -11,6 +11,9 @@ import Search from '../components/common/Search'
 import FbStation from '../components/task/FbStation'
 import FbDetail from '../components/task/FbDetail'
 import RsStation from '../components/task/RsStation'
+import RsDetail from '../components/task/RsDetail'
+import RsChart from '../components/chart/RsChart'
+
 
 import App from '../App'
 
@@ -40,6 +43,10 @@ export default class AppRouter extends Component {
                     <Route path="/fbstation" component={FbStation} />
                     <Route path="/fbdetail" component={FbDetail} />
                     <Route path="/rsstation" component={RsStation} />
+                    <Route path="/rsdetail" component={RsDetail} />
+                    <Route path="/rschart" component={RsChart} />
+
+                    
 
                     <Route component={NotFound} />
 

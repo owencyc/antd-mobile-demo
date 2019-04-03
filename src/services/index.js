@@ -1,7 +1,7 @@
 import { ajaxApi }  from '../utils/request'
 
-//const apiPath='http://221.226.187.245:8888/wechatapi/api/adapter';
-const apiPath='http://localhost:51281/api/adapter';
+const apiPath='http://221.226.187.245:8888/wechatapi/api/adapter';
+//const apiPath='http://localhost:51281/api/adapter';
 
 export const allComments = (url,data) =>ajaxApi(url,{method:"get",data})
 
@@ -47,4 +47,8 @@ export const delFeedback = (no)=>ajaxApi(apiPath,
 
 //获取问题单清单
 export const getReserves = (page)=>ajaxApi(apiPath,
-    {method:'post',data:{uri:'Reserve',method:'GetReserves',data:{page:page}}})
+{method:'post',data:{uri:'Reserve',method:'GetReserves',data:{page:page}}})
+
+//删除预估
+export const delReserve = (no)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Reserve',method:'DelReserve',data:no}})

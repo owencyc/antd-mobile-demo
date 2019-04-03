@@ -4,7 +4,7 @@ import {allComments} from '../services'
 import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
 import User from '../components/user/User'
-import Task from '../components/task/Task'
+import Chart from '../components/chart'
 import Msg from '../components/msg/Msg'
 import NotFound from '../components/error/404'
 import { push } from 'connected-react-router'
@@ -17,8 +17,8 @@ const Content = (props) => {
   switch (props.route) {
     case 'home':
       return (<Home></Home>);
-    case 'task':
-      return (<Task></Task>);
+    case 'chart':
+      return (<Chart></Chart>);
     case 'msg':
       return (<Msg></Msg>);
     case 'user':

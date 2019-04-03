@@ -118,3 +118,9 @@ export const fbDetail = (data)=>({
     type:'FB_DETAIL',
     detail:data
 })
+
+//时数预估更新表单
+export const rsDetail = (data)=>({
+    type:'RS_DETAIL',
+    detail:data
+})
