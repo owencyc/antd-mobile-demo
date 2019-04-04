@@ -52,3 +52,7 @@ export const getReserves = (page)=>ajaxApi(apiPath,
 //删除预估
 export const delReserve = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Reserve',method:'DelReserve',data:no}})
+
+//时数预估报表
+export const getRsChart = ()=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Chart',method:'GetReserveData',data:{}}})

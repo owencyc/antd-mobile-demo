@@ -3,14 +3,14 @@
 const initData = {
     list:[
         {
-            name:'统计时数预估',
+            name:'报工统计',
             icon:'http://221.226.187.245:8888/icon/chart_bar.svg',
             router:'/rschart'
         },
         {
-            name:'统计问题单',
+            name:'问题单统计',
             icon:'http://221.226.187.245:8888/icon/chart_line.svg',
-            router:'/rschart'
+            router:'/fbchart'
         }
     ]
 }
