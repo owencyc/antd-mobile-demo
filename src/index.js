@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import 'url-search-params-polyfill'
 import React from 'react';
 import './index.css';
 import { render } from 'react-dom'
