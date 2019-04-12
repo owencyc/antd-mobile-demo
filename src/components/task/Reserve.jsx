@@ -30,7 +30,7 @@ class Reserve extends Component {
         console.log('rs=>componentDidMount');
         let tmp = localStorage.getItem("user_info");
         this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
-        this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_code:'');
+        this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_no:'');
     }
 
     onConfirm = (startDateTime) => {
@@ -149,7 +149,7 @@ class Reserve extends Component {
                                 name:'plan_complete_date',
                                 minDate:this.props.subData.plan_start_date?moment(this.props.subData.plan_start_date).toDate():new Date(now.getFullYear(),now.getMonth()+1,1,0,0,0),
                                 chosenDate:this.props.subData.plan_complete_date?moment(this.props.subData.plan_complete_date).toDate():this.state.minDate,
-                                maxDate:new Date(now.getFullYear(),now.getMonth()+2,0,0,0,0)
+                                maxDate:new Date(now.getFullYear()+1,now.getMonth()+2,0,0,0,0)
                             });
                          }}
                     >预计交付日</InputItem>

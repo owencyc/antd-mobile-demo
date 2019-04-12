@@ -97,7 +97,9 @@ export const homeNotice = (data)=>({
 //时数预估提交
 export const rsSubmit = (data)=>{
     return (dispatch)=>{
+        Toast.loading('正在提交',0);
         subReserve(data).then((res)=>{
+            Toast.hide();
             if(res.status===0){
                 console.log(res);
                 dispatch(push({ pathname: '/result', state: { value: 'success',to:'/rsstation' } }));

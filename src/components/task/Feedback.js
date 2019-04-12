@@ -27,7 +27,10 @@ class Feedback extends Component  {
         if(!this.props.subData.creator){
             let tmp = localStorage.getItem("user_info");
             this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
-            this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_code:'');
+            this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_no:'');
+        }
+        if(this.props.subData.urgent.length==0){
+            this.props.updateData('urgent',[this.props.urgentTypes[0].value])
         }
     }
     

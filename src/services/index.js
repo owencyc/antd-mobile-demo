@@ -56,3 +56,7 @@ export const delReserve = (no)=>ajaxApi(apiPath,
 //时数预估报表
 export const getRsChart = ()=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Chart',method:'GetReserveData',data:{}}})
+
+//问题单图表
+export const getFbChart = ()=>ajaxApi(apiPath,
+    {method:'post',data:{uri:'Chart',method:'GetFeedbackData',data:{}}})

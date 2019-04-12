@@ -29,7 +29,7 @@ export function ajaxApi(url, option = {}) {
         data = option.data ;
         //用户工号
         let tmp = localStorage.getItem("user_info");
-        data.user_code=tmp?JSON.parse(tmp).user_code:'';
+        data.user_no=tmp?JSON.parse(tmp).user_no:'';
         
 
 

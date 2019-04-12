@@ -35,9 +35,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     goOn: ()=>{ dispatch(goBack());},
     goList: (router)=>{ 
-        dispatch(push(router?router:'/main'));
+        dispatch(push(router?router:'/'));
     },
-    goHome: ()=>{ dispatch(push('/main'));}
+    goHome: ()=>{ dispatch(push('/'));}
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Status);

@@ -24,7 +24,7 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  backHome: () => { dispatch(push('/main')) }
+  backHome: () => { dispatch(push('/')) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotFound);

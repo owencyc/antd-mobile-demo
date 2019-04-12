@@ -13,6 +13,7 @@ import FbDetail from '../components/task/FbDetail'
 import RsStation from '../components/task/RsStation'
 import RsDetail from '../components/task/RsDetail'
 import RsChart from '../components/chart/RsChart'
+import FbChart from '../components/chart/FbChart'
 
 
 import App from '../App'
@@ -34,8 +35,7 @@ export default class AppRouter extends Component {
         return (
             <div className='App'>
                 <Switch>
-                    <Route path="/" component={App} exact />
-                    <Route path="/main" component={Main} />
+                    <Route path="/" component={Main} exact />
                     <Route path="/feedback" component={Feedback} />
                     <Route path="/reserve" component={Reserve} />
                     <Route path='/result' component={Status} />
@@ -45,6 +45,7 @@ export default class AppRouter extends Component {
                     <Route path="/rsstation" component={RsStation} />
                     <Route path="/rsdetail" component={RsDetail} />
                     <Route path="/rschart" component={RsChart} />
+                    <Route path="/fbchart" component={FbChart} />
 
                     
 
