@@ -18,6 +18,7 @@ const User = (props) => {
         <div className="user-info">
           <div className="name">{props.info.user_name}</div>
           <div className="other">{props.info.dept_no}</div>
+          <div className="other">{props.info.in_days?"这是您在鼎捷的第"+props.info.in_days+"天^_^":""}</div>
         </div>
       </div>
       <div>

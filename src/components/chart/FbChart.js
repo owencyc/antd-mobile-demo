@@ -18,10 +18,12 @@ class FbChart extends Component {
             line_data:[],
             bar_bugs: [],
             bar_nonbugs: [],
+            bar_hours:[],
             select_month: '',
             pie_legend: [],
             pie_bug: [],
-            pie_nonbug:[]
+            pie_nonbug:[],
+            bar_y_max:100
         }
     }
 
@@ -31,10 +33,10 @@ class FbChart extends Component {
                 trigger: 'axis'
             },
             grid: {
-                containLabel: true
+                containLabel: true,
             },
             legend: {
-                data: ['良率','bug数量','非bug数量']
+                data: ['良率','时数','bug数量','非bug数量']
             },
             xAxis: [{
                 type: 'category',
@@ -46,22 +48,32 @@ class FbChart extends Component {
             yAxis: [{
                 type: 'value',
                 name: '良率',
-                min: 0,
+                min: 60,
                 max: 100,
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            },{
+                type: 'value',
+                name: '时数',
+                min: 0,
                 position: 'right',
                 axisLabel: {
-                    formatter: '{value} %'
+                    formatter: '{value}H'
                 }
             }, {
                 type: 'value',
                 name: '问题数量',
+                offset: 60,
                 min: 0,
-                position: 'left'
+                max:this.state.bar_y_max,
+                position: 'right'
             }],
             series: [{
                 name: '良率',
                 type: 'line',
-                stack: '总量',
+                stack: '良率',
                     label: {
                         normal: {
                             show: true,
@@ -80,12 +92,30 @@ class FbChart extends Component {
                         }
                     },
                 data: this.state.line_data
+            },{
+                name: '时数',
+                type: 'bar',
+                yAxisIndex: 1,
+                stack: '时数',
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 0,
+                            label: {
+                                show: true,
+                                position: "top",
+                                formatter: function(p) {
+                                    return p.value+'H';
+                                }
+                            }
+                        }
+                    },
+                data: this.state.bar_hours
             },
             {
                 name: '非bug数量',
                 type: 'bar',
-                yAxisIndex: 1,
-                stack: '总量',
+                yAxisIndex: 2,
+                stack: '问题数',
                     itemStyle: {
                         normal: {
                             color: "rgba(0,191,183,1)",
@@ -103,8 +133,8 @@ class FbChart extends Component {
             }, {
                 name: 'bug数量',
                 type: 'bar',
-                yAxisIndex: 1,
-                stack: '总量',
+                yAxisIndex: 2,
+                stack: '问题数',
                     itemStyle: {
                         normal: {
                             color: "rgba(255,144,128,1)",
@@ -197,6 +227,7 @@ class FbChart extends Component {
             if (res.status === 0) {
                 let items = [];
                 let bug_values = [];
+                let hours = [];
                 let nonbug_values=[];
                 let line_values=[];
                 res.result.map((item) => {
@@ -204,13 +235,17 @@ class FbChart extends Component {
                     bug_values.push(item.bugs);
                     nonbug_values.push(item.nonbugs);
                     line_values.push(item.conformity_rate);
+                    hours.push(item.hours);
                 })
+                let t=[...hours].sort((a,b)=>b-a);
                 this.setState({
                     data: res.result,
                     bar_items: items,
                     line_data: line_values,
                     bar_bugs:bug_values,
-                    bar_nonbugs:nonbug_values
+                    bar_nonbugs:nonbug_values,
+                    bar_hours:hours,
+                    bar_y_max:Math.ceil(t[0]/100)
                 });
 
                 if (this.state.data.length > 0) {
