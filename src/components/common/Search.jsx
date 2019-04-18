@@ -212,7 +212,10 @@ const mapDispatchToProps = dispatch => ({
         if(usedCustmer.length>2){
           usedCustmer.pop();
         }
-        usedCustmer=[{value: value, label: name},...usedCustmer]
+        let tmp = usedCustmer.filter(item=>item.value===value);
+        if(tmp.length===0){
+          usedCustmer=[{value: value, label: name},...usedCustmer]
+        }
       }else{
         usedCustmer.push({value: value, label: name});
       }

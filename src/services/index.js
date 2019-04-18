@@ -54,9 +54,13 @@ export const delReserve = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Reserve',method:'DelReserve',data:no}})
 
 //时数预估报表
-export const getRsChart = ()=>ajaxApi(apiPath,
-{method:'post',data:{uri:'Chart',method:'GetReserveData',data:{}}})
+export const getRsChart = (year)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Chart',method:'GetReserveData',data:{year:year}}})
 
 //问题单图表
-export const getFbChart = ()=>ajaxApi(apiPath,
-    {method:'post',data:{uri:'Chart',method:'GetFeedbackData',data:{}}})
+export const getFbChart = (year)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Chart',method:'GetFeedbackData',data:{year:year}}})
+
+//个人时数预估兑现报表
+export const getPersonRsChart = (month)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Chart',method:'GetPersonRsData',data:{year:month}}})

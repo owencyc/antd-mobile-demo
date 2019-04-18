@@ -24,6 +24,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "2.1.5",
     "react-sticky": "^6.0.3",
+    "react-transition-group": "^2.9.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "url-search-params-polyfill": "^5.1.0",

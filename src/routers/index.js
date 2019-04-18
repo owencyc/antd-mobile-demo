@@ -13,19 +13,9 @@ import FbDetail from '../components/task/FbDetail'
 import RsStation from '../components/task/RsStation'
 import RsDetail from '../components/task/RsDetail'
 import RsChart from '../components/chart/RsChart'
+import PRsChart from '../components/chart/PRsChart'
 import FbChart from '../components/chart/FbChart'
-
-
-import App from '../App'
-
-const NotFound1 = () => (
-    <div style={{ position: "fixed", width: '100%', height: '100%', zIndex: "100", backgroundColor: '#f5f5f9' }}>404</div>
-)
-const dan = () => (
-    <div>
-        问题填单
-    </div>
-)
+import Test from '../components/test'
 
 export default class AppRouter extends Component {
     updateHandle() {
@@ -46,8 +36,8 @@ export default class AppRouter extends Component {
                     <Route path="/rsdetail" component={RsDetail} />
                     <Route path="/rschart" component={RsChart} />
                     <Route path="/fbchart" component={FbChart} />
-
-                    
+                    <Route path="/prschart" component={PRsChart} />
+                    <Route path="/test" component={Test} />
 
                     <Route component={NotFound} />
 

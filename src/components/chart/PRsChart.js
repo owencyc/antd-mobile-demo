@@ -1,34 +1,25 @@
 import React, { Component } from 'react'
-import { Picker, List, WhiteSpace, Button } from 'antd-mobile';
+import { DatePicker, List, WhiteSpace, Button } from 'antd-mobile';
 import TitleLayout from '../../layouts/TitleLayout'
 import { connect } from 'react-redux'
 import echarts from 'echarts'
 import ReactEcharts from 'echarts-for-react';
-import { getRsChart } from '../../services'
+import { getPersonRsChart } from '../../services'
+import moment from 'moment'
 
-
-class RsChart extends Component {
+class PRsChart extends Component {
 
     constructor(props) {
         super(props);
-        let years=[];
-        let nYear=(new Date()).getFullYear();
-        for(let i=0;i<3;i++){
-            years.push({
-                value: nYear-i,
-                label: nYear-i
-            })
-        }
         this.state = {
             size: document.body.clientWidth,
             data: [],
             bar_items: [],
-            bar_value: [],
-            select_month: '',
-            pie_legend: [],
-            pie_value: [],
-            sYear:[years[0].value],
-            years:years
+            bar_p_value: [],
+            bar_a_value: [],
+            date:moment().subtract(1,'months').toDate(),
+            minDate:moment().subtract(2,'years').month(1).toDate(),
+            maxDate:moment().toDate()
         }
         console.log(this.state.size)
     }
@@ -38,17 +29,32 @@ class RsChart extends Component {
             grid: {
                 left: '3%',
                 right: '3%',
-                top: '6%',
                 containLabel: true
             },
-            xAxis: {
-                type: 'category',
-                data: this.state.bar_items,
-                triggerEvent: true
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {type: 'cross'}
             },
-            yAxis: {
-                type: 'value'
+            legend: {
+                data:['预估时长','实际时长']
             },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: this.state.bar_items
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '时长',
+                    min: 0,
+                    interval: 50,
+                    axisLabel: {
+                        formatter: '{value}H'
+                    }
+                }
+            ],
             dataZoom: [{
                 show: true,
                 height: 30,
@@ -72,10 +78,42 @@ class RsChart extends Component {
                 },
                 borderColor: "#90979c"
             }],
-            series: [{
-                data: this.state.bar_value,
-                type: 'bar'
-            }]
+            series: [
+                {
+                    name:'预估时长',
+                    type:'bar',
+                    data:this.state.bar_p_value,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 0,
+                            label: {
+                                show: true,
+                                position: "top",
+                                formatter: function (p) {
+                                    return p.value + 'H';
+                                }
+                            }
+                        }
+                    },
+                },
+                {
+                    name:'实际时长',
+                    type:'bar',
+                    data:this.state.bar_a_value,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 0,
+                            label: {
+                                show: true,
+                                position: "top",
+                                formatter: function (p) {
+                                    return p.value + 'H';
+                                }
+                            }
+                        }
+                    },
+                }
+            ]
         }
     }
 
@@ -111,36 +149,24 @@ class RsChart extends Component {
         }
     }
 
-    getData(year){
-        getRsChart(year).then(res => {
+    getData(month){
+        getPersonRsChart(month).then(res => {
             if (res.status === 0) {
                 let items = [];
-                let values = [];
+                let p_values = [];
+                let a_values = [];
                 res.result.map((item) => {
-                    items.push(item.month);
-                    values.push(item.hours);
+                    items.push(item.customerName);
+                    p_values.push(item.plan_hours);
+                    a_values.push(item.actual_hours);
                 })
                 this.setState({
                     data: res.result,
                     bar_items: items,
-                    bar_value: values
+                    bar_p_value: p_values,
+                    bar_a_value: a_values
                 });
 
-                let pitems = [];
-                let pvalues = [];
-                let sMonth='';
-                if (this.state.data.length > 0) {
-                    this.state.data[0].details.map((item) => {
-                        pitems.push(item.customer);
-                        pvalues.push({ value: item.plan_hours, name: item.customer });
-                    })
-                    sMonth=this.state.data[0].month;
-                }
-                this.setState({
-                    select_month: sMonth,
-                    pie_legend: pitems,
-                    pie_value: pvalues
-                });
             }
         })
     }
@@ -148,7 +174,7 @@ class RsChart extends Component {
 
 
     componentDidMount() {
-        this.getData(this.state.sYear[0])
+        this.getData(moment(this.state.date).format('YYYY-MM'))
     }
     barClick(param, echarts) {
         console.log(param)
@@ -170,32 +196,33 @@ class RsChart extends Component {
             'click': this.barClick.bind(this)
         }
         return (
-            <TitleLayout content={this.props.location.state.title}>
+            <TitleLayout content='预估兑现'>
                 <List style={{ backgroundColor: 'white' }} className="picker-list">
-                    <Picker
-                        data={this.state.years}
-                        cols={1}
-                        title="选择年份"
-                        value={this.state.sYear}
-                        onChange={v => this.setState({ sYear: v })}
-                        onOk={v => { this.getData(v[0]) }}
+                    <DatePicker
+                        mode="month"
+                        title="选择月份"
+                        format='YYYY-MM'
+                        minDate={this.state.minDate}
+                        maxDate={this.state.maxDate}
+                        value={this.state.date}
+                        onChange={date => this.setState({ date })}
+                        onOk={v => { this.getData(moment(v).format('YYYY-MM')) }}
                     >
-                        <List.Item arrow="horizontal">年度</List.Item>
-                    </Picker>
+                        <List.Item arrow="horizontal">月份</List.Item>
+                    </DatePicker>
                 </List>
                 <ReactEcharts
                     option={this.getBarOption()}
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}
-                    onEvents={onEvents}
                     style={{ width: this.state.size, height: this.state.size }} />
-                <ReactEcharts
+                {/* <ReactEcharts
                     option={this.getPieOption()}
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}
-                    style={{ width: this.state.size, height: this.state.size * 0.8 }} />
+                    style={{ width: this.state.size, height: this.state.size * 0.8 }} /> */}
             </TitleLayout>
         )
     }
@@ -211,4 +238,4 @@ const mapDispatchToProps = dispatch => ({
 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RsChart);
+export default connect(mapStateToProps, mapDispatchToProps)(PRsChart);
