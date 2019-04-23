@@ -8,12 +8,12 @@ const initData = {
             router:'/bgchart'
         },
         {
-            name:'问题单统计',
+            name:'程序品质分析',
             icon:'http://221.226.187.245:8888/icon/chart_line.svg',
             router:'/fbchart'
         },
         {
-            name:'时数预估统计',
+            name:'个案预估兑现',
             icon:'http://221.226.187.245:8888/icon/chart_bar.svg',
             router:'/rschart'
         }

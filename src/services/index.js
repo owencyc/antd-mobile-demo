@@ -64,3 +64,7 @@ export const getFbChart = (year)=>ajaxApi(apiPath,
 //个人时数预估兑现报表
 export const getPersonRsChart = (month)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Chart',method:'GetPersonRsData',data:{year:month}}})
+
+//个人时数预估兑现报表
+export const getCalendar = (date)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Calendar',method:'GetByDate',data:date}})

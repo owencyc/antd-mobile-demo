@@ -139,6 +139,13 @@ class Search extends Component {
               dataSource: filterData(this.state.dataSource, this.state.bakData,val),
             })  
           }}
+          onChange={(val) => { 
+            console.log(this.state.bakData)
+            
+            this.setState({
+              dataSource: filterData(this.state.dataSource, this.state.bakData,val),
+            })  
+          }}
           showCancelButton
           onCancel={() => { this.props.goBack() }} />
         <ListView.IndexedList

@@ -30,9 +30,15 @@ const User = (props) => {
       <List className="my-list">
         <Item
           arrow="horizontal"
-          thumb='http://221.226.187.245:8888/icon/chart_bar.svg'
+          thumb='http://221.226.187.245:8888/icon/chart_c_bar.svg'
           onClick={() => { props.changeRoute('/prschart') }}
         >预估兑现</Item>
+        <WhiteSpace size="sm" style={{ backgroundColor: '#f5f5f9' }} />
+        <Item
+          arrow="horizontal"
+          thumb='http://221.226.187.245:8888/icon/calendar.svg'
+          onClick={() => { props.changeRoute('/mycalendar') }}
+        >行事历</Item>
         <WhiteSpace size="sm" style={{ backgroundColor: '#f5f5f9' }} />
       </List>
 
