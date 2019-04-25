@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import TitleLayout from '../../layouts/TitleLayout'
-import { ListView, Card, Toast, Button } from 'antd-mobile';
+import { ListView, Card, Toast, Button,List, InputItem, TextareaItem,WhiteSpace,WingBlank,Calendar } from 'antd-mobile';
 import { push, goBack } from 'connected-react-router'
+import { createForm } from 'rc-form';
 import { connect } from 'react-redux'
+import { getJsConfig } from '../../services'
 import moment from 'moment'
+import { cdUpdate } from '../../actions'
+import { CSSTransition } from 'react-transition-group';
 import './calendar.css'
+import '../common/common.css'
 
 const monthDay = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 //判断闰年
@@ -94,23 +99,32 @@ class MyCalendar extends Component {
             year: curYear,
             month: curMonth,
             dayOfWeek: getDayOfWeek(curYear, curMonth, whatDay(curYear, curMonth)),
-            selectedDay: moment(curDate).format('YYYY-MM-DD')
+            selectedDay: moment(curDate).format('YYYY-MM-DD'),
+            showStation: true,
+            add: false
         }
 
     }
 
     componentDidMount() {
-        // getFeedbacks(this.state.selectedTab).then((res) => {
-        //     Toast.hide();
-        //     if (res.status === 0) {
-        //         this.setState({
-        //             dataSource: this.state.dataSource.cloneWithRows(res.result.fbs)
-        //         });
+        //获取行程数据
 
-        //     }
-        // })
-
-        //showCld(curYear, curMonth, whatDay(curYear, curMonth));
+        //微信认证
+        let url=encodeURIComponent(window.location.href);
+        getJsConfig(url).then((config)=>{
+            if(config.status===0){
+              //wechat js 认证
+              window.wx.config({
+                beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: config.result.appId, // 必填，企业微信的corpID
+                timestamp: +config.result.timestamp, // 必填，生成签名的时间戳
+                nonceStr: config.result.nonceStr, // 必填，生成签名的随机串
+                signature: config.result.signature,// 必填，签名，见 附录-JS-SDK使用权限签名算法
+                jsApiList: [] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+              });
+            }
+          })
     }
 
     getClass(day, key) {
@@ -164,7 +178,29 @@ class MyCalendar extends Component {
         })
     }
 
+    onConfirm = (startDateTime) => {
+        document.getElementsByTagName('body')[0].style.overflowY = this.originbodyScrollY;
+        
+        if(startDateTime){
+            let mo=moment(startDateTime)
+            this.props.updateData(this.state.name,mo.format('YYYY-MM-DD HH:mm:ss'));
+        }
+        this.setState({
+            show: false,
+            name:''
+          });
+      }
+    
+      onCancel = () => {
+        document.getElementsByTagName('body')[0].style.overflowY = this.originbodyScrollY;
+        this.setState({
+          show: false
+        });
+      }
+
     render() {
+        const { getFieldProps } = this.props.form;
+
         const separator = (sectionID, rowID) => (
             <div
                 key={`${sectionID}-${rowID}`}
@@ -193,71 +229,224 @@ class MyCalendar extends Component {
 
             );
         };
+        const addCalendar = () => {
+            this.setState({
+                add: true
+            })
+        }
+        const chooseDest=()=>{
+            // window.wx.getLocation({
+            //     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            //     success: function (res) {
+            //         console.log(res);
+            //         var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            //         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            //         var speed = res.speed; // 速度，以米/每秒计
+            //         var accuracy = res.accuracy; // 位置精度
+            //         this.props.updateData('destination',res)
+            //     }
+            // });
+        }
+        
         return (
-            <TitleLayout content='行事历设定'>
-                <div style={{ width: '100%', height: '100%' }}>
-                    <div id="cldFrame">
-                        <div id="cldBody">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td colSpan="7">
-                                            <div id="top">
-                                                <span id="left" onClick={() => { this.preMonth() }}>&lt;</span>
-                                                <span id="topDate">{this.state.year}年{this.state.month}月</span>
-                                                <span id="right" onClick={() => { this.nextMonth() }}>&gt;</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="week">
-                                        <td>日</td>
-                                        <td>一</td>
-                                        <td>二</td>
-                                        <td>三</td>
-                                        <td>四</td>
-                                        <td>五</td>
-                                        <td>六</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                    {this.state.dayOfWeek.map((row, index) => (
-                                        <tr key={this.state.year + '-' + PadLeft(this.state.month) + '-' + index}>
-                                            {row.map((item, index) => {
-                                                let prefix = this.state.year + '-' + PadLeft(this.state.month) + '-';
-                                                if (item > 0) {
-                                                    let key = prefix + PadLeft(item);
-                                                    return (<td className={this.getClass(item, key)} onClick={() => { this.chooseDate(key) }} key={key}>{item}</td>)
-                                                } else {
-                                                    return (<td key={prefix + index}></td>)
-                                                }
-                                            })}
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className='things'>
-                        <ListView
-                            style={{ width: '100%', height: 'calc(100% - 43.5px)' }}
-                            key='0'
-                            ref={el => this.lv = el}
-                            dataSource={this.state.dataSource}
-                            renderHeader={() => <span>当日行程</span>}
-                            renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                                我们是有底线的
+            <div style={{height:'100%'}}>
+            {this.state.showStation && (
+                <TitleLayout content='行事历设定'>
+                    
+                        <div style={{ width: '100%', height: '100%' }}>
+                            <div id="cldFrame">
+                                <div id="cldBody">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <td colSpan="7">
+                                                    <div id="top">
+                                                        <span id="left" onClick={() => { this.preMonth() }}>&lt;</span>
+                                                        <span id="topDate">{this.state.year}年{this.state.month}月</span>
+                                                        <span id="right" onClick={() => { this.nextMonth() }}>&gt;</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr id="week">
+                                                <td>日</td>
+                                                <td>一</td>
+                                                <td>二</td>
+                                                <td>三</td>
+                                                <td>四</td>
+                                                <td>五</td>
+                                                <td>六</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                            {this.state.dayOfWeek.map((row, index) => (
+                                                <tr key={this.state.year + '-' + PadLeft(this.state.month) + '-' + index}>
+                                                    {row.map((item, index) => {
+                                                        let prefix = this.state.year + '-' + PadLeft(this.state.month) + '-';
+                                                        if (item > 0) {
+                                                            let key = prefix + PadLeft(item);
+                                                            return (<td className={this.getClass(item, key)} onClick={() => { this.chooseDate(key) }} key={key}>{item}</td>)
+                                                        } else {
+                                                            return (<td key={prefix + index}></td>)
+                                                        }
+                                                    })}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className='things'>
+                                <ListView
+                                    style={{ width: '100%', height: 'calc(100% - 43.5px)' }}
+                                    key='0'
+                                    ref={el => this.lv = el}
+                                    dataSource={this.state.dataSource}
+                                    renderHeader={() => <span>当日行程</span>}
+                                    renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                                        我们是有底线的
                             </div>)}
-                            renderRow={row}
-                            renderSeparator={separator}
-                            useBodyScroll={false}
-                            pageSize={5}
-                        />
-                        <div className='add-panel' onClick={() => { console.log('add') }}>
-                            <img src='http://221.226.187.245:8888/icon/add.svg' style={{ width: '60px' }} alt='添加'></img>
+                                    renderRow={row}
+                                    renderSeparator={separator}
+                                    useBodyScroll={false}
+                                    pageSize={5}
+                                />
+                                <div className='add-panel' onClick={() => { addCalendar() }}>
+                                    <img src='http://221.226.187.245:8888/icon/add.svg' style={{ width: '60px' }} alt='添加'></img>
+                                </div>
+                            </div>
                         </div>
+                    
+
+
+                </TitleLayout>
+                )}
+                <CSSTransition
+                    in={this.state.add}
+                    timeout={300}
+                    classNames="page"
+                    unmountOnExit
+                    onEnter={() => { this.setState({ showStation: false }) }}
+                    onExited={() => { this.setState({ showStation: true }) }}
+                >
+                    <div style={{height:'100%'}} onClick={()=>{}}>
+                    <List renderHeader={() => '请填写'+this.state.selectedDay+'行程信息'}>
+                    <InputItem
+                        {...getFieldProps('creator', {
+                            initialValue: this.props.subData.creator
+                        })}
+                        editable={false}
+                        placeholder=""
+                    >填单人</InputItem>
+
+                    <TextareaItem
+                        title="行程摘要"
+                        style={{textAlign:'right'}}
+                        placeholder="请填写行程目的"
+                        clear
+                        data-seed="logId"
+                        autoHeight
+                        {...getFieldProps('title', {
+                            initialValue: this.props.subData.title,
+                            onChange: (e) => { this.props.updateData('title', e) }
+                        })}
+                    />
+
+                    <InputItem
+                        {...getFieldProps('customer', {
+                            initialValue: this.props.subData.customer,
+                            onChange: (e) => { this.props.updateData('customer', e) }
+                        })}
+                        style={{textAlign:'right'}}
+                        placeholder="请输入客户简称"
+                    >客户简称</InputItem>
+
+                    <InputItem
+                        {...getFieldProps('destination', {
+                            initialValue: this.props.subData.destination
+                        })}
+                        style={{textAlign:'right'}}
+                        editable={false}
+                        onClick={()=>{ chooseDest() }}
+                        placeholder="点击选择目的地"
+                    >目的地</InputItem>
+
+                    <InputItem
+                        {...getFieldProps('begin_time', {
+                            initialValue: this.props.subData.begin_time
+                        })}
+                        style={{textAlign:'right'}}
+                        editable={false}
+                        placeholder="请点击选择日期"
+                        onClick={() => { 
+                            let now=new Date();
+                            document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+                            this.setState({
+                                show: true,
+                                name:'begin_time',
+                                maxDate:new Date(now.getFullYear(),now.getMonth()+2,0,0,0,0),
+                                chosenDate:this.props.subData.begin_time?moment(this.props.subData.begin_time).toDate():this.state.minDate
+                            });
+                         }}
+                    >开始时间</InputItem>
+                    <InputItem
+                        {...getFieldProps('end_time', {
+                            initialValue: this.props.subData.end_time
+                        })}
+                        style={{textAlign:'right'}}
+                        editable={false}
+                        placeholder="请点击选择日期"
+                        onClick={() => { 
+                            if(this.props.subData.end_time)
+                            console.log(moment(this.props.subData.end_time).toDate());
+                            let now=new Date();
+                            document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+                            this.setState({
+                                show: true,
+                                name:'end_time',
+                                minDate:this.props.subData.begin_time?moment(this.props.subData.begin_time).toDate():new Date(now.getFullYear(),now.getMonth()+1,1,0,0,0),
+                                chosenDate:this.props.subData.end_time?moment(this.props.subData.end_time).toDate():this.state.minDate,
+                                maxDate:new Date(now.getFullYear()+1,now.getMonth()+2,0,0,0,0)
+                            });
+                         }}
+                    >结束时间</InputItem>
+                    <Calendar
+                        type='one'
+                        enterDirection='horizontal'
+                        pickTime={true}
+                        visible={this.state.show}
+                        onCancel={this.onCancel}
+                        onConfirm={this.onConfirm}
+                        defaultDate={this.state.chosenDate}
+                        minDate={this.state.minDate}
+                        maxDate={this.state.maxDate}
+                    />
+
+
+                    <TextareaItem
+                        title="备注"
+                        placeholder=""
+                        clear
+                        data-seed="logId"
+                        autoHeight
+                        {...getFieldProps('remark', {
+                            initialValue: this.props.subData.remark,
+                            onChange: (e) => { this.props.updateData('remark', e) }
+                        })}
+                    />
+                    <WhiteSpace />
+
+                    <WingBlank>
+                        <Button type="primary" onClick={() => {
+                            this.setState({ add:false })
+                        }}>提交</Button>
+                    </WingBlank>
+
+                    <WhiteSpace />
+                </List>
                     </div>
-                </div>
-            </TitleLayout>
+                </CSSTransition>
+            </div>
+
 
         )
     }
@@ -270,12 +459,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    goOn: () => { dispatch(goBack()); },
-    goList: (router) => {
-        dispatch(push(router ? router : '/'));
-    },
-    goHome: () => { dispatch(push('/')); }
+    updateData:(name,value)=>{dispatch(cdUpdate(name,value))},
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyCalendar);
+export default connect(mapStateToProps, mapDispatchToProps)(createForm()(MyCalendar));
 //export default Status;

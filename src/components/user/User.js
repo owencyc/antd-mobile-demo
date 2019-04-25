@@ -23,24 +23,14 @@ const User = (props) => {
           <div className="other">{props.info.in_days ? "这是您在鼎捷的第" + props.info.in_days + "天^_^" : ""}</div>
         </div>
       </div>
-      <div>
-        <Grid data={props.funcs} activeStyle={false} hasLine={false} onClick={(dataItem) => props.changeRoute(dataItem.router)} />
-      </div>
-      <WhiteSpace size="sm" style={{ backgroundColor: '#f5f5f9' }} />
-      <List className="my-list">
-        <Item
-          arrow="horizontal"
-          thumb='http://221.226.187.245:8888/icon/chart_c_bar.svg'
-          onClick={() => { props.changeRoute('/prschart') }}
-        >预估兑现</Item>
-        <WhiteSpace size="sm" style={{ backgroundColor: '#f5f5f9' }} />
-        <Item
-          arrow="horizontal"
-          thumb='http://221.226.187.245:8888/icon/calendar.svg'
-          onClick={() => { props.changeRoute('/mycalendar') }}
-        >行事历</Item>
-        <WhiteSpace size="sm" style={{ backgroundColor: '#f5f5f9' }} />
-      </List>
+      {props.grids.map(item => (
+        <div>
+          <div className="sub-title">{item.title}</div>
+          <Grid data={item.func} activeStyle={false} hasLine={false} onClick={(dataItem) => props.changeRoute(dataItem.router)} />
+        </div>
+      ))}
+
+      
 
     </div>
   )

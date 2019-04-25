@@ -6,7 +6,7 @@
   .page-enter-active {
     opacity: 1;
     transform: scale(1);
-    transition: opacity 500ms, transform 1000ms;
+    transition: opacity 300ms, transform 300ms;
   }
   
   .page-exit {

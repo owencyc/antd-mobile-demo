@@ -49,6 +49,9 @@ class RsChart extends Component {
             yAxis: {
                 type: 'value'
             },
+            legend: {
+                data:['预估时长','实际时长']
+            },
             dataZoom: [{
                 show: true,
                 height: 30,
@@ -73,8 +76,38 @@ class RsChart extends Component {
                 borderColor: "#90979c"
             }],
             series: [{
-                data: this.state.bar_value,
-                type: 'bar'
+                name:'预估时长',
+                type:'bar',
+                data:this.state.bar_p_value,
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: 0,
+                        label: {
+                            show: true,
+                            position: "top",
+                            formatter: function (p) {
+                                return p.value + 'H';
+                            }
+                        }
+                    }
+                },
+            },
+            {
+                name:'实际时长',
+                type:'bar',
+                data:this.state.bar_a_value,
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: 0,
+                        label: {
+                            show: true,
+                            position: "top",
+                            formatter: function (p) {
+                                return p.value + 'H';
+                            }
+                        }
+                    }
+                },
             }]
         }
     }
@@ -82,7 +115,7 @@ class RsChart extends Component {
     getPieOption() {
         return {
             title: {
-                text: this.state.select_month + '月度数据'
+                text: this.state.select_month + '月度实际数据'
             },
             legend: {
                 top: '20',
@@ -115,22 +148,25 @@ class RsChart extends Component {
         getRsChart(year).then(res => {
             if (res.status === 0) {
                 let items = [];
-                let values = [];
+                let a_values = [];
+                let p_values = [];
                 res.result.map((item) => {
                     items.push(item.month);
-                    values.push(item.hours);
+                    a_values.push(item.actual_hours);
+                    p_values.push(item.plan_hours);
                 })
                 this.setState({
                     data: res.result,
                     bar_items: items,
-                    bar_value: values
+                    bar_p_value: p_values,
+                    bar_a_value: a_values
                 });
 
                 let pitems = [];
                 let pvalues = [];
                 let sMonth='';
                 if (this.state.data.length > 0) {
-                    this.state.data[0].details.map((item) => {
+                    this.state.data[0].actual_details.map((item) => {
                         pitems.push(item.customer);
                         pvalues.push({ value: item.plan_hours, name: item.customer });
                     })
@@ -155,7 +191,7 @@ class RsChart extends Component {
         console.log(echarts)
         let items = [];
         let values = [];
-        this.state.data[param.dataIndex].details.map((item) => {
+        this.state.data[param.dataIndex].actual_details.map((item) => {
             items.push(item.customer);
             values.push({ value: item.plan_hours, name: item.customer });
         })
@@ -195,7 +231,7 @@ class RsChart extends Component {
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}
-                    style={{ width: this.state.size, height: this.state.size * 0.8 }} />
+                    style={{ width: this.state.size, height: this.state.size * 2 }} />
             </TitleLayout>
         )
     }

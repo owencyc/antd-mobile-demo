@@ -1,66 +1,106 @@
-#cldFrame{
+#cldFrame {
     position: relative;
     width: 100%;
 }
-#cldBody{
+
+#cldBody {
     width: 100%;
 }
-#top{
+
+#top {
     position: relative;
     height: 60px;
     text-align: center;
     line-height: 60px;
 }
-#topDate{
+
+#topDate {
     font-size: 30px;
 }
-.curDate{
+
+.curDate {
     color: rgb(51, 163, 244);
     font-weight: bold;
 }
-.selDate{
+
+.selDate {
     background-color: darkturquoise;
     color: white;
     border-radius: 50%;
 }
-table{
+
+table {
     background-color: #f7f7f7;
 }
-#week td{
+
+#week td {
     font-size: 15px;
 }
-td{
+
+td {
     height: 40px;
     width: 60px;
     text-align: center;
     font-family: Simsun;
     font-size: 20px;
 }
-#left, #right{
+
+#left, #right {
     position: absolute;
     width: 60px;
     height: 60px;
 }
-#left{left: 0px;}
-#right{right: 0px;}
-#left:hover, #right:hover{
+
+#left {
+    left: 0px;
+}
+
+#right {
+    right: 0px;
+}
+
+#left:hover, #right:hover {
     background-color: rgba(30, 30, 30, 0.2);
 }
 
-.things{
+.things {
     height: calc(100% - 330px);
-     overflow: auto;
-     position:relative ;
+    overflow: auto;
+    position: relative;
 }
-.add-panel{
-    width:60px;
-    height:60px;
-    position:absolute;
-    bottom:10px;
-    right:10px;
-    
+
+.add-panel {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
-.add-panel img{
+
+.add-panel img {
     border-radius: 50%;
     box-shadow: 5px 5px 5px -5px black;
+}
+
+/*动画*/
+
+.alert-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.alert-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.alert-exit {
+    opacity: 1;
+}
+
+.alert-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 300ms, transform 300ms;
 }

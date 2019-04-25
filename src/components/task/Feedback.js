@@ -30,7 +30,17 @@ class Feedback extends Component  {
             this.props.updateData('creator_code',tmp?JSON.parse(tmp).user_no:'');
         }
         if(this.props.subData.urgent.length==0){
-            this.props.updateData('urgent',[this.props.urgentTypes[0].value])
+            this.props.updateData('urgent', [this.props.urgentTypes[0].value])
+        }
+        //默认带出上次客户
+        if (!this.props.subData.customer_no) {
+            let usedCustmer = null;
+            let used = localStorage.getItem('used_customer');
+            if (used) {
+                usedCustmer = JSON.parse(used);
+                this.props.updateData('customer_no', usedCustmer.length > 0 ? usedCustmer[0].value : '');
+                this.props.updateData('customer', usedCustmer.length > 0 ? usedCustmer[0].label : '');
+            }
         }
     }
     

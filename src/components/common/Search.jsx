@@ -111,7 +111,7 @@ class Search extends Component {
       }
       let tmp={...res.result}
       if(usedCustmer){
-        tmp={'历史':usedCustmer,...res.result}
+        tmp={'搜索历史':usedCustmer,...res.result}
       }
       this.setState({
         bakData:tmp,

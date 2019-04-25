@@ -45,6 +45,10 @@ export const getJsConfig = (url)=>ajaxApi(apiPath,
 export const delFeedback = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Feedback',method:'DelFeedback',data:no}})
 
+//问题单结案
+export const endFeedback = (no,mark,dept)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Feedback',method:'EndFeedback',data:{confirm_no:no,end_remark:mark,dept_no:dept}}})
+
 //获取问题单清单
 export const getReserves = (page)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Reserve',method:'GetReserves',data:{page:page}}})

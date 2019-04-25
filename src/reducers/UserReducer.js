@@ -4,6 +4,8 @@ import { history } from '../configureStore'
 import func_report from './../assets/func_report.svg'
 import func_time from './../assets/func_time.svg'
 import func_work from './../assets/func_work.svg'
+import chart_c_bar from './../assets/chart_c_bar.svg'
+import calendar from './../assets/calendar.svg'
 
 const initData = {
     info: {
@@ -12,23 +14,36 @@ const initData = {
         user_name: '',
         dept_no: ''
     },
-    funcs: [
+    grids:[
         {
-            icon: func_report,
-            text: '问题单列表',
-            router: '/fbstation'
+            title:'问题单',
+            func:[{
+                icon: func_report,
+                text: '记录',
+                router: '/fbstation'
+            }]
         },
         {
-            icon: func_work,
-            text: '项目报工记录',
-            router: '/sss'
+            title:'预估',
+            func:[{
+                icon: func_time,
+                text: '记录',
+                router: '/rsstation'
+            },{
+                icon: chart_c_bar,
+                text: '预估兑现',
+                router: '/prschart'
+            }]
         },
         {
-            icon: func_time,
-            text: '时数预约记录',
-            router: '/rsstation'
+            title:'行事历',
+            func:[{
+                icon: calendar,
+                text: '我的行事历',
+                router: '/mycalendar'
+            }]
         }
-      ]
+    ]
 }
 const user = (state = initData, action) => {
     switch (action.type) {

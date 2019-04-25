@@ -5,13 +5,15 @@ import PropTypes from 'prop-types'
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
-import {getFeedbacks,delFeedback } from '../../services'
+import {getFeedbacks,delFeedback,endFeedback } from '../../services'
 
 import './task.css'
 import { timeout } from 'q';
 import { fbDetail } from '../../actions';
 
 const alert = Modal.alert;
+const prompt = Modal.prompt;
+
 const data = [{
   confirm_no:'IP0470000001',
   customer:'万卡信',
@@ -28,7 +30,7 @@ class FbStation extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
-    console.log(dataSource)
+    console.log(props)
 
     this.state = {
       dataSource,
@@ -134,6 +136,24 @@ class FbStation extends Component {
     ])
   }
 
+  endData=(no)=>{
+    prompt('提醒', '确认将此问题单结案？并填写结案说明', [
+      { text: '否' },
+      { text: '是', onPress: value => {
+        endFeedback(no,value,this.props.user.dept_no).then((res)=>{
+          if(res.status===0){
+            if(res.result.status){
+              Toast.info('问题单结案成功', 3, null, false);
+              this.onRefresh();
+            }
+          }else{
+            Toast.info(res.exception, 3, null, false);
+          }
+        })
+      } },
+    ])
+  }
+
   changeTab=(tab,index)=>{
     this.setState({selectedTab:index});
     setTimeout(()=>{
@@ -184,7 +204,35 @@ class FbStation extends Component {
           </SwipeAction>
         
       );
-        }else{
+        }else if(this.state.selectedTab===1){
+          return (
+            <SwipeAction
+              style={{ backgroundColor: 'gray' }}
+              autoClose
+              right={[
+                {
+                  text: '结案',
+                  onPress: () => {this.endData(rowData.confirm_no)},
+                  style: { backgroundColor: '#61BDFF', color: 'white' },
+                },
+              ]}
+            >
+                <Card full onClick={()=>{this.props.showDetail(rowData)}}>
+                  <Card.Header
+                    title={rowData.confirm_no}
+                    thumb="http://221.226.187.245:8888/icon/form.svg"
+                    thumbStyle={{ width: '32px', height: '32px' }}
+                    extra={rowData.customer}
+                  />
+                  <Card.Body>
+                    <div>{rowData.type+"【"+rowData.program_name+"】"}</div>
+                  </Card.Body>
+                  <Card.Footer content={<div style={{textAlign:'left'}}>处理人:{rowData.pr_name}<br/>已耗时:{rowData.days_used}(天)</div>} extra={<div>{rowData.create_time}</div>} />
+                </Card>
+              </SwipeAction>
+            
+          );
+            }else{
           return(
             <Card full onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
@@ -235,7 +283,7 @@ class FbStation extends Component {
   }
 }
 const mapStateToProps = state => {
-  return state.feedback
+  return {feedback:state.feedback,user:state.user.info}
 }
 const mapDispatchToProps = dispatch => ({
   showDetail: (data)=>{ console.log(data);dispatch(fbDetail(data));dispatch(push('/fbdetail'));}

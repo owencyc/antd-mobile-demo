@@ -10,6 +10,7 @@ import Reserve from '../components/task/Reserve'
 import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
 import Search from '../components/common/Search'
+import MyMap from '../components/common/MyMap'
 import FbStation from '../components/task/FbStation'
 import FbDetail from '../components/task/FbDetail'
 import RsStation from '../components/task/RsStation'
@@ -56,6 +57,7 @@ export default class AppRouter extends Component {
                     <Route path="/fbchart" component={FbChart} />
                     <Route path="/prschart" component={PRsChart} />
                     <Route path="/mycalendar" component={MyCalendar} />
+                    <Route path="/map" component={MyMap} />
                     
                     <Route component={NotFound} />
 

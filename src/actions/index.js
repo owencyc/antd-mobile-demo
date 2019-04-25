@@ -126,3 +126,10 @@ export const rsDetail = (data)=>({
     type:'RS_DETAIL',
     detail:data
 })
+
+//行程更新表单
+export const cdUpdate = (name,value)=>({
+    type:'CD_UPDATE',
+    name:name,
+    value:value
+})

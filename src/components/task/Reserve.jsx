@@ -152,7 +152,7 @@ class Reserve extends Component {
                                 maxDate:new Date(now.getFullYear()+1,now.getMonth()+2,0,0,0,0)
                             });
                          }}
-                    >预计交付日</InputItem>
+                    >期望出货日</InputItem>
                     <Calendar
                         type='one'
                         visible={this.state.show}

@@ -10,7 +10,7 @@ import error from './ErrorReducer'
 import status from './StatusReducer'
 import search from './SearchReducer'
 import user from './UserReducer'
-import calendar from './Calendar'
+import calendar from './CalendarReducer'
 //多个redeucer时，整合为一个rootReducer
 
 
