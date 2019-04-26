@@ -69,6 +69,10 @@ export const getFbChart = (year)=>ajaxApi(apiPath,
 export const getPersonRsChart = (month)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Chart',method:'GetPersonRsData',data:{year:month}}})
 
-//个人时数预估兑现报表
+//查询个人行程
 export const getCalendar = (date)=>ajaxApi(apiPath,
-{method:'post',data:{uri:'Calendar',method:'GetByDate',data:date}})
+{method:'post',data:{uri:'Calendar',method:'Query',data:date}})
+
+//新增个人行程
+export const addCalendar = (info)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Calendar',method:'Add',data:info}})

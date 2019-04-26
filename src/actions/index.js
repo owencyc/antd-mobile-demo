@@ -1,4 +1,4 @@
-import {generateDZ,getPrograms,subReserve} from '../services'
+import {generateDZ,getPrograms,subReserve,addCalendar} from '../services'
 import { push } from 'connected-react-router'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
@@ -49,7 +49,7 @@ export const fbSubmit = (data)=>{
         generateDZ(data).then((res)=>{
             Toast.hide();
             if(res.status===0){
-                dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'确认书号：'+res.result.confirm_no,to:'/fbstation'} }));
+                dispatch(push({ pathname: '/result', state: { value: 'success' ,data:'问题单号：'+res.result.confirm_no,to:'/fbstation'} }));
                 const action=fbSubmited();
                 dispatch(action);
             }else{
@@ -132,4 +132,24 @@ export const cdUpdate = (name,value)=>({
     type:'CD_UPDATE',
     name:name,
     value:value
+})
+
+//创建行程
+export const cdSubmit = (data)=>{
+    return (dispatch)=>{
+        Toast.loading('正在创建',0);
+        addCalendar(data).then((res)=>{
+            Toast.hide();
+            if(res.status===0){
+                const action=cdSubmited();
+                dispatch(action);
+            }else{
+                Toast.offline(res.exception, 2);
+            }
+        })
+    }
+}
+
+export const cdSubmited = ()=>({
+    type:'CD_SUBMITED'
 })

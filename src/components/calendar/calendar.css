@@ -38,7 +38,7 @@ table {
 }
 
 td {
-    height: 40px;
+    height: 20px;
     width: 60px;
     text-align: center;
     font-family: Simsun;
@@ -64,7 +64,7 @@ td {
 }
 
 .things {
-    height: calc(100% - 330px);
+    height: calc(100% - 225px);
     overflow: auto;
     position: relative;
 }

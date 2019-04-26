@@ -1,10 +1,11 @@
+let tmp = localStorage.getItem("user_info");
 const initData = {
     subData: {
-        creator: '',
-        creator_no:'',
+        creator: JSON.parse(tmp).user_name,
+        creator_no:JSON.parse(tmp).user_no,
         customer_no:'',
         customer: '',
-        destination:'',
+        destination:[],
         begin_time: '',
         end_time:'',
         title:'',
@@ -20,6 +21,9 @@ const calendar = (state = initData, action) => {
                 ...state,
                 subData: data
             };
+        case 'CD_SUBMITED':
+            //清空表单
+            return initData;
         default:
             return state;
 
