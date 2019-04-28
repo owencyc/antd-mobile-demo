@@ -108,6 +108,11 @@ class MyCalendar extends Component {
     }
 
     componentDidMount() {
+        if(!this.props.subData.creator){
+            let tmp = localStorage.getItem("user_info");
+            this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
+            this.props.updateData('creator_no',tmp?JSON.parse(tmp).user_no:'');
+        }
         console.log(district);
         //获取行程数据
         this.getDataByDate(this.state.selectedDay);

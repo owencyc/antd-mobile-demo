@@ -17,9 +17,9 @@ class PRsChart extends Component {
             bar_items: [],
             bar_p_value: [],
             bar_a_value: [],
-            date:moment().subtract(1,'months').toDate(),
+            date:moment().toDate(),
             minDate:moment().subtract(2,'years').month(1).toDate(),
-            maxDate:moment().toDate()
+            maxDate:moment().add(1,'months').toDate()
         }
         console.log(this.state.size)
     }

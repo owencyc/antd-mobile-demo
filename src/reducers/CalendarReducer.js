@@ -1,8 +1,8 @@
-let tmp = localStorage.getItem("user_info");
+
 const initData = {
     subData: {
-        creator: JSON.parse(tmp).user_name,
-        creator_no:JSON.parse(tmp).user_no,
+        creator: '',
+        creator_no:'',
         customer_no:'',
         customer: '',
         destination:[],

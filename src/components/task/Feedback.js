@@ -32,6 +32,9 @@ class Feedback extends Component  {
         if(this.props.subData.urgent.length==0){
             this.props.updateData('urgent', [this.props.urgentTypes[0].value])
         }
+        if(this.props.subData.type.length==0){
+            this.props.updateData('type', [this.props.bugTypes[0].value])
+        }
         //默认带出上次客户
         if (!this.props.subData.customer_no) {
             let usedCustmer = null;

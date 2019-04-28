@@ -10,6 +10,7 @@ import Reserve from '../components/task/Reserve'
 import NotFound from '../components/error/404'
 import Status from '../components/common/Status'
 import Search from '../components/common/Search'
+import SearchAll from '../components/common/SearchAll'
 import MyMap from '../components/common/MyMap'
 import FbStation from '../components/task/FbStation'
 import FbDetail from '../components/task/FbDetail'
@@ -49,6 +50,7 @@ export default class AppRouter extends Component {
                     <Route path="/reserve" component={Reserve} />
                     <Route path='/result' component={Status} />
                     <Route path='/search' component={Search} />
+                    <Route path='/searchall' component={SearchAll} />
                     <Route path="/fbstation" component={FbStation} />
                     <Route path="/fbdetail" component={FbDetail} />
                     <Route path="/rsstation" component={RsStation} />

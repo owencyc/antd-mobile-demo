@@ -39,20 +39,24 @@ const initData = {
     ],
     bugTypes: [
         {
-            value: '8202',
-            label: '新个案需求'
-        },
-        {
             value: '8102',
             label: '个案程序bug'
         },
         {
+            value: '8104',
+            label: '数据异常（调整或修改）'
+        },
+        {
             value: '8105',
-            label: '安装或环境配置'
+            label: '环境问题'
         },
         {
             value: '8109',
-            label: '功能建议'
+            label: '需求遗漏/错误'
+        },
+        {
+            value: '8202',
+            label: '新个案需求'
         }
     ],
     imgs: [],

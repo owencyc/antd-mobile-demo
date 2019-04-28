@@ -206,7 +206,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     updateData:(name,value)=>{dispatch(rsUpdate(name,value))},
-    getCustomer:()=>{dispatch(push({ pathname: '/search', state: { type: 'customer',para:'all',from:'rs' } }))},
+    getCustomer:()=>{dispatch(push({ pathname: '/searchall', state: { type: 'customer',para:'',from:'rs' } }))},
     submit:(obj)=>{ dispatch(rsSubmit(obj))},
     push, dispatch
 })
