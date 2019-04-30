@@ -100,6 +100,7 @@ function callback(res) {
 //创建容错方法
 
 function errHandle(e) {
+    //console.log(e)
     Toast.offline(e.message, 2);
     if(e.name==404){
         console.log(e)

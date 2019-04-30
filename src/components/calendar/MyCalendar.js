@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TitleLayout from '../../layouts/TitleLayout'
-import { ListView, Card, Picker, Button, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Calendar,Toast} from 'antd-mobile';
+import { ListView, Card, Picker,DatePicker, Button, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Calendar,Toast,Icon} from 'antd-mobile';
 import { push, goBack } from 'connected-react-router'
 import { createForm } from 'rc-form';
 import { connect } from 'react-redux'
@@ -105,6 +105,8 @@ class MyCalendar extends Component {
             add: false
         }
 
+        
+
     }
 
     componentDidMount() {
@@ -113,7 +115,47 @@ class MyCalendar extends Component {
             this.props.updateData('creator',tmp?JSON.parse(tmp).user_name:'');
             this.props.updateData('creator_no',tmp?JSON.parse(tmp).user_no:'');
         }
-        console.log(district);
+        if(this.props.subData.dates.length===0){
+            let yData=[];
+            let now=new Date();
+            let apm=[{
+                value:'09:00',
+                label:'上午'
+            },{
+                value:'18:00',
+                label:'下午'
+            }]
+            //前后3年数据
+            for(let y=now.getFullYear()-1;y<=now.getFullYear()+1;y++){
+                //月份
+                let mData=[];
+                let days=[...monthDay];
+                if(isLeap(y)){
+                    days[1]=29;
+                }else{
+                    days[1]=28;
+                }
+                let months = Array.from({length:12}, (v,k) => k+1);
+                months.map((m,i)=>{
+                    //日期
+                    let dData=Array.from({length:days[i]}, (v,k) => {return {value:k+1,label:k+1,children:apm}});
+                    mData.push({
+                        value:m,
+                        label:m,
+                        children:dData
+                    })
+                })
+                yData.push({
+                    value:y,
+                    label:y,
+                    children:mData
+                })
+            }
+            console.log(yData)
+            this.props.updateData('dates',yData);
+
+        }
+        //console.log(district);
         //获取行程数据
         this.getDataByDate(this.state.selectedDay);
         //微信认证
@@ -137,7 +179,7 @@ class MyCalendar extends Component {
     getDataByDate(date){
         getCalendar(date).then(res=>{
             console.log(res);
-            if(res.status===0){
+            if(res&&res.status===0){
                 this.setState({
                     dataSource:this.state.dataSource.cloneWithRows(res.result)
                 })
@@ -162,8 +204,14 @@ class MyCalendar extends Component {
 
     chooseDate(date) {
         this.setState({ selectedDay: date });
+
         //带出记录
         this.getDataByDate(date);
+    }
+
+    reload(){
+        //带出记录
+        this.getDataByDate(this.state.selectedDay);
     }
 
     preMonth() {
@@ -216,6 +264,10 @@ class MyCalendar extends Component {
         });
     }
 
+    formatDate=(para)=>{
+        return para[0]+'-'+PadLeft(para[1])+'-'+PadLeft(para[2])+' '+para[3];
+    }
+
     render() {
         const { getFieldProps } = this.props.form;
 
@@ -247,6 +299,10 @@ class MyCalendar extends Component {
             );
         };
         const addCalendar = () => {
+            let today=moment(this.state.selectedDay);
+            this.props.updateData('begin_time',[today.get('year'),today.get('month')+1,today.get('date'),'09:00']);
+            this.props.updateData('end_time',[today.get('year'),today.get('month')+1,today.get('date'),'18:00']);
+
             this.setState({
                 add: true
             })
@@ -346,7 +402,7 @@ class MyCalendar extends Component {
                     onExited={() => { this.setState({ showStation: true }) }}
                 >
                     <div style={{ height: '100%' }} onClick={() => { }}>
-                        <List renderHeader={() => '请填写' + this.state.selectedDay + '行程信息'}>
+                        <List renderHeader={() => (<div className='cd-header'><div>请填写{this.state.selectedDay }行程信息</div><div className='close'><Icon type='cross' size='md' onClick={()=>{this.setState({ add: false })}}/></div></div>)}>
                             <InputItem
                                 {...getFieldProps('creator', {
                                     initialValue: this.props.subData.creator
@@ -397,45 +453,27 @@ class MyCalendar extends Component {
                                 <List.Item arrow="horizontal">目的地</List.Item>
                             </Picker>
 
-                            <InputItem
+                            
+                            <Picker data={this.props.subData.dates} 
                                 {...getFieldProps('begin_time', {
                                     initialValue: this.props.subData.begin_time
                                 })}
-                                style={{ textAlign: 'right' }}
-                                editable={false}
-                                placeholder="请点击选择日期"
-                                onClick={() => {
-                                    let now = new Date();
-                                    document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
-                                    this.setState({
-                                        show: true,
-                                        name: 'begin_time',
-                                        maxDate: new Date(now.getFullYear(), now.getMonth() + 2, 0, 0, 0, 0),
-                                        chosenDate: this.props.subData.begin_time ? moment(this.props.subData.begin_time).toDate() : this.state.minDate
-                                    });
-                                }}
-                            >开始时间</InputItem>
-                            <InputItem
+                                format={para=>this.formatDate(para)}
+                                cols={4}
+                                title='请选择开始时间'
+                                className="forss">
+                                <List.Item arrow="horizontal">开始时间</List.Item>
+                            </Picker>
+                            <Picker data={this.props.subData.dates} 
                                 {...getFieldProps('end_time', {
                                     initialValue: this.props.subData.end_time
                                 })}
-                                style={{ textAlign: 'right' }}
-                                editable={false}
-                                placeholder="请点击选择日期"
-                                onClick={() => {
-                                    if (this.props.subData.end_time)
-                                        console.log(moment(this.props.subData.end_time).toDate());
-                                    let now = new Date();
-                                    document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
-                                    this.setState({
-                                        show: true,
-                                        name: 'end_time',
-                                        minDate: this.props.subData.begin_time ? moment(this.props.subData.begin_time).toDate() : new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0),
-                                        chosenDate: this.props.subData.end_time ? moment(this.props.subData.end_time).toDate() : this.state.minDate,
-                                        maxDate: new Date(now.getFullYear() + 1, now.getMonth() + 2, 0, 0, 0, 0)
-                                    });
-                                }}
-                            >结束时间</InputItem>
+                                format={para=>this.formatDate(para)}
+                                cols={4}
+                                title='请选择结束时间'
+                                className="forss">
+                                <List.Item arrow="horizontal">结束时间</List.Item>
+                            </Picker>
                             <Calendar
                                 type='one'
                                 enterDirection='horizontal'
@@ -470,7 +508,9 @@ class MyCalendar extends Component {
                                         this.props.submit({
                                             ...data,
                                             destination:data.destination[data.destination.length-1],
-                                            creator:this.props.subData.creator_no
+                                            creator:this.props.subData.creator_no,
+                                            begin_time:this.formatDate(data.begin_time),
+                                            end_time:this.formatDate(data.end_time)
                                         })
                                         this.setState({ add: false })
                                     }else {
@@ -499,7 +539,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     updateData: (name, value) => { dispatch(cdUpdate(name, value)) },
-    submit:(data)=>{dispatch(cdSubmit(data))}
+    submit:(data,callback)=>{dispatch(cdSubmit(data,callback))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(createForm()(MyCalendar));

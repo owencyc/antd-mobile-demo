@@ -135,7 +135,7 @@ export const cdUpdate = (name,value)=>({
 })
 
 //创建行程
-export const cdSubmit = (data)=>{
+export const cdSubmit = (data,callback)=>{
     return (dispatch)=>{
         Toast.loading('正在创建',0);
         addCalendar(data).then((res)=>{
@@ -143,6 +143,8 @@ export const cdSubmit = (data)=>{
             if(res.status===0){
                 const action=cdSubmited();
                 dispatch(action);
+                if(callback)
+                    callback();
             }else{
                 Toast.offline(res.exception, 2);
             }

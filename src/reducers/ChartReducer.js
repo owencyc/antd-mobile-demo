@@ -3,7 +3,7 @@
 const initData = {
     list:[
         {
-            name:'报工统计',
+            name:'报工统计分析',
             icon:'http://221.226.187.245:8888/icon/chart_bar.svg',
             router:'/bgchart'
         },

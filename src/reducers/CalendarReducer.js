@@ -6,11 +6,13 @@ const initData = {
         customer_no:'',
         customer: '',
         destination:[],
-        begin_time: '',
-        end_time:'',
+        begin_time: [],
+        end_time:[],
         title:'',
-        remark: ''
-    }
+        remark: '',
+        dates:[]
+    },
+    
 }
 const calendar = (state = initData, action) => {
     switch (action.type) {
@@ -23,7 +25,17 @@ const calendar = (state = initData, action) => {
             };
         case 'CD_SUBMITED':
             //清空表单
-            return initData;
+            let tmp={
+                ...state.subData,
+                customer_no:'',
+                customer: '',
+                destination:[],
+                begin_time: [],
+                end_time:[],
+                title:'',
+                remark: ''
+            };
+            return {...state,subData:tmp};
         default:
             return state;
 
