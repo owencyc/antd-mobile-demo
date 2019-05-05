@@ -28,6 +28,8 @@
     "react-transition-group": "^2.9.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "rsuite": "^3.8.3",
+    "rsuite-table": "^3.5.3",
     "url-search-params-polyfill": "^5.1.0",
     "whatwg-fetch": "^3.0.0"
   },

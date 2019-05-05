@@ -50,7 +50,7 @@ class RsChart extends Component {
                 type: 'value'
             },
             legend: {
-                data:['预估时长','实际时长']
+                data:['预计委托','实际委托']
             },
             dataZoom: [{
                 show: true,
@@ -76,7 +76,7 @@ class RsChart extends Component {
                 borderColor: "#90979c"
             }],
             series: [{
-                name:'预估时长',
+                name:'预计委托',
                 type:'bar',
                 data:this.state.bar_p_value,
                 itemStyle: {
@@ -93,7 +93,7 @@ class RsChart extends Component {
                 },
             },
             {
-                name:'实际时长',
+                name:'实际委托',
                 type:'bar',
                 data:this.state.bar_a_value,
                 itemStyle: {
@@ -115,7 +115,7 @@ class RsChart extends Component {
     getPieOption() {
         return {
             title: {
-                text: this.state.select_month + '月度实际数据'
+                text: this.state.select_month + '月度实际委托数据'
             },
             legend: {
                 top: '20',
@@ -132,6 +132,38 @@ class RsChart extends Component {
                         formatter: '{c}H\n({d}%)'
                     },
                     data: this.state.pie_value,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        }
+    }
+
+    getPlanPieOption() {
+        return {
+            title: {
+                text: this.state.select_month + '月度预计委托数据'
+            },
+            legend: {
+                top: '20',
+                left: 'left',
+                data: this.state.p_pie_legend
+            },
+            series: [
+                {
+                    name: '时数',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['50%', '60%'],
+                    label: {
+                        formatter: '{c}H\n({d}%)'
+                    },
+                    data: this.state.p_pie_value,
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -164,6 +196,8 @@ class RsChart extends Component {
 
                 let pitems = [];
                 let pvalues = [];
+                let p_pitems = [];
+                let p_pvalues = [];
                 let sMonth='';
                 if (this.state.data.length > 0) {
                     this.state.data[0].actual_details.map((item) => {
@@ -171,11 +205,18 @@ class RsChart extends Component {
                         pvalues.push({ value: item.plan_hours, name: item.customer });
                     })
                     sMonth=this.state.data[0].month;
+
+                    this.state.data[0].plan_details.map((item) => {
+                        p_pitems.push(item.customer);
+                        p_pvalues.push({ value: item.plan_hours, name: item.customer });
+                    })
                 }
                 this.setState({
                     select_month: sMonth,
                     pie_legend: pitems,
-                    pie_value: pvalues
+                    pie_value: pvalues,
+                    p_pie_legend: p_pitems,
+                    p_pie_value: p_pvalues
                 });
             }
         })
@@ -191,14 +232,22 @@ class RsChart extends Component {
         console.log(echarts)
         let items = [];
         let values = [];
+        let p_items = [];
+        let p_values = [];
         this.state.data[param.dataIndex].actual_details.map((item) => {
             items.push(item.customer);
             values.push({ value: item.plan_hours, name: item.customer });
         })
+        this.state.data[param.dataIndex].plan_details.map((item) => {
+            p_items.push(item.customer);
+            p_values.push({ value: item.plan_hours, name: item.customer });
+        })
         this.setState({
             select_month: this.state.data[param.dataIndex].month,
             pie_legend: items,
-            pie_value: values
+            pie_value: values,
+            p_pie_legend: p_items,
+            p_pie_value: p_values
         });
     }
     render() {
@@ -228,6 +277,12 @@ class RsChart extends Component {
                     style={{ width: this.state.size, height: this.state.size }} />
                 <ReactEcharts
                     option={this.getPieOption()}
+                    notMerge={true}
+                    lazyUpdate={true}
+                    theme={"light"}
+                    style={{ width: this.state.size, height: this.state.size * 2 }} />
+                <ReactEcharts
+                    option={this.getPlanPieOption()}
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}

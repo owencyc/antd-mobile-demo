@@ -36,7 +36,7 @@ class PRsChart extends Component {
                 axisPointer: {type: 'cross'}
             },
             legend: {
-                data:['预估时长','实际时长']
+                data:['预计委托','实际委托']
             },
             xAxis: [
                 {
@@ -80,7 +80,7 @@ class PRsChart extends Component {
             }],
             series: [
                 {
-                    name:'预估时长',
+                    name:'预计委托',
                     type:'bar',
                     data:this.state.bar_p_value,
                     itemStyle: {
@@ -97,7 +97,7 @@ class PRsChart extends Component {
                     },
                 },
                 {
-                    name:'实际时长',
+                    name:'实际委托',
                     type:'bar',
                     data:this.state.bar_a_value,
                     itemStyle: {

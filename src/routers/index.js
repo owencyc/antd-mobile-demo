@@ -19,6 +19,7 @@ import RsDetail from '../components/task/RsDetail'
 import RsChart from '../components/chart/RsChart'
 import PRsChart from '../components/chart/PRsChart'
 import FbChart from '../components/chart/FbChart'
+import CdChart from '../components/chart/CdChart'
 import MyCalendar from '../components/calendar/MyCalendar'
 import Test from '../components/test'
 
@@ -60,6 +61,7 @@ export default class AppRouter extends Component {
                     <Route path="/prschart" component={PRsChart} />
                     <Route path="/mycalendar" component={MyCalendar} />
                     <Route path="/map" component={MyMap} />
+                    <Route path="/cdchart" component={CdChart} />
                     
                     <Route component={NotFound} />
 
