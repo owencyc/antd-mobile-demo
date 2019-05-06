@@ -34,7 +34,7 @@ class FbChart extends Component {
             bar_y_max: 100,
             sYear:[years[0].value],
             years:years
-        }
+        };
     }
 
     getBarOption() {
@@ -47,7 +47,7 @@ class FbChart extends Component {
                 containLabel: true,
             },
             legend: {
-                data: ['良率', '时数', 'bug数量', '非bug数量']
+                data: ['良率', '时数', 'bug数量']
             },
             xAxis: [{
                 type: 'category',
@@ -164,30 +164,31 @@ class FbChart extends Component {
                     }
                 },
                 data: this.state.bar_bugs
-            },
-            {
-                name: '非bug数量',
-                type: 'bar',
-                yAxisIndex: 2,
-                stack: '问题数',
-                itemStyle: {
-                    normal: {
-                        color: "rgba(0,191,183,1)",
-                        barBorderRadius: 0,
-                        label: {
-                            show: true,
-                            position: "insideTop",
-                            formatter: function (p) {
-                                return p.value > 0 ? (p.value) : '';
-                            }
-                        }
-                    }
-                },
-                data: this.state.bar_nonbugs
             }
             ]
         }
     }
+    
+            // {
+            //     name: '非bug数量',
+            //     type: 'bar',
+            //     yAxisIndex: 2,
+            //     stack: '问题数',
+            //     itemStyle: {
+            //         normal: {
+            //             color: "rgba(0,191,183,1)",
+            //             barBorderRadius: 0,
+            //             label: {
+            //                 show: true,
+            //                 position: "insideTop",
+            //                 formatter: function (p) {
+            //                     return p.value > 0 ? (p.value) : '';
+            //                 }
+            //             }
+            //         }
+            //     },
+            //     data: this.state.bar_nonbugs
+            // }
 
     getPieOption() {
         return {

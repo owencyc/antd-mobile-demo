@@ -30,6 +30,7 @@ class RsChart extends Component {
             sYear:[years[0].value],
             years:years
         }
+        
         console.log(this.state.size)
     }
 
@@ -280,13 +281,13 @@ class RsChart extends Component {
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}
-                    style={{ width: this.state.size, height: this.state.size * 2 }} />
+                    style={{ width: this.state.size, height: this.state.size * 1.5 }} />
                 <ReactEcharts
                     option={this.getPlanPieOption()}
                     notMerge={true}
                     lazyUpdate={true}
                     theme={"light"}
-                    style={{ width: this.state.size, height: this.state.size * 2 }} />
+                    style={{ width: this.state.size, height: this.state.size * 1.5 }} />
             </TitleLayout>
         )
     }

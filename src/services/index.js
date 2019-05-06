@@ -76,3 +76,11 @@ export const getCalendar = (date)=>ajaxApi(apiPath,
 //新增个人行程
 export const addCalendar = (info)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Calendar',method:'Add',data:info}})
+
+//行事历报表
+export const getCalendarChart = (month)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Chart',method:'GetCalendarData',data:{year:month}}})
+
+//删除行程
+export const delCalendar = (no)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Calendar',method:'Del',data:no}})

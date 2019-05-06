@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ListView, PullToRefresh, Tabs, Toast, Card,SwipeAction,Modal ,Badge} from 'antd-mobile';
+import { ListView, PullToRefresh, Tabs, Toast, Card,SwipeAction,Modal ,List,Button} from 'antd-mobile';
 import PropTypes from 'prop-types'
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
@@ -154,6 +154,10 @@ class FbStation extends Component {
     ])
   }
 
+  clickData=()=>{
+    
+  }
+
   changeTab=(tab,index)=>{
     this.setState({selectedTab:index});
     setTimeout(()=>{
@@ -261,7 +265,7 @@ class FbStation extends Component {
                 key='0'
                 ref={el => this.lv = el}
                 dataSource={this.state.dataSource}
-                renderHeader={() => <span>{this.state.selectedTab===0?'（下拉刷新，左滑删除）':'（下拉刷新）'}</span>}
+                renderHeader={() => <span>{this.state.selectedTab===0?'（下拉刷新，左滑删除）':(this.state.selectedTab===1?'（下拉刷新，左滑结案）':'（下拉刷新）')}</span>}
                 renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     我们是有底线的
                 </div>)}
@@ -275,6 +279,23 @@ class FbStation extends Component {
                 pageSize={5}
             />
         </div>
+
+        <Modal
+          popup
+          visible={this.state.modal2}
+          onClose={()=>{}}
+          animationType="slide-up"
+          afterClose={() => { alert('afterClose'); }}
+        >
+          <List renderHeader={() => <div>委托买入</div>} className="popup-list">
+            {['股票名称', '股票代码', '买入价格'].map((i, index) => (
+              <List.Item key={index}>{i}</List.Item>
+            ))}
+            <List.Item>
+              <Button type="primary" onClick={this.onClose('modal2')}>结案</Button>
+            </List.Item>
+          </List>
+        </Modal>
         
         
 

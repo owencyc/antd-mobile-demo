@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import TitleLayout from '../../layouts/TitleLayout'
-import { ListView, Card, Picker,DatePicker, Button, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Calendar,Toast,Icon} from 'antd-mobile';
+import { ListView, Card, Modal,Picker,SwipeAction, Button, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Calendar,Toast,Icon} from 'antd-mobile';
 import { push, goBack } from 'connected-react-router'
 import { createForm } from 'rc-form';
 import { connect } from 'react-redux'
-import { getJsConfig,getCalendar } from '../../services'
+import { getJsConfig,getCalendar,delCalendar } from '../../services'
 import moment from 'moment'
 import { cdUpdate,cdSubmit } from '../../actions'
 import { CSSTransition } from 'react-transition-group';
 import district from '../../assets/district.json'
 import './calendar.css'
 import '../common/common.css'
+import { timeout } from 'q';
+
+const alert = Modal.alert;
 
 const monthDay = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 //判断闰年
@@ -268,6 +271,21 @@ class MyCalendar extends Component {
         return para[0]+'-'+PadLeft(para[1])+'-'+PadLeft(para[2])+' '+para[3];
     }
 
+    delData=(no)=>{
+        alert('警告', '确认删除行程？', [
+          { text: '否' },
+          { text: '是', onPress: () => {
+            delCalendar(no).then((res)=>{
+              if(res.status===0){
+                Toast.info('行程删除成功', 3, null, false);
+                  this.reload();
+              }
+              
+            })
+          }},
+        ])
+      }
+
     render() {
         const { getFieldProps } = this.props.form;
 
@@ -284,17 +302,30 @@ class MyCalendar extends Component {
         );
         const row = (rowData, sectionID, rowID) => {
             return (
-                <Card onClick={() => { console.log(rowData) }}>
-                    <Card.Header
-                        title={rowData.title}
-                        thumbStyle={{ width: '32px', height: '32px' }}
-                        extra={rowData.customer}
-                    />
-                    <Card.Body>
-                        <div>{rowData.province+'-'+rowData.city+'-'+rowData.borough}</div>
-                    </Card.Body>
-                    <Card.Footer content={<div style={{ textAlign: 'left' }}>{rowData.begin_time}</div>} extra={<div>{rowData.end_time}</div>} />
-                </Card>
+                <SwipeAction
+                    style={{ backgroundColor: 'gray' }}
+                    autoClose
+                    right={[
+                        {
+                            text: '删除',
+                            onPress: () => { this.delData(rowData.guid) },
+                            style: { backgroundColor: '#F4333C', color: 'white' },
+                        },
+                    ]}
+                >
+                    <Card onClick={() => { console.log(rowData) }}>
+                        <Card.Header
+                            title={rowData.title}
+                            thumbStyle={{ width: '32px', height: '32px' }}
+                            extra={rowData.customer}
+                        />
+                        <Card.Body>
+                            <div>{rowData.province + '-' + rowData.city + '-' + rowData.borough}</div>
+                        </Card.Body>
+                        <Card.Footer content={<div style={{ textAlign: 'left' }}>{rowData.begin_time}</div>} extra={<div>{rowData.end_time}</div>} />
+                    </Card>
+                </SwipeAction>
+
 
             );
         };
@@ -512,7 +543,10 @@ class MyCalendar extends Component {
                                             begin_time:this.formatDate(data.begin_time),
                                             end_time:this.formatDate(data.end_time)
                                         })
-                                        this.setState({ add: false })
+                                        this.setState({ add: false });
+                                        setTimeout(()=>{
+                                            this.reload();
+                                        },1000);
                                     }else {
                                         Toast.info('请完善行程数据！', 3, null, false);
                                     }
