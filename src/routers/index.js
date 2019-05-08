@@ -14,6 +14,7 @@ import SearchAll from '../components/common/SearchAll'
 import MyMap from '../components/common/MyMap'
 import FbStation from '../components/task/FbStation'
 import FbDetail from '../components/task/FbDetail'
+import FbExcel from '../components/task/FbExcel'
 import RsStation from '../components/task/RsStation'
 import RsDetail from '../components/task/RsDetail'
 import RsChart from '../components/chart/RsChart'
@@ -54,6 +55,7 @@ export default class AppRouter extends Component {
                     <Route path='/searchall' component={SearchAll} />
                     <Route path="/fbstation" component={FbStation} />
                     <Route path="/fbdetail" component={FbDetail} />
+                    <Route path="/fbexcel" component={FbExcel} />
                     <Route path="/rsstation" component={RsStation} />
                     <Route path="/rsdetail" component={RsDetail} />
                     <Route path="/rschart" component={RsChart} />

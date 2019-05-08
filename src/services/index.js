@@ -46,8 +46,8 @@ export const delFeedback = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Feedback',method:'DelFeedback',data:no}})
 
 //问题单结案
-export const endFeedback = (no,mark,dept)=>ajaxApi(apiPath,
-{method:'post',data:{uri:'Feedback',method:'EndFeedback',data:{confirm_no:no,end_remark:mark,dept_no:dept}}})
+export const endFeedback = (info)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Feedback',method:'EndFeedback',data:info}})
 
 //获取问题单清单
 export const getReserves = (page)=>ajaxApi(apiPath,
@@ -84,3 +84,7 @@ export const getCalendarChart = (month)=>ajaxApi(apiPath,
 //删除行程
 export const delCalendar = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Calendar',method:'Del',data:no}})
+
+//问题管制表
+export const getExcel = (no)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Feedback',method:'GetExcel',data:no}})

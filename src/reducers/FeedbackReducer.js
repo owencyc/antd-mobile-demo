@@ -61,7 +61,16 @@ const initData = {
     ],
     imgs: [],
     programs: [],
-    detail:{}
+    detail:{},
+    endData:{
+        no:'',
+        type: [],
+        description:''
+    },
+    excel:{
+        customer_no:'',
+        customer:'',
+    }
 }
 const feedback = (state = initData, action) => {
     switch (action.type) {
@@ -85,6 +94,20 @@ const feedback = (state = initData, action) => {
             return {
                 ...state,
                 subData: data
+            };
+        case 'FB_UPDATE_END':
+            let d={...state.endData};
+            d[action.name]=action.value;
+            return {
+                ...state,
+                endData: d
+            };
+        case 'FB_UPDATE_XLS':
+            d={...state.excel};
+            d[action.name]=action.value;
+            return {
+                ...state,
+                excel: d
             };
         case 'FB_SUBMITED':
             //清空表单

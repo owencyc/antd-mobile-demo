@@ -6,6 +6,7 @@ import func_time from './../assets/func_time.svg'
 import func_work from './../assets/func_work.svg'
 import chart_c_bar from './../assets/chart_c_bar.svg'
 import calendar from './../assets/calendar.svg'
+import func_excel from './../assets/func_excel.svg'
 
 const initData = {
     info: {
@@ -21,6 +22,11 @@ const initData = {
                 icon: func_report,
                 text: '记录',
                 router: '/fbstation'
+            },
+            {
+                icon: func_excel,
+                text: '管制表',
+                router: '/fbexcel'
             }]
         },
         {

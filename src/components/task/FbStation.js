@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ListView, PullToRefresh, Tabs, Toast, Card,SwipeAction,Modal ,List,Button} from 'antd-mobile';
+import { ListView, PullToRefresh, Tabs, Toast, Card,SwipeAction,Modal ,List,Button,TextareaItem,Picker} from 'antd-mobile';
 import PropTypes from 'prop-types'
+import { createForm, formShape } from 'rc-form';
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
+import { fbUpdateEnd} from '../../actions'
 import { connect } from 'react-redux'
 import {getFeedbacks,delFeedback,endFeedback } from '../../services'
 
@@ -41,7 +43,8 @@ class FbStation extends Component {
       selectedTab:0,
       tab0_count:0,
       tab1_count:0,
-      tab2_count:0
+      tab2_count:0,
+      end_modal:false
     };
     this.state.tabs=[
       { title: '处理中', sub: '0' },
@@ -136,22 +139,27 @@ class FbStation extends Component {
     ])
   }
 
-  endData=(no)=>{
-    prompt('提醒', '确认将此问题单结案？并填写结案说明', [
-      { text: '否' },
-      { text: '是', onPress: value => {
-        endFeedback(no,value,this.props.user.dept_no).then((res)=>{
-          if(res.status===0){
-            if(res.result.status){
-              Toast.info('问题单结案成功', 3, null, false);
-              this.onRefresh();
-            }
-          }else{
-            Toast.info(res.exception, 3, null, false);
-          }
-        })
-      } },
-    ])
+  endData=(data)=>{
+    // prompt('提醒', '确认将此问题单结案？并填写结案说明', [
+    //   { text: '否' },
+    //   { text: '是', onPress: value => {
+    //     endFeedback(no,value,this.props.user.dept_no).then((res)=>{
+    //       if(res.status===0){
+    //         if(res.result.status){
+    //           Toast.info('问题单结案成功', 3, null, false);
+    //           this.onRefresh();
+    //         }
+    //       }else{
+    //         Toast.info(res.exception, 3, null, false);
+    //       }
+    //     })
+    //   } },
+    // ])
+    this.setState({
+      end_modal:true
+    })
+    this.props.updateData('no', data.confirm_no)
+    this.props.updateData('type', [data.type_no])
   }
 
   clickData=()=>{
@@ -168,6 +176,7 @@ class FbStation extends Component {
 
 
   render() {
+    const { getFieldProps } = this.props.form;
     const separator = (sectionID, rowID) => (
       <div
         key={`${sectionID}-${rowID}`}
@@ -216,7 +225,7 @@ class FbStation extends Component {
               right={[
                 {
                   text: '结案',
-                  onPress: () => {this.endData(rowData.confirm_no)},
+                  onPress: () => {this.endData(rowData)},
                   style: { backgroundColor: '#61BDFF', color: 'white' },
                 },
               ]}
@@ -282,17 +291,55 @@ class FbStation extends Component {
 
         <Modal
           popup
-          visible={this.state.modal2}
-          onClose={()=>{}}
+          closable={true}
+          visible={this.state.end_modal}
+          onClose={()=>{this.setState({end_modal:false})}}
           animationType="slide-up"
-          afterClose={() => { alert('afterClose'); }}
+          afterClose={() => { console.log('afterClose'); }}
         >
-          <List renderHeader={() => <div>委托买入</div>} className="popup-list">
-            {['股票名称', '股票代码', '买入价格'].map((i, index) => (
-              <List.Item key={index}>{i}</List.Item>
-            ))}
+          <List renderHeader={() => <div>问题单结案（问题类型请慎重变更！）</div>} className="popup-list">
+          <List.Item >问题单号：{this.props.feedback.endData.no}</List.Item>
+            <Picker data={this.props.feedback.bugTypes} cols={1} 
+                    {...getFieldProps('type',{
+                        initialValue: this.props.feedback.endData.type,
+                        onChange:(e)=>{this.props.updateData('type',e)}
+                      })} 
+                    title='请选择问题类型'
+                    className="forss">
+                    <List.Item arrow="horizontal">问题类型</List.Item>
+                </Picker>
+                <TextareaItem
+                    title="结案说明"
+                    placeholder="请填写结案说明"
+                    clear
+                    data-seed="logId"
+                    autoHeight
+                    {...getFieldProps('description',{
+                        initialValue: this.props.feedback.endData.description,
+                        onChange:(e)=>{this.props.updateData('description',e)}
+                      })}
+                />
             <List.Item>
-              <Button type="primary" onClick={this.onClose('modal2')}>结案</Button>
+              <Button type="primary" onClick={() => {
+                let info={
+                  confirm_no:this.props.feedback.endData.no,
+                  type_no:this.props.feedback.endData.type[0],
+                  end_remark:this.props.feedback.endData.description,
+                  dept_no:this.props.user.dept_no
+                }
+                console.log(info)
+                endFeedback(info).then((res) => {
+                  if (res.status === 0) {
+                    if (res.result.status) {
+                      Toast.info('问题单结案成功', 3, null, false);
+                      this.setState({end_modal:false})
+                      this.onRefresh();
+                    }
+                  } else {
+                    Toast.info(res.exception, 3, null, false);
+                  }
+                })
+              }}>结案</Button>
             </List.Item>
           </List>
         </Modal>
@@ -304,9 +351,11 @@ class FbStation extends Component {
   }
 }
 const mapStateToProps = state => {
+  console.log(state)
   return {feedback:state.feedback,user:state.user.info}
 }
 const mapDispatchToProps = dispatch => ({
+  updateData:(name,value)=>{dispatch(fbUpdateEnd(name,value))},
   showDetail: (data)=>{ console.log(data);dispatch(fbDetail(data));dispatch(push('/fbdetail'));}
 })
-export default connect(mapStateToProps, mapDispatchToProps)(FbStation)
+export default connect(mapStateToProps, mapDispatchToProps)(createForm()(FbStation))

@@ -42,6 +42,18 @@ export const fbUpdate = (name,value)=>({
     name:name,
     value:value
 })
+//问题结案更新表单
+export const fbUpdateEnd = (name,value)=>({
+    type:'FB_UPDATE_END',
+    name:name,
+    value:value
+})
+//问题excel更新表单
+export const fbUpdateXls = (name,value)=>({
+    type:'FB_UPDATE_XLS',
+    name:name,
+    value:value
+})
 //问题反馈提交
 export const fbSubmit = (data)=>{
     return (dispatch)=>{

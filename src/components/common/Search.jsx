@@ -6,7 +6,7 @@ import { imageMap } from './syspara'
 import { push, goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { getSearch } from '../../services'
-import { fbUpdate,rsUpdate } from '../../actions'
+import { fbUpdate,rsUpdate,fbUpdateXls } from '../../actions'
 
 const { Item } = List;
 
@@ -240,6 +240,10 @@ const mapDispatchToProps = dispatch => ({
       case 'fb_p':
         dispatch(fbUpdate('program_no',value));
         dispatch(fbUpdate('program',name));
+        break;
+      case 'fb_xls':
+        dispatch(fbUpdateXls('customer_no',value));
+        dispatch(fbUpdateXls('customer',name));
         break;
       default:
         break;
