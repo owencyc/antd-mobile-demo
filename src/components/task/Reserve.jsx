@@ -127,7 +127,7 @@ class Reserve extends Component {
                             this.setState({
                                 show: true,
                                 name:'plan_start_date',
-                                maxDate:new Date(now.getFullYear(),now.getMonth()+2,0,0,0,0),
+                                maxDate:new Date(now.getFullYear(),now.getMonth()+5,0,0,0,0),
                                 chosenDate:this.props.subData.plan_start_date?moment(this.props.subData.plan_start_date).toDate():this.state.minDate
                             });
                          }}
