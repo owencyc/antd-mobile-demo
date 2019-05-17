@@ -49,6 +49,10 @@ export const delFeedback = (no)=>ajaxApi(apiPath,
 export const endFeedback = (info)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Feedback',method:'EndFeedback',data:info}})
 
+//问题单详情
+export const getFbDetail = (no)=>ajaxApi(apiPath,
+{method:'post',data:{uri:'Feedback',method:'GetDetail',data:no}})
+
 //获取问题单清单
 export const getReserves = (page)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Reserve',method:'GetReserves',data:{page:page}}})
