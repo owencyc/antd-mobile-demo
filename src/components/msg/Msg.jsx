@@ -13,10 +13,12 @@ import { connect } from 'react-redux'
 class Msg extends Component {
     constructor(props) {
         //console.log('rs render')
-        console.log(props)
+        //console.log(props)
         super(props);
 
-
+        this.state={
+            
+        }
 
     }
     componentDidMount() {

@@ -48,15 +48,15 @@ const initData={
 const main = (state = initData, action) => {
     switch (action.type) {
         case 'MENU':
-            console.log('切换菜单：'+action.router);
+            //console.log('切换菜单：'+action.router);
             const { menus} = state;
             //push(action.router);
-            console.log(menus[action.index])
+            //console.log(menus[action.index])
             let obj={
                 ...state,
                 selectedTab:menus[action.index].key
              };
-             console.log(obj);
+             //console.log(obj);
             return obj;
         default:
             // console.log(action.type)

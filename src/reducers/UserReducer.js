@@ -40,14 +40,6 @@ const initData = {
                 text: '预估兑现',
                 router: '/prschart'
             }]
-        },
-        {
-            title:'行事历',
-            func:[{
-                icon: calendar,
-                text: '我的行事历',
-                router: '/mycalendar'
-            }]
         }
     ]
 }
@@ -60,10 +52,10 @@ const user = (state = initData, action) => {
                 obj
             };
         default:
-            console.log('user->' + action.type)
+            //console.log('user->' + action.type)
             //console.log(initData)
             if (state.info && state.info.user_code === '') {
-                console.log('user->return')
+                //console.log('user->return')
                 let obj = JSON.parse(localStorage.getItem('user_info'));
                 return obj ? {
                     ...initData,

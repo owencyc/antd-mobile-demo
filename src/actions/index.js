@@ -167,3 +167,10 @@ export const cdSubmit = (data,callback)=>{
 export const cdSubmited = ()=>({
     type:'CD_SUBMITED'
 })
+
+//通知更新
+export const homeUpdate = (name,value)=>({
+    type:'HOME_UPDATE',
+    name:name,
+    value:value
+})

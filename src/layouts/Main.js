@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TabBar,Toast } from 'antd-mobile';
-import {getToken,getUserinfo,getPara,getJsConfig } from '../services'
-import { appLoad,homeNotice,appJs,appUrl } from '../actions'
+import {getToken,getUserinfo,getPara,getJsConfig,GetWorkInfo } from '../services'
+import { appLoad,homeUpdate,appJs,appUrl } from '../actions'
 import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
 import User from '../components/user/User'
@@ -32,7 +32,6 @@ const Content = (props) => {
 class Main extends Component {
   
   componentDidMount(){
-
     if(this.props.location.search && !this.props.loaded){
       
       let url=encodeURIComponent(window.location.href);
@@ -55,11 +54,18 @@ class Main extends Component {
         }).then(()=>{
           return getPara()
         }).then((paras)=>{
-            console.log(paras);
+            //console.log(paras);
             if(paras.status===0){
-              this.props.updateNotice(paras.result[0].label)
+              this.props.updateHome('notice',paras.result[0].label)
             }
-        }).then(()=>{
+            return GetWorkInfo()
+        }).then((info)=>{
+          if(info.status===0){
+            this.props.updateHome('onHand',info.result['onHand']);
+            this.props.updateHome('waitEnd',info.result['waitEnd']);
+            this.props.updateHome('nextUsage',info.result['nextUsage']);
+          }
+      }).then(()=>{
           this.props.updateAppUrl(url)
           //return getJsConfig(url)
         })
@@ -86,6 +92,15 @@ class Main extends Component {
     }else{
       //关闭微信
       //window.wx.closeWindow();
+    }
+    if(this.props.loaded){
+      GetWorkInfo().then((info)=>{
+          if(info.status===0){
+            this.props.updateHome('onHand',info.result['onHand']);
+            this.props.updateHome('waitEnd',info.result['waitEnd']);
+            this.props.updateHome('nextUsage',info.result['nextUsage']);
+          }
+      })
     }
   }
   render(){
@@ -114,7 +129,7 @@ class Main extends Component {
             />}
           selected={this.props.selectedTab === item.key}
           onPress={(item ,index)=> {
-            console.log('选择tab：'+item.title);
+            //console.log('选择tab：'+item.title);
             //console.log(index);
             // selectedTab='Home';
             // props.push('/home');
@@ -148,7 +163,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => ({
     changeRoute: (router ,index)=>{ dispatch(menuEvent(router,index));},
     load:()=>{dispatch(appLoad())},
-  updateNotice:(notice)=>{dispatch(homeNotice(notice))},
+  updateHome:(name,value)=>{dispatch(homeUpdate(name,value))},
   updateAppjs:(data)=>{dispatch(appJs(data))},
   updateAppUrl:(data)=>{dispatch(appUrl(data))},
     push

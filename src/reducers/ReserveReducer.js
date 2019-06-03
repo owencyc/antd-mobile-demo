@@ -34,7 +34,7 @@ const reserve = (state = initData, action) => {
                 detail: action.detail
             };
         default:
-            console.log('reserve->' + action.type)
+            //console.log('reserve->' + action.type)
             return state;
 
     }

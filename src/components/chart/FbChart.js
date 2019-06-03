@@ -269,7 +269,8 @@ class FbChart extends Component {
                     line_values.push(item.conformity_rate);
                     hours.push(item.hours);
                 })
-                let t = [...hours].sort((a, b) => b - a);
+                let t = [...bug_values].sort((a, b) => b - a);
+                console.log(t)
                 this.setState({
                     data: res.result,
                     bar_items: items,
@@ -277,7 +278,7 @@ class FbChart extends Component {
                     bar_bugs: bug_values,
                     bar_nonbugs: nonbug_values,
                     bar_hours: hours,
-                    bar_y_max: Math.ceil(t[0] / 100)
+                    bar_y_max: Math.ceil(t[0]+10)
                 });
 
                 if (this.state.data.length > 0) {

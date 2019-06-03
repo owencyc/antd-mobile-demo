@@ -6,3 +6,16 @@
 .func_panel{
     background-color: white;
 }
+.my-card{
+    box-shadow: 5px 5px 5px -5px #000;
+    flex: 0 0 200px;
+    margin: 5px 10px;
+}
+.my-card .num{
+    color: crimson;
+}
+.card-panel{
+    overflow:auto;
+    display: flex;
+    flex-direction: row;
+}

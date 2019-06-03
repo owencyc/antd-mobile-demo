@@ -118,7 +118,7 @@ const feedback = (state = initData, action) => {
                 detail: action.detail
             };
         default:
-            console.log('feedback->' + action.type)
+            //console.log('feedback->' + action.type)
             //console.log(initData)
             return state;
 

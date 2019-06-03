@@ -92,3 +92,7 @@ export const delCalendar = (no)=>ajaxApi(apiPath,
 //问题管制表
 export const getExcel = (no)=>ajaxApi(apiPath,
 {method:'post',data:{uri:'Feedback',method:'GetExcel',data:no}})
+
+//参数获取
+export const GetWorkInfo = ()=>ajaxApi(apiPath,
+{method:'post',data:{uri:'User',method:'GetWorkInfo',data:{}}})

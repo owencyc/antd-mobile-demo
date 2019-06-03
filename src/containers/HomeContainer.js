@@ -6,13 +6,9 @@ import { withRouter } from 'react-router'
 
 
 const mapStateToProps = state => {
-  console.log('inject:');
-  console.log(state);
-  return {
-    imgs: state.home.imgs,
-    funcs:state.home.funcs,
-    notice:state.home.notice
-  }
+  //console.log('inject:');
+  //console.log(state);
+  return state.home
 }
   
   const mapDispatchToProps = dispatch => ({

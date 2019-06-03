@@ -24,7 +24,7 @@ const User = (props) => {
         </div>
       </div>
       {props.grids.map(item => (
-        <div>
+        <div key={item.title}>
           <div className="sub-title">{item.title}</div>
           <Grid data={item.func} activeStyle={false} hasLine={false} onClick={(dataItem) => props.changeRoute(dataItem.router)} />
         </div>

@@ -13,11 +13,7 @@ const initData = {
     user: '',
     imgs: [img0, img1, img2, img3],
     funcs: [
-        {
-            icon: func_work,
-            text: '项目报工',
-            router: '/sss'
-        },
+        
         {
             icon: func_report,
             text: '问题单',
@@ -29,16 +25,23 @@ const initData = {
             router: '/reserve'
         }
     ],
-    notice: ''
+    notice: '',
+    onHand:0,
+    waitEnd:0,
+    nextUsage:0
 }
 const home = (state = initData, action) => {
     switch (action.type) {
         case 'NAVICATE':
-            console.log('触发路由：' + action.router);
+            //console.log('触发路由：' + action.router);
             //push(action.router);
             return state;
         case 'HOME_NOTICE':
             return {...state,notice:action.notice};
+        case 'HOME_UPDATE':
+            let data={...state};
+            data[action.name]=action.value;
+            return data;
         default:
             return state;
 

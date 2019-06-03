@@ -205,8 +205,6 @@ class FbStation extends Component {
             <Card full onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
                 title={rowData.confirm_no}
-                thumb="http://221.226.187.245:8888/icon/form.svg"
-                thumbStyle={{ width: '32px', height: '32px' }}
                 extra={rowData.customer}
               />
               <Card.Body>
@@ -233,8 +231,6 @@ class FbStation extends Component {
                 <Card full onClick={()=>{this.props.showDetail(rowData)}}>
                   <Card.Header
                     title={rowData.confirm_no}
-                    thumb="http://221.226.187.245:8888/icon/form.svg"
-                    thumbStyle={{ width: '32px', height: '32px' }}
                     extra={rowData.customer}
                   />
                   <Card.Body>
@@ -250,8 +246,6 @@ class FbStation extends Component {
             <Card full onClick={()=>{this.props.showDetail(rowData)}}>
               <Card.Header
                 title={rowData.confirm_no}
-                thumb="http://221.226.187.245:8888/icon/form.svg"
-                thumbStyle={{ width: '32px', height: '32px' }}
                 extra={rowData.customer}
               />
               <Card.Body>
@@ -274,7 +268,7 @@ class FbStation extends Component {
                 key='0'
                 ref={el => this.lv = el}
                 dataSource={this.state.dataSource}
-                renderHeader={() => <span>{this.state.selectedTab===0?'（下拉刷新，左滑删除）':(this.state.selectedTab===1?'（下拉刷新，左滑结案）':'（下拉刷新）')}</span>}
+                renderHeader={() => <div style={{fontSize:'18px'}}><span style={{color:'red'}}>⚠</span>{this.state.selectedTab===0?'（下拉刷新，左滑删除）':(this.state.selectedTab===1?'（下拉刷新，左滑结案）':'（下拉刷新）')}</div>}
                 renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     我们是有底线的
                 </div>)}
