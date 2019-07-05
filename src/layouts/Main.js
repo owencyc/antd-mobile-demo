@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TabBar,Toast } from 'antd-mobile';
-import {getToken,getUserinfo,getPara,getJsConfig,GetWorkInfo } from '../services'
+import {getToken,getUserinfo,getPara,getJsConfig,GetWorkInfo,GetGlobalData } from '../services'
 import { appLoad,homeUpdate,appJs,appUrl } from '../actions'
 import { Link, Route, Switch } from 'react-router-dom';
 import Home from '../containers/HomeContainer'
@@ -32,6 +32,9 @@ const Content = (props) => {
 class Main extends Component {
   
   componentDidMount(){
+    GetGlobalData('/appData.json').then((data)=>{
+      console.log(data);
+    })
     if(this.props.location.search && !this.props.loaded){
       
       let url=encodeURIComponent(window.location.href);
@@ -68,7 +71,11 @@ class Main extends Component {
       }).then(()=>{
           this.props.updateAppUrl(url)
           //return getJsConfig(url)
-        })
+      }).then(()=>{
+        // GetGlobalData('/resumeData.json').then((data)=>{
+        //   console.log(data);
+        // })
+      })
         // .then((config)=>{
         //   if(config.status===0){
         //     //wechat js 认证

@@ -96,3 +96,7 @@ export const getExcel = (no)=>ajaxApi(apiPath,
 //参数获取
 export const GetWorkInfo = ()=>ajaxApi(apiPath,
 {method:'post',data:{uri:'User',method:'GetWorkInfo',data:{}}})
+
+//获取全局静态设定
+export const GetGlobalData = (url)=>ajaxApi(url,
+{method:'get',data:{}})

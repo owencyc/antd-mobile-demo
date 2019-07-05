@@ -43,6 +43,10 @@ const initData = {
             label: '个案程序bug'
         },
         {
+            value: '8111',
+            label: '标准程序bug'
+        },
+        {
             value: '8104',
             label: '数据异常（调整或修改）'
         },
