@@ -3,7 +3,7 @@ import { push } from 'connected-react-router'
 import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 //首页快捷入口事件
 export const navEvent = router => ({
-    type: 'NAVICATE',
+    type: 'HOME_NAVICATE',
     router
 })
 

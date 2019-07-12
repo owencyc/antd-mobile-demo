@@ -48,7 +48,7 @@ const Home = (props) => {
       
         <div className='sub-title'>小结</div>
         <div className='card-panel'>
-          <Card className='my-card' onClick={()=>{props.dispatch('/fbstation')}}>
+          <Card className='my-card' onClick={()=>{console.log('11');props.changeRoute('/fbstation')}}>
             <Card.Header
               title="问题单进度"
             />
@@ -57,7 +57,7 @@ const Home = (props) => {
               <div>待结案【<span className='num'>{props.waitEnd}</span>】笔</div>
             </Card.Body>
           </Card>
-          <Card className='my-card' onClick={()=>{props.dispatch('/rsstation')}}>
+          <Card className='my-card' onClick={()=>{props.changeRoute('/rsstation')}}>
             <Card.Header
               title="产能"
             />

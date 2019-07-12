@@ -8,7 +8,6 @@ import func_work from './../assets/func_work.svg'
 import { allComments } from './../services/index'
 import { push } from 'connected-react-router'
 
-
 const initData = {
     user: '',
     imgs: [img0, img1, img2, img3],
@@ -32,7 +31,7 @@ const initData = {
 }
 const home = (state = initData, action) => {
     switch (action.type) {
-        case 'NAVICATE':
+        case 'HOME_NAVICATE':
             //console.log('触发路由：' + action.router);
             //push(action.router);
             return state;

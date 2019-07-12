@@ -40,20 +40,24 @@ class Main extends Component {
       let url=encodeURIComponent(window.location.href);
       const searchParams = new URLSearchParams(this.props.location.search)
       console.log(searchParams.get('code'));
-      if(searchParams.get('code')){
-        localStorage.setItem("wc_user",searchParams.get('code')); 
+      if(searchParams.get('code') && searchParams.get('state')){
+        //新增多租户
+        localStorage.setItem("wc_info",
+          JSON.stringify({code:searchParams.get('code'),app:searchParams.get('state')})); 
         //在此component中完成所有数据的初始化，并重新dispatch各个store，本页面loading，加载完毕跳转到home
         Toast.loading('加载数据中',0);
         //获取用户信息
         getUserinfo(searchParams.get('code')).then((user)=>{
-          //需判断是否有错
-          Toast.hide();
-          if(user.status===0){
-            localStorage.setItem("user_info",JSON.stringify(user.result)); 
-          }else{
-            Toast.offline(user.exception, 2);
+          if(user){
+            //需判断是否有错
+            Toast.hide();
+            if(user.status===0){
+              localStorage.setItem("user_info",JSON.stringify(user.result)); 
+            }else{
+              Toast.offline(user.exception, 2);
+            }
+            this.props.load();
           }
-          this.props.load();
         }).then(()=>{
           return getPara()
         }).then((paras)=>{

@@ -11,6 +11,7 @@ const codeMessage = {
     401: '用户没有权限（令牌、用户名、密码错误）。',
     403: '用户得到授权，但是访问是被禁止的。',
     404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+    405: '非法请求，参数缺少租户信息！',
     406: '请求的格式不可得。',
     410: '请求的资源被永久删除，且不会再得到的。',
     422: '当创建一个对象时，发生一个验证错误。',
@@ -30,7 +31,9 @@ export function ajaxApi(url, option = {}) {
         //用户工号
         let tmp = localStorage.getItem("user_info");
         data.user_no=tmp?JSON.parse(tmp).user_no:'';
-        
+        //租户
+        let tmp1 = localStorage.getItem("wc_info");
+        data.app=tmp1?JSON.parse(tmp1).app:'';
 
 
     switch (method) {
@@ -86,24 +89,26 @@ function formDataCode(data) {
 //创建fetch中then方法的回调
 
 function callback(res) {
+    //console.log(res)
     if(res.status===200){
         return res.json();
     }
     const errortext = codeMessage[res.status] || res.statusText;
     const error = new Error(errortext);
-  error.name = res.status;
-  error.response = res;
-  throw error;
-
+    error.name = res.status;
+    error.message= errortext;
+    error.response = res;
+    throw error;
 }
 
 //创建容错方法
 
 function errHandle(e) {
-    //console.log(e)
+    //console.log(e.message);
     Toast.offline(e.message, 2);
-    if(e.name==404){
+    if(e.name===404){
         console.log(e)
     }
-
+    //reject将跳过下一个then
+    return Promise.reject();
 }
