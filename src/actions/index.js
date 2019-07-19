@@ -174,3 +174,10 @@ export const homeUpdate = (name,value)=>({
     name:name,
     value:value
 })
+
+//个案追踪更新表单
+export const prUpdate = (name,value)=>({
+    type:'PR_UPDATE',
+    name:name,
+    value:value
+})

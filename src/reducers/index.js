@@ -11,10 +11,11 @@ import status from './StatusReducer'
 import search from './SearchReducer'
 import user from './UserReducer'
 import calendar from './CalendarReducer'
+import pr from './PrReducer'
 //多个redeucer时，整合为一个rootReducer
 
 
 export default (history) => combineReducers({
   router: connectRouter(history),
-  app,main , home ,chart, feedback ,error,user,status,search,reserve,calendar
+  app,main , home ,chart, feedback ,error,user,status,search,reserve,calendar,pr
 })
