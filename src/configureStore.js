@@ -4,6 +4,7 @@ import { routerMiddleware } from 'connected-react-router'
 import createRootReducer from './reducers'
 import thunk from 'redux-thunk';
 
+//export const history = createBrowserHistory({ basename: '/wctest' })
 export const history = createBrowserHistory()
 
 export function configureStore(preloadedState) {

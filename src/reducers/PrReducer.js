@@ -3,6 +3,9 @@ const initData = {
     subData: {
         customer_no:'',
         customer: '',
+        start_date:'',
+        end_date:'',
+        type:0
     }
 }
 const pr = (state = initData, action) => {

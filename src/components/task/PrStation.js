@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ListView, PullToRefresh, Tabs, Toast, Card, SwipeAction, Modal, List, Button, InputItem, Picker } from 'antd-mobile';
-import PropTypes from 'prop-types'
+import moment from 'moment'
+import { ListView, PullToRefresh, Tabs, Toast, Card, Modal, List, Button, InputItem, Calendar } from 'antd-mobile';
 import { createForm, formShape } from 'rc-form';
 import TitleLayout from '../../layouts/TitleLayout'
 import { push } from 'connected-react-router'
-import { fbUpdateEnd } from '../../actions'
+import { prUpdate } from '../../actions'
 import { connect } from 'react-redux'
-import { getFeedbacks, delFeedback, endFeedback } from '../../services'
+import { getCases } from '../../services'
 
 import './task.css'
-import { timeout } from 'q';
 import { fbDetail } from '../../actions';
 
 const alert = Modal.alert;
 const prompt = Modal.prompt;
 
-const data = [{
-  confirm_no: 'IP0470000001',
-  customer: '万卡信',
-  type: '个案程序bug',
-  remark: '我是问题描述',
-  create_time: '2019/03/17',
-  status: 2
-}];
 
 
 class PrStation extends Component {
@@ -33,7 +24,7 @@ class PrStation extends Component {
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
     console.log(props)
-
+    let now = new Date();
     this.state = {
       dataSource,
       refreshing: true,
@@ -43,7 +34,14 @@ class PrStation extends Component {
       selectedTab: 0,
       tab0_count: 0,
       tab1_count: 0,
-      tab2_count: 0
+      tab2_count: 0,
+      name: '',
+      show: false,
+      defaultDate: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 0, 0, 0),
+      minDate: new Date(now.getFullYear() - 1, now.getMonth(), 1, 0, 0, 0),
+      maxDate: new Date(),
+      program_count:0,
+      program_hours:0
     };
     this.state.tabs = [
       { title: '开发中', sub: '0' },
@@ -53,29 +51,71 @@ class PrStation extends Component {
 
   }
   componentDidMount() {
+
+    let now = new Date();
+    if (!this.props.pr.subData.start_date) {
+
+      //let mo = moment(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 0, 0, 0))
+      //this.props.updateData('start_date', mo.format('YYYY-MM-DD'));
+    }
+    if (!this.props.pr.subData.end_date) {
+      //let mo = moment(now)
+      //this.props.updateData('end_date', mo.format('YYYY-MM-DD'));
+    }
     //判断是否有客户
-    if(this.props.pr.subData.customer_no){
-      console.log('有客户，触发刷新！')
+    if (this.props.pr.subData.customer_no) {
+      //console.log('有客户，触发刷新！');
+      getCases(this.props.pr.subData).then((res) => {
+        if (res.status === 0) {
+          //console.log(res.result);
+          //合计信息
+          let hours=0;
+          res.result.cases.map(item=>{
+            hours+=(+item.hours);
+          });
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(res.result.cases),
+            refreshing: false,
+            isLoading: false,
+            tab0_count:res.result.counts.tab0_count,
+            tab1_count:res.result.counts.tab1_count,
+            tab2_count:res.result.counts.tab2_count,
+            program_count:res.result.cases.length,
+            program_hours:hours
+          });
+        }
+      })
     }
   }
 
-  onRefresh = (tab) => {
+
+  onRefresh = () => {
+    console.log('refresh...')
     this.setState({ refreshing: true, isLoading: true });
+
     // simulate initial Ajax
-
-    getFeedbacks(tab ? tab : this.state.selectedTab).then((res) => {
-      if (res.status === 0) {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(res.result.fbs),
-          refreshing: false,
-          isLoading: false,
-          tab0_count: res.result.counts.tab0_count,
-          tab1_count: res.result.counts.tab1_count,
-          tab2_count: res.result.counts.tab2_count
-        });
-
-      }
-    })
+    if (this.props.pr.subData.customer_no) {
+      getCases(this.props.pr.subData).then((res) => {
+        if (res.status === 0) {
+          //console.log(res.result);
+          //合计信息
+          let hours=0;
+          res.result.cases.map(item=>{
+            hours+=(+item.hours);
+          });
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(res.result.cases),
+            refreshing: false,
+            isLoading: false,
+            tab0_count:res.result.counts.tab0_count,
+            tab1_count:res.result.counts.tab1_count,
+            tab2_count:res.result.counts.tab2_count,
+            program_count:res.result.cases.length,
+            program_hours:hours
+          });
+        }
+      })
+    }
   };
 
   getStatus = (status) => {
@@ -112,10 +152,34 @@ class PrStation extends Component {
 
   changeTab = (tab, index) => {
     this.setState({ selectedTab: index });
+    this.props.updateData('type', index);
     setTimeout(() => {
-      this.onRefresh(index);
+      this.onRefresh();
     })
 
+  }
+
+  onConfirm = (startDateTime) => {
+    document.getElementsByTagName('body')[0].style.overflowY = this.originbodyScrollY;
+
+    if (startDateTime) {
+      let mo = moment(startDateTime)
+      this.props.updateData(this.state.name, mo.format('YYYY-MM-DD'));
+    }
+    this.setState({
+      show: false,
+      name: ''
+    });
+    setTimeout(() => {
+      this.onRefresh();
+    })
+  }
+
+  onCancel = () => {
+    document.getElementsByTagName('body')[0].style.overflowY = this.originbodyScrollY;
+    this.setState({
+      show: false
+    });
   }
 
 
@@ -133,15 +197,15 @@ class PrStation extends Component {
       />
     );
     const row = (rowData, sectionID, rowID) => (
-      <Card full onClick={() => { this.props.showDetail(rowData) }}>
+      <Card full onClick={() => { console.log(rowData) }}>
         <Card.Header
-          title={rowData.confirm_no}
-          extra={rowData.customer}
+          title={rowData.confirm_no + '-' + rowData.confirm_seq}
+          extra={rowData.customer_name}
         />
         <Card.Body>
-          <div>{rowData.type + "【" + rowData.remark + "】"}</div>
+          <div>{rowData.program_no + "【" + rowData.program_name + "】"}</div>
         </Card.Body>
-        <Card.Footer content={'处理人：' + rowData.pr_name} extra={<div>{rowData.create_time}</div>} />
+        <Card.Footer content={'PR：' + rowData.pr_name} extra={<div>{this.state.selectedTab===0?('预完日：' + rowData.p_complete_date):('完成日：' + rowData.complete_date)}</div>} />
       </Card>
     );
     return (
@@ -151,20 +215,68 @@ class PrStation extends Component {
             {...getFieldProps('customer', {
               initialValue: this.props.pr.subData.customer
             })}
+            style={{ textAlign: 'right' }}
             editable={false}
             placeholder="请点击选择客户"
             onClick={() => { this.props.getCustomer() }}
           >客户简称</InputItem>
+          <InputItem
+            {...getFieldProps('start_date', {
+              initialValue: this.props.pr.subData.start_date
+            })}
+            style={{ textAlign: 'right' }}
+            editable={false}
+            placeholder="请点击选择日期"
+            onClick={() => {
+              let now = new Date();
+              document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+              this.setState({
+                show: true,
+                name: 'start_date',
+                maxDate: this.props.pr.subData.end_date ? moment(this.props.pr.subData.end_date).toDate() : new Date(),
+                defaultDate: this.props.pr.subData.start_date ? moment(this.props.pr.subData.start_date).toDate() : this.state.defaultDate
+              });
+            }}
+          >开始日期</InputItem>
+          <InputItem
+            {...getFieldProps('end_date', {
+              initialValue: this.props.pr.subData.end_date
+            })}
+            style={{ textAlign: 'right' }}
+            editable={false}
+            placeholder="请点击选择日期"
+            onClick={() => {
+              if (this.props.pr.subData.end_date)
+                console.log(moment(this.props.pr.subData.end_date).toDate());
+              let now = new Date();
+              document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+              this.setState({
+                show: true,
+                name: 'end_date',
+                minDate: this.props.pr.subData.start_date ? moment(this.props.pr.subData.start_date).toDate() : new Date(now.getFullYear(), now.getMonth() -3, 1, 0, 0, 0),
+                defaultDate: this.props.pr.subData.end_date ? moment(this.props.pr.subData.end_date).toDate() : this.state.defaultDate,
+                maxDate: new Date()
+              });
+            }}
+          >结束日期</InputItem>
+          <Calendar
+            type='one'
+            visible={this.state.show}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
+            defaultDate={this.state.defaultDate}
+            minDate={this.state.minDate}
+            maxDate={this.state.maxDate}
+          />
           <Tabs style={{ height: 'auto' }} tabs={this.state.tabs} initialPage={0} animated={false} useOnPan={false}
             onTabClick={this.changeTab}
             renderTab={tab => <span>{tab.title}{this.state["tab" + tab.sub + "_count"] > 0 ? ('(' + this.state["tab" + tab.sub + "_count"] + ')') : ''}</span>}>
           </Tabs>
           <ListView
-            style={{ width: '100%', height: 'calc(100% - 43.5px)' }}
+            style={{ width: '100%', height: 'calc(100% - 222px)' }}
             key='0'
             ref={el => this.lv = el}
             dataSource={this.state.dataSource}
-            renderHeader={() => <div style={{ fontSize: '18px' }}><span style={{ color: 'red' }}>⚠</span>{this.state.selectedTab === 0 ? '（下拉刷新，左滑删除）' : (this.state.selectedTab === 1 ? '（下拉刷新，左滑结案）' : '（下拉刷新）')}</div>}
             renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
               我们是有底线的
                 </div>)}
@@ -177,6 +289,9 @@ class PrStation extends Component {
             />}
             pageSize={5}
           />
+          <div style={{ width: '100%', height: '40px' ,backgroundColor:'#fff',fontSize:'30px',textAlign:'right'}}>
+              合计{this.state.program_count}支程序，共{this.state.program_hours}H
+          </div>
         </div>
 
       </TitleLayout>
@@ -188,7 +303,7 @@ const mapStateToProps = state => {
   return { pr: state.pr, user: state.user.info }
 }
 const mapDispatchToProps = dispatch => ({
-  updateData: (name, value) => { dispatch(fbUpdateEnd(name, value)) },
+  updateData: (name, value) => { dispatch(prUpdate(name, value)) },
   showDetail: (data) => { console.log(data); dispatch(fbDetail(data)); dispatch(push('/fbdetail')); },
   getCustomer: () => { dispatch(push({ pathname: '/search', state: { type: 'customer', from: 'pr_c', title: '选择客户' } })) },
 

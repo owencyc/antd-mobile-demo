@@ -17,14 +17,8 @@ class CdChart extends Component {
             date:moment().toDate(),
             minDate:moment().subtract(2,'years').month(1).toDate(),
             maxDate:moment().add(1,'months').toDate(),
-            persons:['黄浩','陈泳澄','张杰','赵琪','陈冬阳','庄慧钧','何锴'],
-            data:[
-                {
-                    date:'2019-05-05',
-                    '黄浩':'深圳市',
-                    '陈泳澄':'上海市,南京市'
-                }
-            ]
+            persons:[],
+            data:[]
         }
         console.log(document.body)
     }
